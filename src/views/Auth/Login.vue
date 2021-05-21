@@ -3,7 +3,10 @@
     <div class="degradado"></div>
     <div class="right">
       <v-icon dark> mdi-arrow-left-bold </v-icon>
-      <a href="https://xicoclass.firebaseapp.com/" style="color: yellow; text-decoration: underline">
+      <a
+        href="https://xicoclass.firebaseapp.com/"
+        style="color: yellow; text-decoration: underline"
+      >
         REGRESAR
       </a>
     </div>
@@ -13,7 +16,8 @@
         <v-card-text>
           <br />
           <div class="descripcion-text">
-            INICIA SESION AL SISTEMA ADMINISTRATIVO DE <br> XICO-CLASS
+            INICIA SESION AL SISTEMA ADMINISTRATIVO DE <br />
+            XICO-CLASS
           </div>
           <v-form class="login-form">
             <v-text-field
@@ -35,13 +39,18 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn dark color="red" width="200" class="btn-design" href="/Dashboard">
+          <v-btn
+            dark
+            color="red"
+            width="200"
+            class="btn-design"
+            href="/Dashboard"
+          >
             INICIAR SESION
           </v-btn>
         </v-card-actions>
       </v-card>
-      <div class="forgotten-password">
-      </div>
+      <div class="forgotten-password"></div>
     </div>
   </body>
 </template>
@@ -51,8 +60,7 @@ import { required, email } from "vuelidate/lib/validators";
 
 export default {
   name: "Landing",
-  components: {
-  },
+  components: {},
   data() {
     return {
       show: false,
