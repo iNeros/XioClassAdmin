@@ -12,7 +12,7 @@
     </div>
     <div class="center">
       <h1 style="color: #30dba0">INICIA SESION</h1>
-      <v-card class="mx-auto px-6" max-width="500" elevation="0" raised>
+      <v-card class="margin-card px-6" max-width="500" flat>
         <v-card-text>
           <br />
           <div class="descripcion-text">
@@ -70,19 +70,7 @@ export default {
     };
   },
   methods: {
-    submit() {
-      console.log("submit!");
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.submitStatus = "ERROR";
-      } else {
-        // do your submit logic here
-        this.submitStatus = "PENDING";
-        setTimeout(() => {
-          this.submitStatus = "OK";
-        }, 500);
-      }
-    },
+    
   },
 
   validations() {
@@ -135,8 +123,8 @@ body {
 @media screen and (min-width: 800px) {
   .center {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 0px;
+    right: 0px;
     width: 550px;
     height: 100vh;
     background: white;
@@ -201,5 +189,9 @@ body {
     text-align: center;
     font-size: 16px !important;
   }
+}
+.margin-card{
+  margin-left: auto;
+  margin-right: auto;
 }
 </style>

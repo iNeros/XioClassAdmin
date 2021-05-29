@@ -21,10 +21,10 @@
         </v-list-item>
         <v-spacer class="seccion-titulo"> </v-spacer>
 
-        <!-- -->
+        <!--#region SI EL USUARIO ES UN ADMINISTRADOR  -->
         <div v-if="userType == '0'">
           <v-list-item-group v-model="btnSelectedAdmin" color="#30dba0">
-            <v-list-item class="my-6" link href="#" dark>
+            <v-list-item class="my-6" link dark  v-on:click="setOverview()">
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
               </v-list-item-icon>
@@ -33,7 +33,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link href="#" dark>
+            <v-list-item class="my-6" link dark v-on:click="setDocentes()">
               <v-list-item-icon>
                 <v-icon id="iconoDocente" small>mdi-account-plus</v-icon>
               </v-list-item-icon>
@@ -42,7 +42,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link href="#" dark>
+            <v-list-item class="my-6" link dark v-on:click="setAvisosGene()">
               <v-list-item-icon>
                 <v-icon id="iconoAvisos" small>mdi-message-alert</v-icon>
               </v-list-item-icon>
@@ -51,7 +51,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link href="#" dark>
+            <v-list-item class="my-6" link dark v-on:click="setContenidoGene()">
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
               </v-list-item-icon>
@@ -60,7 +60,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link href="#" dark>
+            <v-list-item class="my-6" link dark v-on:click="setInscripcion()">
               <v-list-item-icon>
                 <v-icon id="iconoInscripciones" small
                   >mdi-human-male-boy</v-icon
@@ -74,6 +74,63 @@
             </v-list-item>
           </v-list-item-group>
         </div>
+        <!--endregion-->
+
+        <!--#region SI EL USUARIO ES UN DOCENTE  -->
+        <div v-if="userType == '1'">
+          <v-list-item-group v-model="btnSelectedAdmin" color="#30dba0">
+            <v-list-item class="my-6" link dark v-on:click="dsetOverview()">
+              <v-list-item-icon>
+                <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoVista" class="title-text">Vista General</h2>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="my-6" link dark v-on:click="dsetAlumnos()">
+              <v-list-item-icon>
+                <v-icon id="iconoDocente" small>mdi-account-plus</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoDocente" class="title-text">Alumnos</h2>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="my-6" link dark v-on:click="dsetAvisos()">
+              <v-list-item-icon>
+                <v-icon id="iconoAvisos" small>mdi-message-alert</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoAvisos" class="title-text">Avisos</h2>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="my-6" link dark v-on:click="dsetActividades()">
+              <v-list-item-icon>
+                <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoContent" class="title-text">Actividades</h2>
+              </v-list-item-title>
+            </v-list-item>
+
+            <v-list-item class="my-6" link dark v-on:click="dsetGrupos()">
+              <v-list-item-icon>
+                <v-icon id="iconoInscripciones" small
+                  >mdi-human-male-boy</v-icon
+                >
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoInscripciones" class="title-text">
+                  Grupos
+                </h2>
+              </v-list-item-title>
+            </v-list-item>
+          </v-list-item-group>
+        </div>
+        <!--#endregion-->
+
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -94,6 +151,43 @@ export default {
     userCheck() {
       //this.userType = localStorage.getItem('userType');
     },
+
+    //#region MUTATIONS FOR ADMIN USER
+    setOverview(){
+      this.$store.commit("setOverview");
+    },
+    setDocentes(){
+      this.$store.commit("setDocentes");
+    },
+    setAvisosGene(){
+      this.$store.commit("setAvisosGene");
+    },
+    setContenidoGene(){
+      this.$store.commit("setContenidoGene");
+    },
+    setInscripcion(){
+      this.$store.commit("setInscripcion");
+    },
+    //#endregion
+
+    //#region MUTATIONS FOR DOCENTE USER
+    dsetOverview(){
+      this.$store.commit("dsetOverview");
+    },
+    dsetAlumnos(){
+      this.$store.commit("dsetAlumnos");
+    },
+    dsetAvisos(){
+      this.$store.commit("dsetAvisos");
+    },
+    dsetActividades(){
+      this.$store.commit("dsetActividades");
+    },
+    dsetGrupos(){
+      this.$store.commit("dsetGrupos");
+    }
+    //#endregion
+
   },
 
   watch: {
