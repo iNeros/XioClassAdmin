@@ -24,7 +24,7 @@
         <!--#region SI EL USUARIO ES UN ADMINISTRADOR  -->
         <div v-if="userType == '0'">
           <v-list-item-group v-model="btnSelectedAdmin" color="#30dba0">
-            <v-list-item class="my-6" link dark  v-on:click="setOverview()">
+            <v-list-item class="my-6" link dark v-on:click="setOverview()">
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
               </v-list-item-icon>
@@ -122,15 +122,12 @@
                 >
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoInscripciones" class="title-text">
-                  Grupos
-                </h2>
+                <h2 id="textoInscripciones" class="title-text">Grupos</h2>
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
         </div>
         <!--#endregion-->
-
       </v-list>
     </v-navigation-drawer>
   </div>
@@ -153,41 +150,40 @@ export default {
     },
 
     //#region MUTATIONS FOR ADMIN USER
-    setOverview(){
+    setOverview() {
       this.$store.commit("setOverview");
     },
-    setDocentes(){
+    setDocentes() {
       this.$store.commit("setDocentes");
     },
-    setAvisosGene(){
+    setAvisosGene() {
       this.$store.commit("setAvisosGene");
     },
-    setContenidoGene(){
+    setContenidoGene() {
       this.$store.commit("setContenidoGene");
     },
-    setInscripcion(){
+    setInscripcion() {
       this.$store.commit("setInscripcion");
     },
     //#endregion
 
     //#region MUTATIONS FOR DOCENTE USER
-    dsetOverview(){
+    dsetOverview() {
       this.$store.commit("dsetOverview");
     },
-    dsetAlumnos(){
+    dsetAlumnos() {
       this.$store.commit("dsetAlumnos");
     },
-    dsetAvisos(){
+    dsetAvisos() {
       this.$store.commit("dsetAvisos");
     },
-    dsetActividades(){
+    dsetActividades() {
       this.$store.commit("dsetActividades");
     },
-    dsetGrupos(){
+    dsetGrupos() {
       this.$store.commit("dsetGrupos");
-    }
+    },
     //#endregion
-
   },
 
   watch: {

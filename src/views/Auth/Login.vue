@@ -69,9 +69,7 @@ export default {
       submitStatus: null,
     };
   },
-  methods: {
-    
-  },
+  methods: {},
 
   validations() {
     return {
@@ -190,7 +188,7 @@ body {
     font-size: 16px !important;
   }
 }
-.margin-card{
+.margin-card {
   margin-left: auto;
   margin-right: auto;
 }

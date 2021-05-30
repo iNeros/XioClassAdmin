@@ -6,17 +6,16 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     adminWindowsSelected: 1,
-
   },
   mutations: {
-    setWindowsOfUserAdmin(state){
-      state.adminWindowsSelected = 0
+    setWindowsOfUserAdmin(state) {
+      state.adminWindowsSelected = 0;
     },
-    setWindowsOfUserDocente(state){
-      state.adminWindowsSelected = 10
+    setWindowsOfUserDocente(state) {
+      state.adminWindowsSelected = 10;
     },
-//#region MUTATIONS FOR ADMIN 
-// 1= Overview , 2=Docentes , 3=AvisosGenerales , 4=ContenidoGeneral , 5=Inscripciones
+    //#region MUTATIONS FOR ADMIN
+    // 1= Overview , 2=Docentes , 3=AvisosGenerales , 4=ContenidoGeneral , 5=Inscripciones
     setOverview(state) {
       state.adminWindowsSelected = 1;
     },
@@ -32,9 +31,9 @@ export default new Vuex.Store({
     setInscripcion(state) {
       state.adminWindowsSelected = 5;
     },
-//#endregion MUTATIONS FOR DOCENTES
+    //#endregion MUTATIONS FOR DOCENTES
 
-//#region
+    //#region
     dsetOverview(state) {
       state.adminWindowsSelected = 10;
     },
@@ -50,14 +49,8 @@ export default new Vuex.Store({
     dsetGrupos(state) {
       state.adminWindowsSelected = 14;
     },
-//#endregion
-
-
+    //#endregion
   },
-  actions: {
-
-  },
-  modules: {
-
-  },
+  actions: {},
+  modules: {},
 });
