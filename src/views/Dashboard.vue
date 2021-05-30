@@ -1,6 +1,6 @@
 <template>
   <div class="Dashboard">
-    <v-app>
+    <v-app class="background">
       <navbar />
 
       <div class="inside-content">
@@ -29,23 +29,23 @@
 
           <!--#region WINDOWS FOR DOCENTE USER -->
           <v-window-item :value="10">
-            <h1>eh we DOCENTE 1111111111111111111111111111111111111111</h1>
+            <docenteOverview/>
           </v-window-item>
 
           <v-window-item :value="11">
-            <h1>eh we DOCENTE 22222222222222222222222222222222222222222222222222222</h1>
+            <alumnos/>
           </v-window-item>
 
           <v-window-item :value="12">
-            <h1>eh we DOCENTE 333333333333333333333333333333333333333333333333333</h1>
+            <avisos/>
           </v-window-item>
 
           <v-window-item :value="13">
-            <h1>eh we DOCENTE 4444444444444444444444444444444444444444444444444</h1>
+            <actividades/>
           </v-window-item>
 
           <v-window-item :value="14">
-            <h1>eh we DOCENTE 55555555555555555555555555555555555555555555555555</h1>
+            <grupos/>
           </v-window-item>
           <!--#endregion-->
 
@@ -63,6 +63,12 @@ import avisosGenerales from '../components/central-navigation/admin/windows/avis
 import contenidoGeneral from '../components/central-navigation/admin/windows/contenidoGeneral.vue';
 import inscripciones from '../components/central-navigation/admin/windows/inscripciones.vue';
 
+import docenteOverview from "@/components/central-navigation/docente/windows/overview.vue"
+import alumnos from '../components/central-navigation/docente/windows/alumnos.vue';
+import avisos from '../components/central-navigation/docente/windows/avisos.vue';
+import actividades from '../components/central-navigation/docente/windows/actividades.vue';
+import grupos from '../components/central-navigation/docente/windows/grupos.vue';
+
 export default {
   name: "Dashboard",
   components: {
@@ -72,8 +78,13 @@ export default {
     avisosGenerales,
     contenidoGeneral,
     inscripciones,
+    docenteOverview,
+    alumnos,
+    avisos,
+    actividades,
+    grupos,
   },
-  data() {
+    data() {
     return{
       
     };
@@ -96,7 +107,13 @@ export default {
 
 <style scoped>
 .inside-content {
-  margin-left: 100px;
+  margin-left: 80px;
+  margin-right: 25px;
   margin-top: 100px;
+  width: auto;
+  
+}
+.background{
+  background-color: #c7c7c7!important;
 }
 </style>
