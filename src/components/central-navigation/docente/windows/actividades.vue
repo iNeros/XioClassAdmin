@@ -127,34 +127,68 @@
             <v-card-subtitle class="texto-tarjeta-settings">
               <span class="texto-de-tarjeta">ACTIVIDAD: </span> <br />
               <span class="texto-de-tarjeta2">
-                "NOMBRE DE LA ACTIVIDAD VA A ESTAR AQUI"
+                "NOMBRE DE LA ACTIVIDAD VA A ESTAR AQUI" <!-- AGREGAR AQUI EL {{NombreActividad}}  -->
               </span>
               <br />
               <br />
               <span class="texto-de-tarjeta"> FECHA PUBLICACION:</span>
-              <span class="texto-de-tarjeta2">"01/01/2021"</span> <br />
+              <span class="texto-de-tarjeta2">"01/01/2021"</span> <br />  <!-- AGREGAR AQUI EL {{FechaPublicacion}}  -->
               <span class="texto-de-tarjeta"> FECHA VENCIMIENTO:</span>
-              <span class="texto-de-tarjeta2">"01/01/2021"</span>
+              <span class="texto-de-tarjeta2">"01/01/2021"</span>  <!-- AGREGAR AQUI EL {{FechaVencimiento}}  -->
             </v-card-subtitle>
 
             <v-card-actions class="hidden-md-and-down">
               <v-col cols="12" md="4">
-                <v-btn color="#FF4365" text> Eliminar </v-btn>
+                <v-dialog
+                  v-model="eliminarDialog"
+                  width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="#FF4365"  text v-bind="attrs" v-on="on"> Eliminar </v-btn>
+                  </template>
+                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                </v-dialog>
               </v-col>
+
               <v-col cols="12" md="4">
-                <v-btn color="#FFD166" text> Editar </v-btn>
+                <v-dialog
+                  v-model="editarDialog"
+                  fullscreen
+                  hide-overlay
+                  transition="dialog-bottom-transition"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="#FFD166" text v-bind="attrs" v-on="on"> Editar </v-btn>
+                  </template>
+                  <editar-actividad @estado="editarDialog=$event" :idActividad="2" />
+                </v-dialog>
               </v-col>
+
               <v-col cols="12" md="4">
-                <v-btn color="#30DBA0" text> Revisar </v-btn>
-              </v-col>
+                <v-dialog
+                  v-model="revisarDialog"
+                  width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="#30DBA0" text v-bind="attrs" v-on="on"> Revisar </v-btn>
+                  </template>
+                  <eliminarActividad :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                </v-dialog>
+              </v-col>      
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
             <v-row class="hidden-md-and-up mx-n4">
               <v-col cols="3" md="4">
-                <v-btn color="#FF4365" text plain>
-                  <v-icon size="20">mdi-delete</v-icon>
-                </v-btn>
+                <v-dialog
+                  v-model="eliminarDialog"
+                  width="500"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-btn color="#FF4365"  text  plain v-bind="attrs" v-on="on"> <v-icon size="20">mdi-delete</v-icon> </v-btn>
+                  </template>
+                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                </v-dialog>
               </v-col>
               <v-col cols="3" md="4">
                 <v-btn color="#FFD166" text plain>
@@ -175,13 +209,23 @@
 </template>
 
 <script>
+import EditarActividad from '../dialogs/editarActividad.vue';
+import eliminarActividad from '../dialogs/eliminarActividad.vue';
 export default {
+  components: { 
+    eliminarActividad,
+    EditarActividad 
+    },
+
   name: "actividades",
 
   data() {
     return {
       select: [],
       items: ["Ardillas", "Patos", "1ro B", "2do A"],
+      eliminarDialog: false,
+      editarDialog: false,
+      revisarDialog: false,
     };
   },
   methods: {
