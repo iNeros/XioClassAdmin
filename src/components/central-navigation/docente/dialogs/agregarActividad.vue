@@ -11,7 +11,7 @@
           >
             <v-icon>mdi-close</v-icon>
           </v-btn>
-          <v-toolbar-title>Editar Actividad {{idActividadEdit}}</v-toolbar-title>
+          <v-toolbar-title>Crear Actividad</v-toolbar-title>
           <v-spacer></v-spacer>
           <v-toolbar-items>
             <v-btn
@@ -55,10 +55,10 @@
                 md="6"
               >
                 <v-text-field
+                  id="nombreActividad"
                   v-model="nombreActividad"
                   filled
-                  label="Nombre de la actividad*"
-                  :value="nombreActividad"
+                  label="Nombre de la actividad"
                 ></v-text-field>
               </v-col>
               <v-col
@@ -67,10 +67,10 @@
                 md="6"
               >
                 <v-text-field
+                  id="grupoActividad"
                   v-model="grupoActividad"
                   filled
-                  label="Grupo al que se le sera asignada*"
-                  :value="grupoActividad"
+                  label="Grupo al que se le sera asignada"
                 ></v-text-field>
               </v-col>
 
@@ -80,14 +80,13 @@
                 md="6"
               >
                 <v-text-field
-                  id="fechaPublicacion*"
+                  id="fechaPublicacion"
                   v-model="fechaPublicacion"
                   filled
                   type="date"
-                  label="Fecha de publicacion*"
+                  label="Fecha de publicacion"
                   hint="Fecha en que la actividad estara disponible"
                   required
-                  :value="fechaPublicacion"
                 ></v-text-field>
               </v-col>
 
@@ -101,10 +100,9 @@
                   v-model="fechaCierre"
                   filled
                   type="date"
-                  label="Fecha de cierre*"
+                  label="Fecha de cierre"
                   hint="Fecha en que la actividad se cerrara (esto no evitara que se reciban actividades, pero las marcara con retraso)"
                   required
-                  :value="fechaCierre"
                 ></v-text-field>
               </v-col>
 
@@ -112,7 +110,6 @@
                 <v-textarea
                   id="descripcionActividad"
                   v-model="descripcionActividad"
-                  :value="descripcionActividad"
                   filled
                   label="Descripcion:"
                   counter
@@ -154,6 +151,7 @@
 
 <script>
 export default {
+    name: "agregar-actividad",
     data(){
         return{
             guardar: false,
@@ -161,20 +159,14 @@ export default {
             notifications: false,
             sound: true,
             widgets: false,
-            nombreActividad: "Cargando...........",
-            grupoActividad: "Cargando ...........",
-            fechaPublicacion: "2021-01-01",
-            fechaCierre: "2021-01-01",
-            descripcionActividad: "Cargando.......",
+            nombreActividad: "",
+            grupoActividad: "",
+            fechaPublicacion: "",
+            fechaCierre: "",
+            descripcionActividad: "",
             files:[],
         }
     },
-    props: ['idActividadEdit'],
-
-    mounted() {
-      this.ObtenerDatos();
-    },
-
     methods:{
         closeDialog(){
             this.$emit("estado",false);
@@ -189,10 +181,6 @@ export default {
 
             //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
             this.closeDialog()
-        },
-        ObtenerDatos(){
-          // AQUI VA EL GET PARA OBTENER LOS DATOS SEGUN EL ID QUE SE NOS PASO (idActividad).
-          console.log(this.idActividadEdit);
         }
 
     },
