@@ -11,9 +11,6 @@ export default new Vuex.Store({
     editarActividadDialog: false,
     eliminarActividadDialog: false,
     revisarActividadDialog: false,
-
-    
-
   },
   mutations: {
     setWindowsOfUserAdmin(state) {

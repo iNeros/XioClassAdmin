@@ -2,114 +2,44 @@
   <div class="text-center">
     <v-dialog
       v-model="$store.state.revisarActividadDialog"
-      width="500"
+      width="700"
       scrollable
     >
-        <v-card>
+      <v-card>
         <v-card-title>Select Country</v-card-title>
         <v-divider></v-divider>
-        <v-card-text style="height: 300px;">
-          <v-radio-group
-            v-model="dialogm1"
-            column
-          >
-            <v-radio
-              label="Bahamas, The"
-              value="bahamas"
-            ></v-radio>
-            <v-radio
-              label="Bahrain"
-              value="bahrain"
-            ></v-radio>
-            <v-radio
-              label="Bangladesh"
-              value="bangladesh"
-            ></v-radio>
-            <v-radio
-              label="Barbados"
-              value="barbados"
-            ></v-radio>
-            <v-radio
-              label="Belarus"
-              value="belarus"
-            ></v-radio>
-            <v-radio
-              label="Belgium"
-              value="belgium"
-            ></v-radio>
-            <v-radio
-              label="Belize"
-              value="belize"
-            ></v-radio>
-            <v-radio
-              label="Benin"
-              value="benin"
-            ></v-radio>
-            <v-radio
-              label="Bhutan"
-              value="bhutan"
-            ></v-radio>
-            <v-radio
-              label="Bolivia"
-              value="bolivia"
-            ></v-radio>
-            <v-radio
-              label="Bosnia and Herzegovina"
-              value="bosnia"
-            ></v-radio>
-            <v-radio
-              label="Botswana"
-              value="botswana"
-            ></v-radio>
-            <v-radio
-              label="Brazil"
-              value="brazil"
-            ></v-radio>
-            <v-radio
-              label="Brunei"
-              value="brunei"
-            ></v-radio>
-            <v-radio
-              label="Bulgaria"
-              value="bulgaria"
-            ></v-radio>
-            <v-radio
-              label="Burkina Faso"
-              value="burkina"
-            ></v-radio>
-            <v-radio
-              label="Burma"
-              value="burma"
-            ></v-radio>
-            <v-radio
-              label="Burundi"
-              value="burundi"
-            ></v-radio>
-          </v-radio-group>
+        <v-card-text style="height: 300px">
+            <v-row class="mt-1" v-for="n in 20" :key="n">    <!-- AQUI VA EL V-FOR DEL TAMAÑO DE LA RECUPERACION DE ARCHIVOS WHERE idActividad = idActividadRevisar -->
+                <v-col cols="12" md="8">
+                <v-btn class="nombre-alumno" color="black"  text height="40" @click="ObtenerArchivosAlumnoSelected(1)"> <!-- AGREGAR AQUI EL idAlumno -->
+                    <v-icon left>mdi-account-circle</v-icon>
+                    EL NOMBRE MAS LARGO DE CUALQUIER ALUMNO [{{n}}]
+                </v-btn>
+                </v-col>
+                <v-col cols="12" md="4">
+                <v-select
+                    v-model="calificacion[n]"
+                    class="calificaciones-box"
+                    :items="calificacionesPosibles"
+                    label="Calificacion"
+                    full-width
+                    solo
+                    dense
+                ></v-select>
+                </v-col>
+            </v-row>
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-            <v-col cols="12" md="4">
-                <v-btn
-                    color="#FF4365"
-                    text
-                    @click="closeDialog()"
-                >
-                    Cerrar
-                </v-btn>
-            </v-col>
-            <v-col cols="12" md="4"></v-col>
-            <v-col cols="12" md="4">
-                <v-btn
-                    color="#30DBA0"
-                    text
-                    @click="executeRevisar()"
-                >
-                    Guardar
-                </v-btn>
-            </v-col>
-          
-          
+          <v-col cols="6" md="3">
+            <v-btn color="#FF4365" text @click="closeDialog()"> Cerrar </v-btn>
+          </v-col>
+          <v-spacer></v-spacer>
+          <v-col cols="6" md="2" class="correccion">
+            <v-btn color="#30DBA0" text @click="executeRevisar()">
+              Guardar
+            </v-btn>
+          </v-col>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -117,42 +47,77 @@
 </template>
 
 <script>
-  export default {
-    data () {
-      return {
+export default {
+  data() {
+    return {
+      archivosAlumnos: [1, 2, 3],
+      calificacionesPosibles: [10,9,8,7,6,5,4,3,2,1,0],
+      calificacion: [null,2,9,10,7], 
+    };
+  },
+  props: ["idActividadRevisar"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES 
 
-      }
-    },
-    props: ['idActividadRevisar'],
-
-    methods: {
-        obtenerInfo(){
-            //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
-            
-        },
-
-        executeRevisar(){
-          //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
+  methods: {
+    obtenerInfo() {
+      //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
 
 
-          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-          this.closeDialog();
-        },
-
-        closeDialog(){
-             this.$store.state.revisarActividadDialog = false;
-        }
+      //Aqui guardaras tambien en el arreglo this.calificacion las calificaciones.
     },
 
-    mounted(){
-      //Mandar a llama a obtenerInfo()
-      
-    }
+    ObtenerArchivosAlumnoSelected(id){
+        //Agregar Aqui Axios Para Descargar Los Archivos Que Se Encuentren Para EL ID Del alumno seleccionado , CONSIDERANDO TAMBIEN El idActividadRevisar.
+        
+        
+        
+        
+        console.log(id);
 
-    
-  }
+    },
+
+    executeRevisar() {
+      //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
+      console.log(this.calificacion);
+      //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+      this.closeDialog();
+    },
+
+    closeDialog() {
+      this.$store.state.revisarActividadDialog = false;
+    },
+  },
+
+  mounted() {
+    //Mandar a llama a obtenerInfo()
+  },
+};
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:ital,wght@0,400;0,500;0,600;1,800&family=Montserrat:ital,wght@0,200;0,300;0,500;0,600;1,500&display=swap');
+
+.nombre-alumno{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    font-weight: 500;
+}
+
+@media screen and (min-width: 800px) {
+    .nombre-alumno{
+    font-family: 'Montserrat', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    }
+
+    .correccion{
+        margin-right: 20px;
+    }
+
+}
+
+.calificaciones-box{
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-weight: 500;
+}
 
 </style>
