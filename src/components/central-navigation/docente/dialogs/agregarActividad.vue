@@ -1,4 +1,7 @@
 <template>
+<v-dialog
+  v-model="$store.state.crearActividadDialog"
+>
     <v-card>
         <v-toolbar
           dark
@@ -147,6 +150,7 @@
         </v-card-text>
         
       </v-card>
+</v-dialog>
 </template>
 
 <script>
@@ -169,7 +173,7 @@ export default {
     },
     methods:{
         closeDialog(){
-            this.$emit("estado",false);
+            this.$store.state.crearActividadDialog=false;
         },
 
         executeSave(){

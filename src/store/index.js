@@ -6,6 +6,14 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   state: {
     adminWindowsSelected: 1,
+
+    crearActividadDialog: false,
+    editarActividadDialog: false,
+    eliminarActividadDialog: false,
+    revisarActividadDialog: false,
+
+    
+
   },
   mutations: {
     setWindowsOfUserAdmin(state) {

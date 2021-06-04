@@ -1,8 +1,9 @@
 <template>
   <div class="actividades">
-    <v-app>
     <v-container fluid>
       <v-row class="container">
+         
+         <!-- AGREGAR AQUI EL {{idActividad}}  -->
         <!--#region ESTA CARD ES ESTATICA , ESTE ES EL BOTON PARA AGREGAR UNA ACTIVIDAD NUEVA --->
         <h1 class="titulo-seccion">ACTIVIDADES RECIENTES</h1>
         <v-col class="diver" cols="12" lg="12"> </v-col>
@@ -18,18 +19,9 @@
             </v-card-title>
 
             <v-card-actions>
-                <v-dialog
-                  v-model="agregarDialog"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn class="mx-auto" height="120" text plain v-bind="attrs" v-on="on">
-                      <v-icon size="100">mdi-sticker-plus-outline</v-icon>
-                      <!-- AQUI SE AGREGA LA ACCION DE CREAR ACTIVIDAD -->
-                      
+                    <v-btn class="mx-auto" height="120" text plain @click="showCrearActividadDialog()">
+                      <v-icon size="100">mdi-sticker-plus-outline</v-icon>                      
                     </v-btn>
-                  </template>
-                  <agregarActividad @estado="agregarDialog=$event" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                </v-dialog>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -61,42 +53,15 @@
 
             <v-card-actions class="hidden-md-and-down">
               <v-col cols="12" md="4">
-                <v-dialog
-                  v-model="eliminarDialog"
-                  width="500"
-                  :retain-focus="false"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FF4365"  text v-bind="attrs" v-on="on"> Eliminar </v-btn>
-                  </template>
-                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                </v-dialog>
+                    <v-btn color="#FF4365"  text  @click="ShowEliminarDialog(n)"> Eliminar </v-btn> <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
               </v-col>
 
               <v-col cols="12" md="4">
-                <v-dialog
-                  v-model="editarDialog"
-                  fullscreen
-                  hide-overlay
-                  transition="dialog-bottom-transition"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FFD166" text v-bind="attrs" v-on="on"> Editar </v-btn>
-                  </template>
-                  <editarActividad @estado="editarDialog=$event" :idActividadEdit="2" /> <!-- AGREGAR AQUI EL idActividad  -->
-                </v-dialog>
+                    <v-btn color="#FFD166" text @click="ShowEditarDialog(n)"> Editar </v-btn> <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
               </v-col>
 
               <v-col cols="12" md="4">
-                <v-dialog
-                  v-model="revisarDialog"
-                  width="500"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#30DBA0" text v-bind="attrs" v-on="on"> Revisar </v-btn>
-                  </template>
-                  <eliminarActividad :idActividad="2" /> <!-- AGREGAR AQUI EL idActividad  -->
-                </v-dialog>
+                    <v-btn color="#30DBA0" text @click="ShowRevisarDialog(n)"> Revisar </v-btn> <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
               </v-col>      
             </v-card-actions>
 
@@ -246,8 +211,11 @@
         </v-col>
       </v-row>
       <!--#endregion -->
+    <agregarActividad />
+    <eliminarActividad :idActividad="idActividad" />
+    <editarActividad :idActividadEdit="idActividad" />
+    <revisarActividad :idActividadRevisar="idActividad" />
     </v-container>
-    </v-app>
   </div>
 </template>
 
@@ -255,11 +223,13 @@
 import agregarActividad from '../dialogs/agregarActividad.vue';
 import editarActividad from '../dialogs/editarActividad.vue';
 import eliminarActividad from '../dialogs/eliminarActividad.vue';
+import revisarActividad from '../dialogs/revisarActividad.vue';
 export default {
   components: { 
     eliminarActividad,
     editarActividad,
     agregarActividad,
+    revisarActividad,
     },
 
   name: "actividades",
@@ -275,6 +245,8 @@ export default {
       editarDialog: false,
       revisarDialog: false,
 
+
+      idActividad: 0,
       cantidadDeActividades: 3,
     };
   },
@@ -283,9 +255,6 @@ export default {
 
 
     CargaInicial(){
-      for(var i=0; i <= this.cantidadDeActividades ; i++){
-        this.eliminarDialogs.push(false);
-      }
 
       // AQUI VAS A METER EL GET QUE TE RECUPERE TODAS LAS ACTIVIDADES INDEPENDIENTEMENTE DEL GRUPO Y LAS GUARDE EN: ITEMS
     },
@@ -294,10 +263,25 @@ export default {
       // AQUI VAS A SOBRE ESCRIBIR EL VALOR DE ITEAMS DEPENDIENDO DE LOS GRUPOS SELECCIONADOS ( LOS CUALES ESTAN EN SELECT ) ...
       console.log(this.select);
     },
+    ShowEliminarDialog(id){
+      this.idActividad = id;
+      this.$store.state.eliminarActividadDialog='true';
+    },
+    ShowEditarDialog(id){
+      this.idActividad = id;
+      this.$store.state.editarActividadDialog='true';
+    },
+    ShowCrearActividadDialog(){
+      this.$store.state.crearActividadDialog='true';
+    },
+    ShowRevisarDialog(id){
+      this.idActividad=id;
+      this.$store.state.revisarActividadDialog='true';
+    },
   },
 
   mounted() {
-    this.CargaInicial();
+    //this.CargaInicial();
 
 
 

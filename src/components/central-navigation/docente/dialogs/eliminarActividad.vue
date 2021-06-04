@@ -1,5 +1,9 @@
 <template>
   <div class="text-center">
+    <v-dialog
+      v-model="$store.state.eliminarActividadDialog"
+      width="500"
+    >
         <v-card>
             <v-card-title class="headline grey lighten-2">
               ¿Seguro Que Desea Eliminar La Actividad?
@@ -7,12 +11,12 @@
 
             <v-card-text>
             <br>
-            <b>Usted Borrara La Actividad:</b> <span style="color:#30DBA0;"> <!--{{NombreActivdad}}--> .</span>  <br>
+            <b>Usted Borrara La Actividad:</b> <span style="color:#30DBA0;"> {{idActividad}} <!--{{NombreActivdad}}--> .</span>  <br>
             <b>Para el Grupoo:</b> <span style="color:#30DBA0;"> <!--{{NombreActivdad}}--> .</span>  <br>
             
             <br>Esto hara que los archivos que usted y los alumnos hayan subido tambien se eliminen, ¿desea continuar?
             </v-card-text>
-
+ 
             <v-divider></v-divider>
 
             <v-card-actions>
@@ -35,6 +39,7 @@
             </v-btn>
             </v-card-actions>
         </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -42,7 +47,6 @@
   export default {
     data () {
       return {
-        dialog: false,
 
       }
     },
@@ -63,7 +67,7 @@
         },
 
         closeDialog(){
-            this.$emit("estado",false);
+             this.$store.state.eliminarActividadDialog = false;
         }
     },
 
