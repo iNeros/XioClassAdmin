@@ -1,5 +1,6 @@
 <template>
   <div class="actividades">
+    <v-app>
     <v-container fluid>
       <v-row class="container">
         <!--#region ESTA CARD ES ESTATICA , ESTE ES EL BOTON PARA AGREGAR UNA ACTIVIDAD NUEVA --->
@@ -35,12 +36,12 @@
         <!--#endregion-->
 
         <!--#region AQUI VAN LAS 3 CARDS QUE SE DESPLEGARAN EN ACTIVIDADES RECIENTES -->
-        <v-col sm="12" lg="3">          <!-- AQUI VA UN V-FOR PARA DESPLEGAR LAS ACTIVIDADES SEGUN LOS GRUPOS (IDs) SELECCIONADOS --->
+        <v-col sm="12" lg="3" v-for="n in 3" :key="n">          <!-- AQUI VA UN V-FOR PARA DESPLEGAR LAS ACTIVIDADES SEGUN LOS GRUPOS (IDs) SELECCIONADOS --->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
               <span class="titulo-de-tarjeta2">"NOMBRE DEL GRUPO"</span>
-              <div class="hidden-md-and-down"><!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+              <div class="hidden-md-and-down"> <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
                 <v-icon size="24" right>mdi-check-all</v-icon>
               </div>
             </v-card-title>
@@ -63,6 +64,7 @@
                 <v-dialog
                   v-model="eliminarDialog"
                   width="500"
+                  :retain-focus="false"
                 >
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#FF4365"  text v-bind="attrs" v-on="on"> Eliminar </v-btn>
@@ -81,7 +83,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#FFD166" text v-bind="attrs" v-on="on"> Editar </v-btn>
                   </template>
-                  <editarActividad @estado="editarDialog=$event" :idActividadEdit="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                  <editarActividad @estado="editarDialog=$event" :idActividadEdit="2" /> <!-- AGREGAR AQUI EL idActividad  -->
                 </v-dialog>
               </v-col>
 
@@ -93,7 +95,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#30DBA0" text v-bind="attrs" v-on="on"> Revisar </v-btn>
                   </template>
-                  <eliminarActividad :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                  <eliminarActividad :idActividad="2" /> <!-- AGREGAR AQUI EL idActividad  -->
                 </v-dialog>
               </v-col>      
             </v-card-actions>
@@ -108,7 +110,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#FF4365"  text  plain v-bind="attrs" v-on="on"> <v-icon size="20">mdi-delete</v-icon> </v-btn>
                   </template>
-                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL idActividad  -->
                 </v-dialog>
               </v-col>
               <v-col cols="3" md="4">
@@ -124,9 +126,10 @@
             </v-row>
           </v-card>
         </v-col> 
+        
         <!--#endregion--> 
       </v-row>
-
+      <!--#region ACTIVIDADES POR GRUPO -->
       <v-row class="container">
         <h1 class="titulo-seccion">ACTIVIDADES POR GRUPO</h1>
         <v-col class="diver-red" cols="12" lg="12"> </v-col>
@@ -144,7 +147,7 @@
                 ></v-combobox>
               </v-col>
               <v-col cols="12" md="1">
-                <v-btn width="100%" text color="#D81E5B" v-on:click="test()">
+                <v-btn width="100%" text color="#D81E5B" v-on:click="FiltrarResultados()">
                   <v-icon left>mdi-magnify</v-icon> FILTRAR
                 </v-btn>
               </v-col>
@@ -152,7 +155,7 @@
           </v-container>
         </template>
 
-        <v-col sm="12" lg="3">          <!-- AQUI VA UN V-FOR PARA DESPLEGAR LAS ACTIVIDADES SEGUN LOS GRUPOS (IDs) SELECCIONADOS --->
+        <v-col sm="12" lg="3">          <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
@@ -184,7 +187,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#FF4365"  text v-bind="attrs" v-on="on"> Eliminar </v-btn>
                   </template>
-                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                  <eliminarActividad @estado="eliminarDialog=$event" :idActividad="2" /> <!-- AGREGAR AQUI EL idActividad  -->
                 </v-dialog>
               </v-col>
 
@@ -198,7 +201,7 @@
                   <template v-slot:activator="{ on, attrs }">
                     <v-btn color="#FFD166" text v-bind="attrs" v-on="on"> Editar </v-btn>
                   </template>
-                  <editarActividad @estado="editarDialog=$event" :idActividadEdit="2" /> <!-- AGREGAR AQUI EL {{idActividad}}  -->
+                  <editarActividad @estado="editarDialog=$event" :idActividadEdit="2" /> <!-- AGREGAR AQUI EL idActividad  -->
                 </v-dialog>
               </v-col>
 
@@ -242,7 +245,9 @@
           </v-card>
         </v-col>
       </v-row>
+      <!--#endregion -->
     </v-container>
+    </v-app>
   </div>
 </template>
 
@@ -262,19 +267,41 @@ export default {
   data() {
     return {
       select: [],
-      items: ["Ardillas", "Patos", "1ro B", "2do A"],
+      items: ["Grupo 1", "Grupo 2", "Grupo 3", "Grupo 4"],
 
       agregarDialog: false,
+      eliminarDialogs: [],
       eliminarDialog: false,
       editarDialog: false,
       revisarDialog: false,
+
+      cantidadDeActividades: 3,
     };
   },
+
   methods: {
-    test() {
+
+
+    CargaInicial(){
+      for(var i=0; i <= this.cantidadDeActividades ; i++){
+        this.eliminarDialogs.push(false);
+      }
+
+      // AQUI VAS A METER EL GET QUE TE RECUPERE TODAS LAS ACTIVIDADES INDEPENDIENTEMENTE DEL GRUPO Y LAS GUARDE EN: ITEMS
+    },
+
+    FiltrarResultados() {
+      // AQUI VAS A SOBRE ESCRIBIR EL VALOR DE ITEAMS DEPENDIENDO DE LOS GRUPOS SELECCIONADOS ( LOS CUALES ESTAN EN SELECT ) ...
       console.log(this.select);
     },
   },
+
+  mounted() {
+    this.CargaInicial();
+
+
+
+  }
 };
 </script>
 
