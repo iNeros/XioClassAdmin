@@ -45,6 +45,7 @@
             width="200"
             class="btn-design"
             href="/Dashboard"
+            @click="guardarID()"
           >
             INICIAR SESION
           </v-btn>
@@ -69,7 +70,13 @@ export default {
       submitStatus: null,
     };
   },
-  methods: {},
+  methods: {
+    guardarID(){
+      window.sessionStorage.setItem('idUsuario',1); // AQUI VA EL ID DE USUARIO
+      // window.sessionStorage.getItem('idUsuario'); 
+      //window.sessionStorage.removeItem('idUsuario'); 
+    }
+  },
 
   validations() {
     return {
