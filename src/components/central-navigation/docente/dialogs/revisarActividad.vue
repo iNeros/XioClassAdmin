@@ -50,8 +50,9 @@
 export default {
   data() {
     return {
-      archivosAlumnos: [1, 2, 3],
       calificacionesPosibles: [10,9,8,7,6,5,4,3,2,1,0],
+      
+      archivosAlumnos: [1, 2, 3],
       calificacion: [null,2,9,10,7], 
     };
   },

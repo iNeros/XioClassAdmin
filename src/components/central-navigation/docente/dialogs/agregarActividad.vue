@@ -136,7 +136,7 @@ export default {
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
-      CapetaNueva: 0,
+      CapetaNueva: 25,
 
       files: [],
       uploadValue: 0,
@@ -150,6 +150,7 @@ export default {
     ObtenerIDActividad(){
       // AXIOS: AQUI SE DEBE OBTENER EL ID DE LA ACTIVIDAD ANTERIOR MAS RECIENTE, POR QUE ESA ACTIVIDAD + 1 Sera El Nombre De: Carpeta Nueva
 
+      // CarpetaNueva = AXIOS ANTERIOR
     },
 
     closeDialog() {
@@ -166,6 +167,7 @@ export default {
       this.files = null;
       this.cantidadDeFiles = 0;
       this.urlFile= [];
+
     },
 
     cargarArchivos(){
@@ -186,6 +188,10 @@ export default {
             });;
           });; 
       };
+
+      //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS 
+
+
          
       this.closeDialog();
       
