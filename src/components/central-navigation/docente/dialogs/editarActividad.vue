@@ -143,7 +143,6 @@ export default {
   props: ["idActividadEdit"],
 
   mounted() {
-    this.ObtenerDatos();
   },
 
   methods: {
@@ -175,8 +174,7 @@ export default {
       this.closeDialog();
     },
     ObtenerDatos() {
-      // AQUI VA EL GET PARA OBTENER LOS DATOS SEGUN EL ID QUE SE NOS PASO (idActividad).
-      console.log(this.idActividadEdit);
+      // AQUI VA EL GET PARA OBTENER LOS DATOS SEGUN EL ID QUE SE NOS PASO (idActividad)
     },
   },
   watch: {

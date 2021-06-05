@@ -90,10 +90,12 @@
                 single-line
               ></v-textarea>
             </v-col>
-            <v-col cols="12">
+            <v-col cols="11">
               <v-file-input
                 id="files"
                 v-model="files"
+                show-size
+                counter
                 label="Agregar archivos"
                 truncate-length="15"
                 multiple
@@ -103,9 +105,15 @@
                   <v-chip small label color="primary">
                     {{ text }}
                   </v-chip>
-                </template>
+                </template> 
               </v-file-input>
-            </v-col>
+              <v-progress-linear
+                :value="uploadValue"
+                height="5px"
+                striped
+                color="#30dba0"
+              ></v-progress-linear>
+            </v-col>           
           </v-row>
         </v-container>
       </v-card-text>
@@ -114,6 +122,9 @@
 </template>
 
 <script>
+import firebase from 'firebase'
+
+
 export default {
   name: "agregar-actividad",
   data() {
@@ -125,36 +136,63 @@ export default {
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
+      CapetaNueva: 0,
+
       files: [],
+      uploadValue: 0,
+      cantidadDeFiles: 0,
+      urlFile: "",
+
+      
     };
   },
   methods: {
-    closeDialog() {
-      this.$store.state.crearActividadDialog = false;
+    ObtenerIDActividad(){
+      // AXIOS: AQUI SE DEBE OBTENER EL ID DE LA ACTIVIDAD ANTERIOR MAS RECIENTE, POR QUE ESA ACTIVIDAD + 1 Sera El Nombre De: Carpeta Nueva
+
     },
 
-    executeSave() {
-      //AQUI VA EL POST PARA GUARDAR TODOS LOS DATOS ID: nombreActividad , grupoActividad , fechaPublicacion , fechaCierre , descripcionActividad. ---- Objeto: files
-      console.log(
-        "Nombre Actividad = " +
-          this.nombreActividad +
-          "\n" +
-          "Grupo Actividad = " +
-          this.grupoActividad +
-          "\n" +
-          "Fecha Publicacion = " +
-          this.fechaPublicacion +
-          "\n" +
-          "Fecha Cierre = " +
-          this.fechaCierre +
-          "\n" +
-          "Descripcion = " +
-          this.descripcionActividad +
-          "\n"
-      );
+    closeDialog() {
+      this.$store.state.crearActividadDialog = false;
 
-      //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
+      this.guardar= false;
+      this.dialog = false;
+
+      this.nombreActividad = "";
+      this.grupoActividad = "";
+      this.fechaPublicacion = "";
+      this.fechaCierre = "";
+      this.descripcionActividad = "";
+      this.files = null;
+      this.cantidadDeFiles = 0;
+      this.urlFile= [];
+    },
+
+    cargarArchivos(){
+      this.cantidadDeFiles = this.files.length;
+      for(var i=0;i<this.cantidadDeFiles;i++){        
+        const storageRef = firebase.storage().ref(`/ArchivosDocentes/${this.CapetaNueva}/${this.files[i].name}`);
+        const task = storageRef.put(this.files[i]);
+
+        task.on('state_changed',snapshot =>{
+          let percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
+          this.uploadValue = percentage;
+        }, error=>{console.log(error.message)},
+          ()=>{this.uploadValue=100;
+          //OBTENER EL LINK
+            task.snapshot.ref.getDownloadURL().then((url)=> {
+              this.urlFile[i] = url;
+              console.log(this.urlFile[i]);
+            });;
+          });; 
+      };
+         
       this.closeDialog();
+      
+    },
+
+    executeSave() {  
+      this.cargarArchivos();
     },
   },
   watch: {
@@ -179,5 +217,8 @@ export default {
   height: auto;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
+}
+.btn-subir{
+  margin-top: 20px;
 }
 </style>
