@@ -264,10 +264,10 @@
 </template>
 
 <script>
-import agregarActividad from "../dialogs/agregarActividad.vue";
-import editarActividad from "../dialogs/editarActividad.vue";
-import eliminarActividad from "../dialogs/eliminarActividad.vue";
-import revisarActividad from "../dialogs/revisarActividad.vue";
+import agregarActividad from "../dialogs/actividades/agregarActividad.vue";
+import editarActividad from "../dialogs/actividades/editarActividad.vue";
+import eliminarActividad from "../dialogs/actividades/eliminarActividad.vue";
+import revisarActividad from "../dialogs/actividades/revisarActividad.vue";
 export default {
   components: {
     eliminarActividad,
