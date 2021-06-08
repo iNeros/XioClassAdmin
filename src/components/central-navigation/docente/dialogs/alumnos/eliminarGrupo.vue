@@ -1,23 +1,22 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="$store.state.eliminarActividadDialog" width="500">
+    <v-dialog v-model="$store.state.eliminarGrupoDialog" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2">
+        <v-card-title class="text-center grey lighten-2">
           ¿Seguro Que Desea Eliminar La Actividad?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted Borrara La Actividad:</b>
+          <b>Usted Borrara La Actividad: </b>
           <span style="color: #30dba0">
-            {{ idActividad }}
             <!--{{NombreActivdad}}-->
             .</span
           >
           <br />
           <b>Para el Grupoo:</b>
           <span style="color: #30dba0">
-            <!--{{NombreActivdad}}-->
+            <!--{{NombreDelGrupo}}-->
             .</span
           >
           <br />
@@ -45,11 +44,11 @@ export default {
   data() {
     return {};
   },
-  props: ["idActividad"],
+  props: ["idGrupoDialog"],
 
   methods: {
     obtenerInfo() {
-      //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
+      //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idGrupoDialog
     },
 
     executeEliminar() {
@@ -60,7 +59,7 @@ export default {
     },
 
     closeDialog() {
-      this.$store.state.eliminarActividadDialog = false;
+      this.$store.state.eliminarGrupoDialog = false;
     },
   },
 
@@ -70,4 +69,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;800&display=swap");
+
+.text-center{
+  font-family: "Montserrat";
+  font-weight: 600;
+
+}
+
+</style>

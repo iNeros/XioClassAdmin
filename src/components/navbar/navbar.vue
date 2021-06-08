@@ -115,9 +115,9 @@
               </v-list-item-title>
             </v-list-item>
             <div class="spacer-height" ></div>
-            <v-list-item class="my-6" link dark v-on:click="dsetActividades()">
+            <v-list-item class="my-6" link dark v-on:click="cerrarSesion()">
               <v-list-item-icon>
-                <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
+                <v-icon id="iconoContent" small>mdi-account-arrow-left</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
                 <h2 id="textoContent" class="title-text">Cerrar Sesion</h2>
@@ -184,6 +184,13 @@ export default {
       this.$store.commit("dsetGrupos");
     },
     //#endregion
+
+    cerrarSesion(){
+      //REMOVEMOS TODO DE EL localStorage
+      //window.localStorage.removeItem('');
+
+      window.location.href="/";
+    }
   },
 
   watch: {
@@ -216,7 +223,13 @@ export default {
   margin-bottom: 8rem;
 }
 
+@media (max-width: 800px) {
 .spacer-height{
-  height: 400px;
+  height: 300px!important;
 }
+}
+.spacer-height{
+  height: 420px;
+}
+
 </style>

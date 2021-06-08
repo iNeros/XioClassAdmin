@@ -7,10 +7,17 @@ export default new Vuex.Store({
   state: {
     adminWindowsSelected: 1,
 
+    //#region Variables Para Grupos
+    editarGrupoDialog: false,
+    eliminarGrupoDialog: false,
+    //#endregion
+
+    //#region  Variables Para Actividades
     crearActividadDialog: false,
     editarActividadDialog: false,
     eliminarActividadDialog: false,
     revisarActividadDialog: false,
+    //#endregion
   },
   mutations: {
     setWindowsOfUserAdmin(state) {
@@ -38,7 +45,7 @@ export default new Vuex.Store({
     },
     //#endregion MUTATIONS FOR DOCENTES
 
-    //#region
+    //#region Mutations FOR DOCENTE
     dsetOverview(state) {
       state.adminWindowsSelected = 10;
     },

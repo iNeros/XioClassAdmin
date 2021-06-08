@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="$store.state.editarActividadDialog"
+    v-model="$store.state.editarGrupoDialog"
     fullscreen
     hide-overlay
     transition="dialog-bottom-transition"
@@ -11,7 +11,7 @@
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title
-          >Editar Actividad {{ idActividadEdit }}</v-toolbar-title
+          >Editar Actividad {{ idGrupoDialog }}</v-toolbar-title
         >
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -42,81 +42,86 @@
       <v-card-text class="container">
         <v-container>
           <v-row class="texto-form">
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
-                v-model="nombreActividad"
+                v-model="nombreGrupo"
                 filled
-                label="Nombre de la actividad*"
-                :value="nombreActividad"
+                label="Nombre del grupo*"
+                :value="nombreGrupo"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
-                v-model="grupoActividad"
+                v-model="identificadorGrupo"
                 filled
-                label="Grupo al que se le sera asignada*"
-                :value="grupoActividad"
+                label="Identificador del grupo*"
+                :value="identificadorGrupo"
               ></v-text-field>
             </v-col>
 
-            <v-col cols="12" sm="6" md="6">
+            <v-col cols="12" sm="6" md="4">
               <v-text-field
-                id="fechaPublicacion*"
-                v-model="fechaPublicacion"
+                id="Año Asociado*"
+                v-model="periodoGrupo"
                 filled
-                type="date"
-                label="Fecha de publicacion*"
-                hint="Fecha en que la actividad estara disponible"
+                label="Año del grupo*"
                 required
-                :value="fechaPublicacion"
+                :value="periodoGrupo"
               ></v-text-field>
-            </v-col>
-
-            <v-col cols="12" sm="6" md="6">
-              <v-text-field
-                id="fechaCierre"
-                v-model="fechaCierre"
-                filled
-                type="date"
-                label="Fecha de cierre*"
-                hint="Fecha en que la actividad se cerrara (esto no evitara que se reciban actividades, pero las marcara con retraso)"
-                required
-                :value="fechaCierre"
-              ></v-text-field>
-            </v-col>
-
-            <v-col cols="12">
-              <v-textarea
-                id="descripcionActividad"
-                v-model="descripcionActividad"
-                :value="descripcionActividad"
-                filled
-                label="Descripcion:"
-                counter
-                maxlength="999"
-                hint="Si desea dar instrucciones mas detalladas y por la tanto mas extensas le recomendamos hacerlo dentro de un archivo y adjuntarlo a la actividad"
-                full-width
-                height="300"
-                single-line
-              ></v-textarea>
-            </v-col>
-            <v-col cols="12">
-              <v-file-input
-                id="files"
-                v-model="files"
-                label="Agregar archivos"
-                truncate-length="15"
-                multiple
-                prepend-icon="mdi-paperclip"
-              >
-                <template v-slot:selection="{ text }">
-                  <v-chip small label color="primary">
-                    {{ text }}
-                  </v-chip>
-                </template>
-              </v-file-input>
             </v-col>
           </v-row>
+          <v-card-title class="text-h5">
+            AGREGAR ALUMNOS
+          </v-card-title>
+            <v-row class="py-0 mx-5" v-for="(input,k) in inputs" :key="k">
+              <v-col cols="12" md="4" class="py-0">
+                <v-text-field
+                  outlined
+                  label="Usuario*"
+                  v-model="inputs[k].username"
+                  placeholder="El usuario con el que el alumno iniciara sesion"
+                  :value="inputs[k].username"
+                >                      
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" md="4" class="py-0">
+                <v-text-field
+                  outlined
+                  label="Contraseña*"
+                  v-model="inputs[k].password"
+                  placeholder="Contraseña con la que el alumno iniciara sesion"
+                  :value="inputs[k].password"
+                >                      
+                </v-text-field>
+              </v-col>
+              <v-col cols="12" md="4" class="py-0">
+                <v-text-field
+                  outlined
+                  label="Nombre"
+                  v-model="inputs[k].name"
+                  placeholder="Un nombre para el alumno"
+                  :value="inputs[k].name"
+                >                      
+                </v-text-field>
+              </v-col> 
+              <v-col cols="12" class="dividerAlumnos mt-n5 mb-2" >
+              </v-col>                 
+            </v-row>
+
+            <v-row justify="space-around" >
+                <div>
+                  <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="AddRow()" >
+                  <v-icon>
+                    mdi-plus
+                  </v-icon>
+                </v-btn>
+                <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="RemoveRow()" v-show="contadorAlumnos > 0">
+                  <v-icon>
+                    mdi-minus
+                  </v-icon>
+                </v-btn>
+                </div>
+            </v-row>
         </v-container>
       </v-card-text>
     </v-card>
@@ -129,53 +134,73 @@ export default {
     return {
       guardar: false,
       dialog: false,
-      notifications: false,
-      sound: true,
-      widgets: false,
-      nombreActividad: "Cargando...........",
-      grupoActividad: "Cargando ...........",
-      fechaPublicacion: "2021-01-01",
-      fechaCierre: "2021-01-01",
-      descripcionActividad: "Cargando.......",
-      files: [],
+
+      nombreGrupo: '',
+      identificadorGrupo: "",
+      periodoGrupo: '',
+
+      inputs: [
+        {
+          index: 0,
+          username: '',
+          password: '',
+          name: '',
+          idAlumno: '',
+        }
+      ],
+
+      contadorAlumnos: 0,
+
     };
   },
-  props: ["idActividadEdit"],
+  props: ["idGrupoDialog"],
 
   mounted() {
+    //ObtenerDatos();
   },
 
   methods: {
     closeDialog() {
-      this.$store.state.editarActividadDialog = false;
+      this.$store.state.editarGrupoDialog = false;
+    },
+    AddRow(){
+      this.contadorAlumnos++;
+      this.inputs.push({index: this.contadorAlumnos,username:'',password:'', name: ''});
+      console.log(this.inputs[this.contadorAlumnos-1].name);
+    },
+    RemoveRow(){
+      this.inputs.splice(((this.inputs.length)-1));
+      this.contadorAlumnos--;
+      console.log(this.inputs);
+    },
+
+    ObtenerDatos() {
+      // AQUI VA EL GET PARA OBTENER LOS DEL Grupo WHERE idGrupo = idGrupoDialog , y Guardarlos En : nombreGrupo , identificadorGrupo periodoGrupo
+
+      //LUEGO DE ESTO OBTENDRAS EL TOTAL DE ALUMNOS QUE TIENE EL GRUPO CON un COUNT() WHERE idGrupo = idGrupoDialog Y GUARDAS EL COUNT EN: contadorAlumnos
+
+      //LUEGO DE ESTO GUARDAS A TODOS LOS ALUMNOS WHERE idGrupo = idGrupoDialog en inputs[] (Guardas El Id Del Alumno Que Traes En: this.idAlumnos.) 
+      for(var i=0;i<this.contadorAlumnos;i++){this.inputs[i].index = i;} //ESTO DEJALO POR Ahi.. :v
+        
     },
 
     executeSave() {
-      //AQUI VA EL POST PARA GUARDAR TODOS LOS DATOS ID: nombreActividad , grupoActividad , fechaPublicacion , fechaCierre , descripcionActividad. ---- Objeto: files
+      //AQUI VA EL POST PARA MODIFICAR LA EL CONTENIDO DE GRUPOS WHERE idGrupo SEA = idGrupoDialog
+      
+
+      //------------------------------------------------------------------------------------------------------
+      for(var n=0;n<this.contadorAlumnos;n++){
+        //AQUI VA EL POST PARA MODIFICAR EL CONTENIDO DE LOS ALUMNOS WHERE idAlumnos = this.inputs[n].idAlumno
+      }
+
       console.log(
-        "Nombre Actividad = " +
-          this.nombreActividad +
-          "\n" +
-          "Grupo Actividad = " +
-          this.grupoActividad +
-          "\n" +
-          "Fecha Publicacion = " +
-          this.fechaPublicacion +
-          "\n" +
-          "Fecha Cierre = " +
-          this.fechaCierre +
-          "\n" +
-          "Descripcion = " +
-          this.descripcionActividad +
-          "\n"
+        
       );
 
       //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
       this.closeDialog();
     },
-    ObtenerDatos() {
-      // AQUI VA EL GET PARA OBTENER LOS DATOS SEGUN EL ID QUE SE NOS PASO (idActividad)
-    },
+    
   },
   watch: {
     dialog(val) {

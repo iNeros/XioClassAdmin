@@ -30,7 +30,7 @@
                   </v-col>
                   <v-col cols="12" md="4" class="py-0">
                     <v-text-field
-                     v-model="idGrupo"
+                     v-model="identificadorGrupo"
                      label="Identificador del grupo"
                      placeholder="A , B , C , D....."
                      outlined
@@ -77,7 +77,9 @@
                       placeholder="Un nombre para el alumno"
                     >                      
                     </v-text-field>
-                  </v-col>                  
+                  </v-col> 
+                  <v-col cols="12" class="dividerAlumnos mt-n5 mb-2" >
+                  </v-col>                 
                 </v-row>
 
                 <v-row justify="space-around" >
@@ -139,7 +141,8 @@
               <v-btn
                 text
                 color="#EF476F"
-              >
+                @click="EliminarDialog(n)"
+              > <!-- AQUI LE PASAMOS EL IdGrupo Como Parametro -->
                 Eliminar
               </v-btn>
               <v-spacer></v-spacer>
@@ -147,6 +150,7 @@
                 text
                 right
                 color="#FFD166"
+                @click="EditarDialog(n)"
               >
                 Editar
               </v-btn>
@@ -158,18 +162,26 @@
       
       
     </v-container>
+    <eliminarGrupo :idGrupoDialog="idGrupo"/> <!-- AQUI SE LE PASA EL idGrupo Como PROP -->
+    <editarGrupo :idGrupoDialog="idGrupo" />
   </div>
 </template>
 
 <script>
-
+import editarGrupo from "../dialogs/alumnos/editarGrupo.vue";
+import eliminarGrupo from "../dialogs/alumnos/eliminarGrupo.vue";
 
 export default {
   name: "alumnos",
+  components:{
+    editarGrupo,
+    eliminarGrupo,
+
+  },
   data(){
     return{
       nombreGrupo: '',
-      idGrupo: '',
+      identificadorGrupo: "",
       periodoGrupo: '',
 
       inputs: [
@@ -180,14 +192,17 @@ export default {
           name: '',
         }
       ],
+
       contadorAlumnos: 0,
+
+      idGrupo: '',
 
     }
   },
   methods:{
     Limpiar(){
       this.nombreGrupo = '';
-      this.idGrupo = '';
+      this.identificadorGrupo = '';
       this.periodoGrupo = '';
       this.inputs = [{
           index: 0,
@@ -196,6 +211,17 @@ export default {
           name: '',
       }];
     },
+
+    EliminarDialog(id){
+      this.idGrupo = id;
+      this.$store.state.eliminarGrupoDialog = "true";
+    },
+
+    EditarDialog(id){
+      this.idGrupo = id;
+      this.$store.state.editarGrupoDialog = "true";
+    },
+
     AddRow(){
       this.contadorAlumnos++;
       this.inputs.push({index: this.contadorAlumnos,username:'',password:'', name: ''});
@@ -213,7 +239,7 @@ export default {
     },
     postAlumnos(){
       for(var j=0;j<this.contadorAlumnos;j++){
-        //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs.
+        //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
       }
     },
 
@@ -277,5 +303,11 @@ export default {
   height: 5px;
   background-color: #d81e5b !important;
   border-radius: 20px;
+}
+
+.dividerAlumnos{
+  background-color: black;
+  height: 10px;
+  border-radius: 15px;
 }
 </style>

@@ -2,7 +2,7 @@
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarActividadDialog" width="500">
       <v-card>
-        <v-card-title class="headline grey lighten-2">
+        <v-card-title class="text-center grey lighten-2">
           ¿Seguro Que Desea Eliminar La Actividad?
         </v-card-title>
 
@@ -70,4 +70,13 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;800&display=swap");
+
+.text-center{
+  font-family: "Montserrat";
+  font-weight: 600;
+
+}
+
+</style>
