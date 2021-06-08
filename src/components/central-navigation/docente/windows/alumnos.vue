@@ -20,6 +20,7 @@
                 <v-row class="mx-5">
                   <v-col cols="12" md="4" class="py-0">
                     <v-text-field
+                     v-model="nombreGrupo"
                      label="Nombre del grupo"
                      placeholder="..."
                      outlined
@@ -29,6 +30,7 @@
                   </v-col>
                   <v-col cols="12" md="4" class="py-0">
                     <v-text-field
+                     v-model="idGrupo"
                      label="Identificador del grupo"
                      placeholder="A , B , C , D....."
                      outlined
@@ -37,6 +39,7 @@
                   </v-col>
                   <v-col cols="12" md="2" class="py-0">
                     <v-text-field
+                     v-model="periodoGrupo"
                      label="Año"
                      placeholder="1° , 2° , 3° ....."
                      outlined
@@ -95,11 +98,11 @@
             </v-form>
 
             <v-card-actions>
-              <v-btn class="mx-3" text  color="#EF476F">
+              <v-btn class="mx-3" text  color="#EF476F" @click="Limpiar()">
                 LIMPIAR
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn class="mx-3" text  color="#30DBA0">
+              <v-btn class="mx-3" text  color="#30DBA0" @click="crearGrupo()">
                 CREAR GRUPO
               </v-btn>
             </v-card-actions>
@@ -107,13 +110,53 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col>
+        <v-col cols="12">
           <h1 class="titulo-seccion">MIS GRUPOS</h1>
           <v-col class="diver-red" cols="12" lg="12"> </v-col>
-        </v-col>
-        
-
+        </v-col>     
       </v-row>
+      <v-row>
+        <v-col cols="12" md="2" v-for="n in 8" :key="n">
+          <v-card
+            max-width="300"
+            outlined
+            color="#474747"
+            dark
+          >
+            <v-list-item three-line>
+              <v-list-item-content>
+                <div class="text-overline mb-4">
+                  Grupo:
+                </div>
+                <v-list-item-title class="text-h5 mb-1">
+                  1° - A - NOMBRE 
+                </v-list-item-title>
+                <v-list-item-subtitle>Alumnos inscritos: 14</v-list-item-subtitle>
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-card-actions>
+              <v-btn
+                text
+                color="#EF476F"
+              >
+                Eliminar
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                text
+                right
+                color="#FFD166"
+              >
+                Editar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      
+      
+      
     </v-container>
   </div>
 </template>
@@ -125,12 +168,16 @@ export default {
   name: "alumnos",
   data(){
     return{
+      nombreGrupo: '',
+      idGrupo: '',
+      periodoGrupo: '',
+
       inputs: [
         {
           index: 0,
-          username: ' ',
-          password: ' ',
-          name: ' ',
+          username: '',
+          password: '',
+          name: '',
         }
       ],
       contadorAlumnos: 0,
@@ -138,6 +185,17 @@ export default {
     }
   },
   methods:{
+    Limpiar(){
+      this.nombreGrupo = '';
+      this.idGrupo = '';
+      this.periodoGrupo = '';
+      this.inputs = [{
+          index: 0,
+          username: '',
+          password: '',
+          name: '',
+      }];
+    },
     AddRow(){
       this.contadorAlumnos++;
       this.inputs.push({index: this.contadorAlumnos,username:'',password:'', name: ''});
@@ -147,6 +205,25 @@ export default {
       this.inputs.splice(((this.inputs.length)-1));
       this.contadorAlumnos--;
       console.log(this.inputs);
+    },
+
+    postGrupos(){
+      //AQUI DENTRO IRA EL POST QUE CREARA EL GRUPO: CON LOS DATOS: nombreGrupo,idGrupo(ESTE NO ES EL ID, es el otro campo),periodoGrupo
+
+    },
+    postAlumnos(){
+      for(var j=0;j<this.contadorAlumnos;j++){
+        //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs.
+      }
+    },
+
+    crearGrupo(){
+      this.postGrupos();
+      this.postAlumnos();
+
+
+      //ESTE LIMPIAR VA EN EL .THEN DEL AXIOS (O FETCH) QUE HAGAS.
+      this.Limpiar();
     }
   }
 };

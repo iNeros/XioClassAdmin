@@ -93,7 +93,7 @@
                 <v-icon id="iconoDocente" small>mdi-account-plus</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoDocente" class="title-text">Alumnos</h2>
+                <h2 id="textoDocente" class="title-text">Grupos</h2>
               </v-list-item-title>
             </v-list-item>
 
@@ -114,17 +114,17 @@
                 <h2 id="textoContent" class="title-text">Actividades</h2>
               </v-list-item-title>
             </v-list-item>
-
-            <v-list-item class="my-6" link dark v-on:click="dsetGrupos()">
+            <div class="spacer-height" ></div>
+            <v-list-item class="my-6" link dark v-on:click="dsetActividades()">
               <v-list-item-icon>
-                <v-icon id="iconoInscripciones" small
-                  >mdi-human-male-boy</v-icon
-                >
+                <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoInscripciones" class="title-text">Grupos</h2>
+                <h2 id="textoContent" class="title-text">Cerrar Sesion</h2>
               </v-list-item-title>
             </v-list-item>
+
+
           </v-list-item-group>
         </div>
         <!--#endregion-->
@@ -214,5 +214,9 @@ export default {
 
 .seccion-titulo {
   margin-bottom: 8rem;
+}
+
+.spacer-height{
+  height: 400px;
 }
 </style>
