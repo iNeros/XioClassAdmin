@@ -2,7 +2,7 @@
   <div class="navbar">
     <v-app-bar app> </v-app-bar>
     <v-navigation-drawer
-      color="#5d4f63"
+      color="#26A69A"
       permanent
       expand-on-hover
       app
@@ -23,7 +23,7 @@
 
         <!--#region SI EL USUARIO ES UN ADMINISTRADOR  -->
         <div v-if="userType == '0'">
-          <v-list-item-group v-model="btnSelectedAdmin" color="#30dba0">
+          <v-list-item-group v-model="btnSelectedAdmin" color="#283593">
             <v-list-item class="my-6" link dark v-on:click="setOverview()">
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
@@ -78,7 +78,7 @@
 
         <!--#region SI EL USUARIO ES UN DOCENTE  -->
         <div v-if="userType == '1'">
-          <v-list-item-group v-model="btnSelectedAdmin" color="#30dba0">
+          <v-list-item-group v-model="btnSelectedAdmin" color="#283593">
             <v-list-item class="my-6" link dark v-on:click="dsetOverview()">
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
@@ -206,16 +206,15 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap");
-
+@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&family=Poppins:wght@300&display=swap');
 .logo-text {
-  font-family: "Montserrat";
+  font-family: "Poppins";
   color: white;
-  font-weight: 800;
+  font-weight: 500px;
   text-align: center;
 }
 .title-text {
-  font-family: "Montserrat";
+  font-family: "Poppins";
   font-weight: 800;
 }
 

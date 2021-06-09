@@ -110,6 +110,6 @@ export default {
   width: auto;
 }
 .background {
-  background-color: #c7c7c7 !important;
+  background-color: #fafafa !important;
 }
 </style>
