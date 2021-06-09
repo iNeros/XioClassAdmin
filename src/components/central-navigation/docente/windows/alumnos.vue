@@ -8,7 +8,7 @@
         </v-col>
         <v-col cols="12">
           <v-card
-            color="#474747"
+            color="#9e9e9e"
             dark
           >
             <v-card-title class="text-h5">
@@ -84,12 +84,12 @@
 
                 <v-row justify="space-around" >
                     <div>
-                      <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="AddRow()" >
+                      <v-btn color="#80D8FF" elevation="12" height="56" class="mx-4" @click="AddRow()" >
                       <v-icon>
                         mdi-plus
                       </v-icon>
                     </v-btn>
-                    <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="RemoveRow()" v-show="contadorAlumnos > 0">
+                    <v-btn color="#80D8FF" elevation="12" height="56" class="mx-4" @click="RemoveRow()" v-show="contadorAlumnos > 0">
                       <v-icon>
                         mdi-minus
                       </v-icon>
@@ -100,11 +100,11 @@
             </v-form>
 
             <v-card-actions>
-              <v-btn class="mx-3" text  color="#EF476F" @click="Limpiar()">
+              <v-btn class="mx-3" text  color="#ff3d00" @click="Limpiar()">
                 LIMPIAR
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn class="mx-3" text  color="#30DBA0" @click="crearGrupo()">
+              <v-btn class="mx-3" text  color="#64DD17" @click="crearGrupo()">
                 CREAR GRUPO
               </v-btn>
             </v-card-actions>
@@ -122,7 +122,7 @@
           <v-card
             max-width="300"
             outlined
-            color="#474747"
+            color="#9e9e9e"
             dark
           >
             <v-list-item three-line>
@@ -140,7 +140,7 @@
             <v-card-actions>
               <v-btn
                 text
-                color="#EF476F"
+                color="#ff3d00"
                 @click="EliminarDialog(n)"
               > <!-- AQUI LE PASAMOS EL IdGrupo Como Parametro -->
                 Eliminar
@@ -149,7 +149,7 @@
               <v-btn
                 text
                 right
-                color="#FFD166"
+                color="#FF9800"
                 @click="EditarDialog(n)"
               >
                 Editar
@@ -281,32 +281,32 @@ export default {
   .diver {
     width: 100%;
     height: 5px;
-    background-color: #30dba0 !important;
+    background-color: #64DD17   !important;
     border-radius: 20px;
   }
   .diver-red {
     width: 100%;
     height: 5px;
-    background-color: #d81e5b !important;
+    background-color: #f44336 !important;
     border-radius: 20px;
   }
 }
 .diver {
   width: 100%;
   height: 5px;
-  background-color: #30dba0 !important;
+  background-color: #64DD17   !important;
   border-radius: 20px;
 }
 
 .diver-red {
   width: 100%;
   height: 5px;
-  background-color: #d81e5b !important;
+  background-color: #f44336 !important;
   border-radius: 20px;
 }
 
 .dividerAlumnos{
-  background-color: black;
+  background-color: #616161;
   height: 10px;
   border-radius: 15px;
 }
