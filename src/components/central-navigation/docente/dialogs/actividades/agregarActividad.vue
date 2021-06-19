@@ -1,8 +1,8 @@
 <template>
-  <v-dialog v-model="$store.state.crearActividadDialog">
+  <v-dialog v-model="$store.state.crearActividadDialog" v-on="  ObtenerIDActividad()">
     <v-card>
       <v-toolbar dark color="#5d4f63">
-        <v-btn icon dark @click="closeDialog()">
+        <v-btn icon dark @click="closeDialog()">    
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>Crear Actividad</v-toolbar-title>
@@ -14,6 +14,7 @@
             dark
             text
             @click="dialog = true"
+            v-on:click="Actividad()"
           >
             Guardar
           </v-btn>
@@ -123,7 +124,7 @@
 
 <script>
 import firebase from 'firebase'
-
+import axios from 'axios'
 
 export default {
   name: "agregar-actividad",
@@ -131,13 +132,16 @@ export default {
     return {
       guardar: false,
       dialog: false,
+      //variables para el post del axios
       nombreActividad: "",
       grupoActividad: "",
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
-      CapetaNueva: 25,
-
+      //variable para crear una carpeta en firebase manualmente
+      //se asignará el número de carpeta, usando el id de la actividad creada
+      CapetaNueva:"",
+      //variables para la funcion de firebase
       files: [],
       uploadValue: 0,
       cantidadDeFiles: 0,
@@ -149,8 +153,20 @@ export default {
   methods: {
     ObtenerIDActividad(){
       // AXIOS: AQUI SE DEBE OBTENER EL ID DE LA ACTIVIDAD ANTERIOR MAS RECIENTE, POR QUE ESA ACTIVIDAD + 1 Sera El Nombre De: Carpeta Nueva
-
+      //Es correcto nero ↑ 
       // CarpetaNueva = AXIOS ANTERIOR
+      //
+      axios
+        .get(
+          "https://xicoclass.online/Actividades.php?max"
+        )
+        .then((r) => {
+          this.CapetaNueva = r.data;
+          console.log(this.CapetaNueva[0].nuevo_id);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     closeDialog() {
@@ -173,7 +189,7 @@ export default {
     cargarArchivos(){
       this.cantidadDeFiles = this.files.length;
       for(var i=0;i<this.cantidadDeFiles;i++){        
-        const storageRef = firebase.storage().ref(`/ArchivosDocentes/${this.CapetaNueva}/${this.files[i].name}`);
+        const storageRef = firebase.storage().ref(`/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${this.files[i].name}`);
         const task = storageRef.put(this.files[i]);
 
         task.on('state_changed',snapshot =>{
@@ -187,15 +203,39 @@ export default {
               console.log(this.urlFile[i]);
             });;
           });; 
+          //AQUI VA EL AXIOS PARA GUARDAR EL REGISTRO EN TABLA ARCHIVOS_DOCENTES
+    let config={
+     headers: {
+       "Content-Type": "application/x-www-form-urlencoded",
+       },
       };
-
-      //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS 
-
-
-         
+     let parametros = "nombre="+this.files[i].name+"&ruta="+this.urlFile[i]+"&tipo=PDF&id_actividades="+this.CapetaNueva[0].nuevo_id;
+     axios.post('https://xicoclass.online/Archivos.php',parametros,config)
+     .then((r)=>{
+       console.log(r);
+     })
+     .catch((error)=>{
+       console.log(error);
+     });
+      };
       this.closeDialog();
-      
-    },
+      },
+      //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS 
+   Actividad(){
+     let config={
+     headers: {
+       "Content-Type": "application/x-www-form-urlencoded",
+       },
+      };
+     let parametros = "nombre="+this.nombreActividad+"&descripcion="+this.descripcionActividad+"&fecha_inicio="+this.fechaPublicacion+"&fecha_fin="+this.fechaCierre+"&estado=ACTIVO&id_docente=6&id_grupo="+this.grupoActividad;
+     axios.post('https://xicoclass.online/Actividades.php',parametros,config)
+     .then((r)=>{
+       console.log(r);
+     })
+     .catch((error)=>{
+       console.log(error);
+     });
+   },
 
     executeSave() {  
       this.cargarArchivos();
