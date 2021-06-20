@@ -1,6 +1,5 @@
 <template>
-  <div class="grupos">
-  </div>
+  <div class="grupos"></div>
 </template>
 
 <script>

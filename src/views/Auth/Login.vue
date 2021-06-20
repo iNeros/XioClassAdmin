@@ -11,12 +11,12 @@
       </a>
     </div>
     <div class="center">
-      <h1 style="color: #30dba0">INICIA SESION</h1>
+      <h1 style="color: #30dba0">INICIA SESIÓN</h1>
       <v-card class="margin-card px-6" max-width="500" flat>
         <v-card-text>
           <br />
           <div class="descripcion-text">
-            INICIA SESION AL SISTEMA ADMINISTRATIVO DE <br />
+            INICIA SESIÓN AL SISTEMA ADMINISTRATIVO DE <br />
             XICO-CLASS
           </div>
           <v-form class="login-form">
@@ -24,6 +24,7 @@
               prepend-icon="mdi-account"
               name="login"
               label="Usuario"
+              v-model="usuario"
               type="text"
               class="form__input mb-6"
             >
@@ -32,8 +33,10 @@
               prepend-icon="mdi-lock"
               id="password"
               name="password"
+              v-model="contraseña"
               label="Contraseña"
               type="password"
+              v-on:keyup.enter="Session()"
             ></v-text-field>
           </v-form>
         </v-card-text>
@@ -44,12 +47,20 @@
             color="red"
             width="200"
             class="btn-design"
-            href="/Dashboard"
-            @click="guardarID()"
+            @click="Session()"
           >
-            INICIAR SESION
+            INICIAR SESIÓN
           </v-btn>
         </v-card-actions>
+        <v-alert
+          v-show="show"
+          color="orange"
+          dense
+          dismissible
+          elevation="8"
+          type="info"
+          >¡Verifíca tu usuario y contraseña!</v-alert
+        >
       </v-card>
       <div class="forgotten-password"></div>
     </div>
@@ -58,6 +69,7 @@
 
 <script>
 import { required, email } from "vuelidate/lib/validators";
+import axios from "axios";
 
 export default {
   name: "Landing",
@@ -67,15 +79,45 @@ export default {
       show: false,
       usuario: "",
       contraseña: "",
+      datas: "",
       submitStatus: null,
     };
   },
   methods: {
-    guardarID(){
-      window.sessionStorage.setItem('idUsuario',1); // AQUI VA EL ID DE USUARIO
-      // window.sessionStorage.getItem('idUsuario'); 
-      //window.sessionStorage.removeItem('idUsuario'); 
-    }
+    Session() {
+      this.show = false;
+      axios
+        .get(
+          "https://xicoclass.online/Docente.php?User=" +
+            this.usuario +
+            "&Pass=" +
+            this.contraseña
+        )
+        .then((r) => {
+          this.datas = r.data;
+          if (this.datas.length == 1) {
+            console.log(this.datas);
+            window.sessionStorage.setItem(
+              "id_docente",
+              this.datas[0]["id_docente"]
+            );
+            window.sessionStorage.setItem("nombre", this.datas[0]["nombre"]);
+            window.sessionStorage.setItem("appPat", this.datas[0]["appPat"]);
+            window.sessionStorage.setItem("appMat", this.datas[0]["appMat"]);
+            window.sessionStorage.setItem(
+              "tipoUsuario",
+              this.datas[0]["tipoUsuario"]
+            );
+            window.sessionStorage.setItem("usuario", this.datas[0]["usuario"]);
+            window.location.href = "/Dashboard";
+          } else {
+            this.show = true;
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 
   validations() {

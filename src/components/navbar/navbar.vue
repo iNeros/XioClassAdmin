@@ -114,7 +114,7 @@
                 <h2 id="textoContent" class="title-text">Actividades</h2>
               </v-list-item-title>
             </v-list-item>
-            <div class="spacer-height" ></div>
+            <div class="spacer-height"></div>
             <v-list-item class="my-6" link dark v-on:click="cerrarSesion()">
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-account-arrow-left</v-icon>
@@ -123,8 +123,6 @@
                 <h2 id="textoContent" class="title-text">Cerrar Sesion</h2>
               </v-list-item-title>
             </v-list-item>
-
-
           </v-list-item-group>
         </div>
         <!--#endregion-->
@@ -185,12 +183,12 @@ export default {
     },
     //#endregion
 
-    cerrarSesion(){
+    cerrarSesion() {
       //REMOVEMOS TODO DE EL localStorage
       //window.localStorage.removeItem('');
 
-      window.location.href="/";
-    }
+      window.location.href = "/";
+    },
   },
 
   watch: {
@@ -206,7 +204,7 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&family=Poppins:wght@300&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Merriweather+Sans:wght@300&family=Poppins:wght@300&display=swap");
 .logo-text {
   font-family: "Poppins";
   color: white;
@@ -223,12 +221,11 @@ export default {
 }
 
 @media (max-width: 800px) {
-.spacer-height{
-  height: 300px!important;
+  .spacer-height {
+    height: 300px !important;
+  }
 }
-}
-.spacer-height{
+.spacer-height {
   height: 420px;
 }
-
 </style>

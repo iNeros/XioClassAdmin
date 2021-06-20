@@ -10,9 +10,7 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title
-          >Editar Actividad {{ idGrupoDialog }}</v-toolbar-title
-        >
+        <v-toolbar-title>Editar Actividad {{ idGrupoDialog }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
@@ -70,58 +68,64 @@
               ></v-text-field>
             </v-col>
           </v-row>
-          <v-card-title class="text-h5">
-            AGREGAR ALUMNOS
-          </v-card-title>
-            <v-row class="py-0 mx-5" v-for="(input,k) in inputs" :key="k">
-              <v-col cols="12" md="4" class="py-0">
-                <v-text-field
-                  outlined
-                  label="Usuario*"
-                  v-model="inputs[k].username"
-                  placeholder="El usuario con el que el alumno iniciara sesion"
-                  :value="inputs[k].username"
-                >                      
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="4" class="py-0">
-                <v-text-field
-                  outlined
-                  label="Contraseña*"
-                  v-model="inputs[k].password"
-                  placeholder="Contraseña con la que el alumno iniciara sesion"
-                  :value="inputs[k].password"
-                >                      
-                </v-text-field>
-              </v-col>
-              <v-col cols="12" md="4" class="py-0">
-                <v-text-field
-                  outlined
-                  label="Nombre"
-                  v-model="inputs[k].name"
-                  placeholder="Un nombre para el alumno"
-                  :value="inputs[k].name"
-                >                      
-                </v-text-field>
-              </v-col> 
-              <v-col cols="12" class="dividerAlumnos mt-n5 mb-2" >
-              </v-col>                 
-            </v-row>
+          <v-card-title class="text-h5"> AGREGAR ALUMNOS </v-card-title>
+          <v-row class="py-0 mx-5" v-for="(input, k) in inputs" :key="k">
+            <v-col cols="12" md="4" class="py-0">
+              <v-text-field
+                outlined
+                label="Usuario*"
+                v-model="inputs[k].username"
+                placeholder="El usuario con el que el alumno iniciara sesion"
+                :value="inputs[k].username"
+              >
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" class="py-0">
+              <v-text-field
+                outlined
+                label="Contraseña*"
+                v-model="inputs[k].password"
+                placeholder="Contraseña con la que el alumno iniciara sesion"
+                :value="inputs[k].password"
+              >
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" md="4" class="py-0">
+              <v-text-field
+                outlined
+                label="Nombre"
+                v-model="inputs[k].name"
+                placeholder="Un nombre para el alumno"
+                :value="inputs[k].name"
+              >
+              </v-text-field>
+            </v-col>
+            <v-col cols="12" class="dividerAlumnos mt-n5 mb-2"> </v-col>
+          </v-row>
 
-            <v-row justify="space-around" >
-                <div>
-                  <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="AddRow()" >
-                  <v-icon>
-                    mdi-plus
-                  </v-icon>
-                </v-btn>
-                <v-btn color="#28262C" elevation="12" height="56" class="mx-4" @click="RemoveRow()" v-show="contadorAlumnos > 0">
-                  <v-icon>
-                    mdi-minus
-                  </v-icon>
-                </v-btn>
-                </div>
-            </v-row>
+          <v-row justify="space-around">
+            <div>
+              <v-btn
+                color="#28262C"
+                elevation="12"
+                height="56"
+                class="mx-4"
+                @click="AddRow()"
+              >
+                <v-icon> mdi-plus </v-icon>
+              </v-btn>
+              <v-btn
+                color="#28262C"
+                elevation="12"
+                height="56"
+                class="mx-4"
+                @click="RemoveRow()"
+                v-show="contadorAlumnos > 0"
+              >
+                <v-icon> mdi-minus </v-icon>
+              </v-btn>
+            </div>
+          </v-row>
         </v-container>
       </v-card-text>
     </v-card>
@@ -135,22 +139,21 @@ export default {
       guardar: false,
       dialog: false,
 
-      nombreGrupo: '',
+      nombreGrupo: "",
       identificadorGrupo: "",
-      periodoGrupo: '',
+      periodoGrupo: "",
 
       inputs: [
         {
           index: 0,
-          username: '',
-          password: '',
-          name: '',
-          idAlumno: '',
-        }
+          username: "",
+          password: "",
+          name: "",
+          idAlumno: "",
+        },
       ],
 
       contadorAlumnos: 0,
-
     };
   },
   props: ["idGrupoDialog"],
@@ -163,13 +166,18 @@ export default {
     closeDialog() {
       this.$store.state.editarGrupoDialog = false;
     },
-    AddRow(){
+    AddRow() {
       this.contadorAlumnos++;
-      this.inputs.push({index: this.contadorAlumnos,username:'',password:'', name: ''});
-      console.log(this.inputs[this.contadorAlumnos-1].name);
+      this.inputs.push({
+        index: this.contadorAlumnos,
+        username: "",
+        password: "",
+        name: "",
+      });
+      console.log(this.inputs[this.contadorAlumnos - 1].name);
     },
-    RemoveRow(){
-      this.inputs.splice(((this.inputs.length)-1));
+    RemoveRow() {
+      this.inputs.splice(this.inputs.length - 1);
       this.contadorAlumnos--;
       console.log(this.inputs);
     },
@@ -179,28 +187,25 @@ export default {
 
       //LUEGO DE ESTO OBTENDRAS EL TOTAL DE ALUMNOS QUE TIENE EL GRUPO CON un COUNT() WHERE idGrupo = idGrupoDialog Y GUARDAS EL COUNT EN: contadorAlumnos
 
-      //LUEGO DE ESTO GUARDAS A TODOS LOS ALUMNOS WHERE idGrupo = idGrupoDialog en inputs[] (Guardas El Id Del Alumno Que Traes En: this.idAlumnos.) 
-      for(var i=0;i<this.contadorAlumnos;i++){this.inputs[i].index = i;} //ESTO DEJALO POR Ahi.. :v
-        
+      //LUEGO DE ESTO GUARDAS A TODOS LOS ALUMNOS WHERE idGrupo = idGrupoDialog en inputs[] (Guardas El Id Del Alumno Que Traes En: this.idAlumnos.)
+      for (var i = 0; i < this.contadorAlumnos; i++) {
+        this.inputs[i].index = i;
+      } //ESTO DEJALO POR Ahi.. :v
     },
 
     executeSave() {
       //AQUI VA EL POST PARA MODIFICAR LA EL CONTENIDO DE GRUPOS WHERE idGrupo SEA = idGrupoDialog
-      
 
       //------------------------------------------------------------------------------------------------------
-      for(var n=0;n<this.contadorAlumnos;n++){
+      for (var n = 0; n < this.contadorAlumnos; n++) {
         //AQUI VA EL POST PARA MODIFICAR EL CONTENIDO DE LOS ALUMNOS WHERE idAlumnos = this.inputs[n].idAlumno
       }
 
-      console.log(
-        
-      );
+      console.log();
 
       //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
       this.closeDialog();
     },
-    
   },
   watch: {
     dialog(val) {

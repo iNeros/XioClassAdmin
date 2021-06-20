@@ -7,7 +7,7 @@
         <h1 class="titulo-seccion">ACTIVIDADES RECIENTES</h1>
         <v-col class="diver" cols="12" lg="12"> </v-col>
         <v-col sm="12" lg="3">
-          <v-card color="#23395B" dark height="260" elevation="12">
+          <v-card color="#23395B" dark height="auto" elevation="12">
             <v-card-title class="texto-nueva-activity">
               <span
                 class="title-nueva-activity"
@@ -33,7 +33,7 @@
         <!--#endregion-->
 
         <!--#region AQUI VAN LAS 3 CARDS QUE SE DESPLEGARAN EN ACTIVIDADES RECIENTES -->
-        <v-col sm="12" lg="3" >
+        <v-col sm="12" lg="3">
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR LAS ACTIVIDADES SEGUN LOS GRUPOS (IDs) SELECCIONADOS --->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
@@ -152,7 +152,7 @@
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2"> "{{Act.id_grupo}}"</span>
+              <span class="titulo-de-tarjeta2"> "{{ Act.id_grupo }}"</span>
               <div class="hidden-md-and-down">
                 <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
                 <v-icon size="24" right>mdi-check-all</v-icon>
@@ -160,18 +160,20 @@
             </v-card-title>
 
             <v-card-subtitle class="texto-tarjeta-settings">
-              <span class="texto-de-tarjeta">ACTIVIDAD: {{Act.nombre}} </span> <br />
+              <span class="texto-de-tarjeta">ACTIVIDAD: {{ Act.nombre }} </span>
+              <br />
               <span class="texto-de-tarjeta2">
-                {{Act.descripcion}}}
+                {{ Act.descripcion }}}
                 <!-- AGREGAR AQUI EL {{NombreActividad}}  -->
               </span>
               <br />
               <br />
               <span class="texto-de-tarjeta"> FECHA PUBLICACION:</span>
-              <span class="texto-de-tarjeta2">"{{Act.fecha_inicio}}"</span> <br />
+              <span class="texto-de-tarjeta2">"{{ Act.fecha_inicio }}"</span>
+              <br />
               <!-- AGREGAR AQUI EL {{FechaPublicacion}}  -->
               <span class="texto-de-tarjeta"> FECHA VENCIMIENTO:</span>
-              <span class="texto-de-tarjeta2">"{{Act.fecha_fin}}"</span>
+              <span class="texto-de-tarjeta2">"{{ Act.fecha_fin }}"</span>
               <!-- AGREGAR AQUI EL {{FechaVencimiento}}  -->
             </v-card-subtitle>
 
@@ -185,10 +187,10 @@
                   </template>
                   <eliminarActividad
                     @estado="eliminarDialog = $event"
-                    :idActividad='Act.id_actividad'
+                    :idActividad="Act.id_actividad"
                   />
                   <!-- AGREGAR AQUI EL idActividad  -->
-                  {{Act.id_actividad}}
+                  {{ Act.id_actividad }}
                 </v-dialog>
               </v-col>
 
@@ -209,7 +211,7 @@
                     :idActividadEdit="Act.id_actividad"
                   />
                   <!-- AGREGAR AQUI EL idActividad  -->
-                  {{Act.id_actividad}}
+                  {{ Act.id_actividad }}
                 </v-dialog>
               </v-col>
 
@@ -222,7 +224,7 @@
                   </template>
                   <eliminarActividad :idActividad="Act.id_actividad" />
                   <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                  {{Act.id_actividad}}
+                  {{ Act.id_actividad }}
                 </v-dialog>
               </v-col>
             </v-card-actions>
@@ -241,7 +243,7 @@
                     :idActividad="Act.id_actividad"
                   />
                   <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                  {{Act.id_actividad}}
+                  {{ Act.id_actividad }}
                 </v-dialog>
               </v-col>
               <v-col cols="3" md="4">
@@ -272,7 +274,7 @@ import agregarActividad from "../dialogs/actividades/agregarActividad.vue";
 import editarActividad from "../dialogs/actividades/editarActividad.vue";
 import eliminarActividad from "../dialogs/actividades/eliminarActividad.vue";
 import revisarActividad from "../dialogs/actividades/revisarActividad.vue";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   components: {
@@ -286,7 +288,7 @@ export default {
 
   data() {
     return {
-      select:'',
+      select: "",
       items: [],
 
       agregarDialog: false,
@@ -305,8 +307,8 @@ export default {
       // AQUI VAS A METER EL GET QUE TE RECUPERE TODAS LAS ACTIVIDADES INDEPENDIENTEMENTE DEL GRUPO Y LAS GUARDE EN: ITEMS
       axios
         .get(
-          "https://xicoclass.online/Actividades.php?id_docente=6" 
-          //+window.sessionStorage.getItem("id_docente")
+          "https://xicoclass.online/Actividades.php?id_docente=" +
+            window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
           this.select = r.data;
@@ -424,7 +426,7 @@ export default {
 
 @media screen and (min-width: 800px) {
   .card-settings {
-    height: 260px;
+    height: auto;
   }
 }
 

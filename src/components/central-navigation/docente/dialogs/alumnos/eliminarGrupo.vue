@@ -72,10 +72,8 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;800&display=swap");
 
-.text-center{
+.text-center {
   font-family: "Montserrat";
   font-weight: 600;
-
 }
-
 </style>

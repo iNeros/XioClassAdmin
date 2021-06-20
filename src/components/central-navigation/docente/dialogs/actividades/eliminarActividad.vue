@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarActividadDialog" width="500">
-      <v-card>
+      <v-card v-for="Eshem in ActEliminar" :key="Eshem.id_actividad">
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro Que Desea Eliminar La Actividad?
         </v-card-title>
@@ -10,13 +10,14 @@
           <br />
           <b>Usted Borrara La Actividad:</b>
           <span style="color: #30dba0">
-            {{ idActividad }}
+            {{ Eshem.nombre }}
             <!--{{NombreActivdad}}-->
             .</span
           >
           <br />
           <b>Para el Grupoo:</b>
           <span style="color: #30dba0">
+            {{ Eshem.id_grupo }}
             <!--{{NombreActivdad}}-->
             .</span
           >
@@ -31,7 +32,11 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#FF4365" text @click="executeEliminar()">
+          <v-btn
+            color="#FF4365"
+            text
+            @click="executeEliminar(Eshem.id_actividad)"
+          >
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -41,31 +46,53 @@
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
-    return {};
+    return {
+      ActEliminar: "",
+    };
   },
   props: ["idActividad"],
 
   methods: {
+    //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
     obtenerInfo() {
-      //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
+      axios
+        .get(
+          "https://xicoclass.online/Actividades.php?id_actividad=" +
+            this.idActividad
+        )
+        .then((r) => {
+          this.ActEliminar = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
-    executeEliminar() {
+    executeEliminar(id) {
       //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
-
-      //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-      this.closeDialog();
+      axios
+        .delete("https://xicoclass.online/Actividades.php?id_actividad=" + id)
+        .then((r) => {
+          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+          this.closeDialog();
+          console.log(r.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     closeDialog() {
+      this.ActEliminar = "";
       this.$store.state.eliminarActividadDialog = false;
     },
   },
 
   mounted() {
-    //Mandar a llama a obtenerInfo()
+    this.obtenerInfo();
   },
 };
 </script>
@@ -73,10 +100,8 @@ export default {
 <style scoped>
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;500;600;800&display=swap");
 
-.text-center{
+.text-center {
   font-family: "Montserrat";
   font-weight: 600;
-
 }
-
 </style>

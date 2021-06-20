@@ -1,8 +1,10 @@
 <template>
-  <v-dialog v-model="$store.state.crearActividadDialog" v-on="  ObtenerIDActividad()">
+  <v-dialog
+    v-model="$store.state.crearActividadDialog"
+  >
     <v-card>
       <v-toolbar dark color="#5d4f63">
-        <v-btn icon dark @click="closeDialog()">    
+        <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title>Crear Actividad</v-toolbar-title>
@@ -10,11 +12,9 @@
         <v-toolbar-items>
           <v-btn
             :disabled="dialog"
-            :loading="dialog"
             dark
             text
-            @click="dialog = true"
-            v-on:click="Actividad()"
+            @click="guardar = true"
           >
             Guardar
           </v-btn>
@@ -97,6 +97,7 @@
                 v-model="files"
                 show-size
                 counter
+                loading="Load"
                 label="Agregar archivos"
                 truncate-length="15"
                 multiple
@@ -106,15 +107,9 @@
                   <v-chip small label color="primary">
                     {{ text }}
                   </v-chip>
-                </template> 
+                </template>
               </v-file-input>
-              <v-progress-linear
-                :value="uploadValue"
-                height="5px"
-                striped
-                color="#30dba0"
-              ></v-progress-linear>
-            </v-col>           
+            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
@@ -123,8 +118,8 @@
 </template>
 
 <script>
-import firebase from 'firebase'
-import axios from 'axios'
+import firebase from "firebase";
+import axios from "axios";
 
 export default {
   name: "agregar-actividad",
@@ -132,6 +127,7 @@ export default {
     return {
       guardar: false,
       dialog: false,
+      Load:false,
       //variables para el post del axios
       nombreActividad: "",
       grupoActividad: "",
@@ -140,26 +136,20 @@ export default {
       descripcionActividad: "",
       //variable para crear una carpeta en firebase manualmente
       //se asignará el número de carpeta, usando el id de la actividad creada
-      CapetaNueva:"",
+      CapetaNueva: "",
       //variables para la funcion de firebase
       files: [],
       uploadValue: 0,
       cantidadDeFiles: 0,
       urlFile: "",
 
-      
+      Bandera:false,
     };
   },
   methods: {
-    ObtenerIDActividad(){
-      // AXIOS: AQUI SE DEBE OBTENER EL ID DE LA ACTIVIDAD ANTERIOR MAS RECIENTE, POR QUE ESA ACTIVIDAD + 1 Sera El Nombre De: Carpeta Nueva
-      //Es correcto nero ↑ 
-      // CarpetaNueva = AXIOS ANTERIOR
-      //
+    ObtenerIDActividad() {
       axios
-        .get(
-          "https://xicoclass.online/Actividades.php?max"
-        )
+        .get("https://xicoclass.online/Actividades.php?max")
         .then((r) => {
           this.CapetaNueva = r.data;
           console.log(this.CapetaNueva[0].nuevo_id);
@@ -172,7 +162,7 @@ export default {
     closeDialog() {
       this.$store.state.crearActividadDialog = false;
 
-      this.guardar= false;
+      this.guardar = false;
       this.dialog = false;
 
       this.nombreActividad = "";
@@ -182,63 +172,122 @@ export default {
       this.descripcionActividad = "";
       this.files = null;
       this.cantidadDeFiles = 0;
-      this.urlFile= [];
-
+      this.urlFile = [];
     },
 
-    cargarArchivos(){
+   /* cargarArchivos() {
       this.cantidadDeFiles = this.files.length;
-      for(var i=0;i<this.cantidadDeFiles;i++){        
-        const storageRef = firebase.storage().ref(`/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${this.files[i].name}`);
+      for (var i = 0; i < this.cantidadDeFiles; i++) {
+        const storageRef = firebase
+          .storage()
+          .ref(
+            `/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${this.files[i].name}`
+          );
         const task = storageRef.put(this.files[i]);
 
-        task.on('state_changed',snapshot =>{
-          let percentage = (snapshot.bytesTransferred/snapshot.totalBytes)*100;
-          this.uploadValue = percentage;
-        }, error=>{console.log(error.message)},
-          ()=>{this.uploadValue=100;
-          //OBTENER EL LINK
-            task.snapshot.ref.getDownloadURL().then((url)=> {
+        task.on(
+          "state_changed",
+          (snapshot) => {
+            let percentage =
+              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+            this.uploadValue = percentage;
+          },
+          (error) => {
+            console.log(error.message);
+          },
+          () => {
+            this.uploadValue = 100;
+            //OBTENER EL LINK
+            task.snapshot.ref.getDownloadURL().then((url) => {
               this.urlFile[i] = url;
               console.log(this.urlFile[i]);
-            });;
-          });; 
-          //AQUI VA EL AXIOS PARA GUARDAR EL REGISTRO EN TABLA ARCHIVOS_DOCENTES
-    let config={
-     headers: {
-       "Content-Type": "application/x-www-form-urlencoded",
-       },
-      };
-     let parametros = "nombre="+this.files[i].name+"&ruta="+this.urlFile[i]+"&tipo=PDF&id_actividades="+this.CapetaNueva[0].nuevo_id;
-     axios.post('https://xicoclass.online/Archivos.php',parametros,config)
-     .then((r)=>{
-       console.log(r);
-     })
-     .catch((error)=>{
-       console.log(error);
-     });
-      };
-      this.closeDialog();
-      },
-      //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS 
-   Actividad(){
-     let config={
-     headers: {
-       "Content-Type": "application/x-www-form-urlencoded",
-       },
-      };
-     let parametros = "nombre="+this.nombreActividad+"&descripcion="+this.descripcionActividad+"&fecha_inicio="+this.fechaPublicacion+"&fecha_fin="+this.fechaCierre+"&estado=ACTIVO&id_docente=6&id_grupo="+this.grupoActividad;
-     axios.post('https://xicoclass.online/Actividades.php',parametros,config)
-     .then((r)=>{
-       console.log(r);
-     })
-     .catch((error)=>{
-       console.log(error);
-     });
-   },
+            });
+          }
+        );
+        //AQUI VA EL AXIOS PARA GUARDAR EL REGISTRO EN TABLA ARCHIVOS_DOCENTES
+      }
+    //setTimeout(() => ((this.Bandera = true)), 4000);
 
-    executeSave() {  
-      this.cargarArchivos();
+     // this.closeDialog();
+    },*/
+    async subirArchivo(){
+      try {
+        this.Load = true;
+        if (this.files) {
+            const response = await firebase
+              .storage()
+              .ref(`/ArchivosDocentes/100/${this.files.name}`)
+              const task = response.put(this.files);
+              //.put(this.files.name);
+            task.on = await task.snapshot.ref.getDownloadURL();
+            console.log('archivo disponible en ', task);
+            this.urlFile = task;
+        } else {
+          console.log('falta el archivo');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      this.Load = false;
+    },
+    //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS
+    Actividad() {
+      let config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      let parametros =
+        "nombre=" +
+        this.nombreActividad +
+        "&descripcion=" +
+        this.descripcionActividad +
+        "&fecha_inicio=" +
+        this.fechaPublicacion +
+        "&fecha_fin=" +
+        this.fechaCierre +
+        "&estado=ACTIVO&id_docente=6&id_grupo=" +
+        this.grupoActividad;
+      axios
+        .post("https://xicoclass.online/Actividades.php", parametros, config)
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+        let config1 = {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              };
+              for(var x=0;x<this.cantidadDeFiles;x++){
+              let parametros =
+                "nombre=" +
+                this.files[x].name +
+                "&ruta=" +
+                this.urlFile[x] +
+                "&tipo=PDF&id_actividades=" +
+                this.CapetaNueva[0].nuevo_id;
+              axios
+                .post(
+                  "https://xicoclass.online/Archivos.php",
+                  parametros,
+                  config1
+                )
+                .then((r) => {
+                  console.log(r);
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+              }
+      this.closeDialog();
+    },
+
+    executeSave() {
+      //this.cargarArchivos();
+      this.subirArchivo();
     },
   },
   watch: {
@@ -250,6 +299,14 @@ export default {
       if (!val) return;
       this.executeSave();
     },
+    nombreActividad(val){
+      if (!val) return;
+      this.ObtenerIDActividad();       
+    },
+    Bandera(val){
+      if (!val) return;
+      this.Actividad();      
+    },  
   },
 };
 </script>
@@ -264,7 +321,7 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
 }
-.btn-subir{
+.btn-subir {
   margin-top: 20px;
 }
 </style>

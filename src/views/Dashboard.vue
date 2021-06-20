@@ -88,6 +88,7 @@ export default {
   },
   mounted() {
     this.checkUserType();
+    this.Session();
   },
   methods: {
     checkUserType() {
@@ -96,6 +97,11 @@ export default {
       }
       if (sessionStorage.getItem("userType") == "1") {
         this.$store.commit("setWindowsOfUserDocente");
+      }
+    },
+    Session() {
+      if (window.sessionStorage.getItem("id_docente") == null) {
+        window.location.href = "/";
       }
     },
   },
