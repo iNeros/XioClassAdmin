@@ -92,23 +92,19 @@
               ></v-textarea>
             </v-col>
             <v-col cols="11">
-              <v-file-input
+              <input
                 id="files"
-                v-model="files"
-                show-size
-                counter
-                loading="Load"
-                label="Agregar archivos"
-                truncate-length="15"
+                type="file"
                 multiple
-                prepend-icon="mdi-paperclip"
+                ref="ArchivosDocentes"
+                :disabled="Load"
+                label="Agregar archivos"
               >
                 <template v-slot:selection="{ text }">
                   <v-chip small label color="primary">
                     {{ text }}
                   </v-chip>
                 </template>
-              </v-file-input>
             </v-col>
           </v-row>
         </v-container>
@@ -138,7 +134,7 @@ export default {
       //se asignará el número de carpeta, usando el id de la actividad creada
       CapetaNueva: "",
       //variables para la funcion de firebase
-      files: [],
+      Archivos: [],
       uploadValue: 0,
       cantidadDeFiles: 0,
       urlFile: "",
@@ -170,7 +166,7 @@ export default {
       this.fechaPublicacion = "";
       this.fechaCierre = "";
       this.descripcionActividad = "";
-      this.files = null;
+      this.Archivos = null;
       this.cantidadDeFiles = 0;
       this.urlFile = [];
     },
@@ -212,16 +208,18 @@ export default {
     },*/
     async subirArchivo(){
       try {
+        const { files } = this.$refs.ArchivosDocentes;
         this.Load = true;
-        if (this.files) {
+        const file = files[0];
+        this.Archivos[0] = files[0];
+        if (file) {
             const response = await firebase
               .storage()
-              .ref(`/ArchivosDocentes/100/${this.files.name}`)
-              const task = response.put(this.files);
-              //.put(this.files.name);
-            task.on = await task.snapshot.ref.getDownloadURL();
-            console.log('archivo disponible en ', task);
-            this.urlFile = task;
+              .ref(`/ArchivosDocentes/101/${file.name}`)
+              .put(file);
+              const url = await response.ref.getDownloadURL();
+            this.urlFile = url;
+            console.log('archivo disponible en ', this.urlFile);
         } else {
           console.log('falta el archivo');
         }
@@ -229,6 +227,7 @@ export default {
         console.error(error);
       }
       this.Load = false;
+      this.Actividad();
     },
     //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS
     Actividad() {
@@ -248,31 +247,33 @@ export default {
         this.fechaCierre +
         "&estado=ACTIVO&id_docente=6&id_grupo=" +
         this.grupoActividad;
-      axios
-        .post("https://xicoclass.online/Actividades.php", parametros, config)
-        .then((r) => {
-          console.log(r);
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-        let config1 = {
-                headers: {
-                  "Content-Type": "application/x-www-form-urlencoded",
-                },
-              };
-              for(var x=0;x<this.cantidadDeFiles;x++){
-              let parametros =
-                "nombre=" +
-                this.files[x].name +
-                "&ruta=" +
-                this.urlFile[x] +
+        axios
+          .post("https://xicoclass.online/Actividades.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((error) => {
+            console.log(error);
+      });
+
+
+          let config1 = {
+                  headers: {
+                    "Content-Type": "application/x-www-form-urlencoded",
+                  },
+          };
+              console.log(this.urlFile);
+              const parametros1 =
+                "nombre=" + "Archivo" +
+                //this.Archivos.name +
                 "&tipo=PDF&id_actividades=" +
-                this.CapetaNueva[0].nuevo_id;
+                this.CapetaNueva[0].nuevo_id +
+                "&ruta=" +
+                this.urlFile; +
               axios
                 .post(
                   "https://xicoclass.online/Archivos.php",
-                  parametros,
+                  parametros1,
                   config1
                 )
                 .then((r) => {
@@ -281,8 +282,7 @@ export default {
                 .catch((error) => {
                   console.log(error);
                 });
-              }
-      this.closeDialog();
+
     },
 
     executeSave() {
