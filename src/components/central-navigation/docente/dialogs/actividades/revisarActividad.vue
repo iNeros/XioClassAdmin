@@ -6,7 +6,7 @@
       scrollable
     >
       <v-card>
-        <v-card-title>Select Country</v-card-title>
+        <v-card-title>CALIFICA LA ACTIVIDAD</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 300px">
           <v-row class="mt-1" v-for="n in 20" :key="n">
@@ -39,15 +39,11 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-          <v-col cols="6" md="3">
             <v-btn color="#FF4365" text @click="closeDialog()"> Cerrar </v-btn>
-          </v-col>
           <v-spacer></v-spacer>
-          <v-col cols="6" md="2" class="correccion">
             <v-btn color="#30DBA0" text @click="executeRevisar()">
               Guardar
             </v-btn>
-          </v-col>
         </v-card-actions>
       </v-card>
     </v-dialog>

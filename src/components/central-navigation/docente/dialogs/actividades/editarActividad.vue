@@ -6,13 +6,13 @@
     transition="dialog-bottom-transition"
   >
     <!--En este vcard, meter el v-for del id edit -->
-    <v-card v-for="edit in ActEdit" :key="edit.id_actividad">
+    <v-card>
       <v-toolbar dark color="#5d4f63">
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
         <v-toolbar-title
-          >Editar Actividad {{ edit.id_actividad }}</v-toolbar-title
+          >Editar Actividad</v-toolbar-title
         >
         <v-spacer></v-spacer>
         <v-toolbar-items>
@@ -21,7 +21,7 @@
             :loading="dialog"
             dark
             text
-            @click="executeSave(edit.id_actividad)"
+            @click="dialog=true"
           >
             Guardar
           </v-btn>
@@ -48,7 +48,7 @@
                 v-model="nombreActividad"
                 filled
                 label="Nombre de la actividad*"
-                :value="edit.nombre"
+                :value="nombreActividad"
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
@@ -56,7 +56,7 @@
                 v-model="grupoActividad"
                 filled
                 label="Grupo al que se le sera asignada*"
-                :value="edit.id_grupo"
+                :value="grupoActividad"
               ></v-text-field>
             </v-col>
 
@@ -69,7 +69,7 @@
                 label="Fecha de publicacion*"
                 hint="Fecha en que la actividad estara disponible"
                 required
-                :value="edit.fecha_inicio"
+                :value="fechaPublicacion"
               ></v-text-field>
             </v-col>
 
@@ -82,7 +82,7 @@
                 label="Fecha de cierre*"
                 hint="Fecha en que la actividad se cerrara (esto no evitara que se reciban actividades, pero las marcara con retraso)"
                 required
-                :value="edit.fecha_fin"
+                :value="fechaCierre"
               ></v-text-field>
             </v-col>
 
@@ -90,7 +90,7 @@
               <v-textarea
                 id="descripcionActividad"
                 v-model="descripcionActividad"
-                :value="edit.descripcion"
+                :value="descripcionActividad"
                 filled
                 label="Descripcion:"
                 counter
@@ -146,7 +146,7 @@ export default {
   props: ["idActividadEdit"],
 
   mounted() {
-    this.ObtenerDatos();
+
   },
 
   methods: {
@@ -173,8 +173,8 @@ export default {
         )
         .then((r) => {
           //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
-          this.closeDialog();
           console.log(r.data);
+          this.closeDialog();  
         })
         .catch(function (error) {
           console.log(error);
@@ -189,6 +189,12 @@ export default {
         )
         .then((r) => {
           this.ActEdit = r.data;
+          console.log(this.ActEdit);
+          this.nombreActividad = this.ActEdit[0].nombre;
+          this.descripcionActividad = this.ActEdit[0].descripcion;
+          this.fechaPublicacion = this.ActEdit[0].fecha_inicio;
+          this.fechaCierre = this.ActEdit[0].fecha_fin;
+          this.grupoActividad = this.ActEdit[0].id_grupo;
         })
         .catch(function (error) {
           console.log(error);
@@ -202,8 +208,14 @@ export default {
     },
     guardar(val) {
       if (!val) return;
-      this.executeSave();
+      this.executeSave(this.idActividadEdit);
     },
+    idActividadEdit(val){
+      if(val > 0){
+        return this.ObtenerDatos();
+      }
+    },
+
   },
 };
 </script>

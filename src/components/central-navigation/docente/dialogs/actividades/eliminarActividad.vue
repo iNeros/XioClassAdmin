@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarActividadDialog" width="500">
-      <v-card v-for="Eshem in ActEliminar" :key="Eshem.id_actividad">
+      <v-card>
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro Que Desea Eliminar La Actividad?
         </v-card-title>
@@ -10,16 +10,16 @@
           <br />
           <b>Usted Borrara La Actividad:</b>
           <span style="color: #30dba0">
-            {{ Eshem.nombre }}
-            <!--{{NombreActivdad}}-->
+           {{ ActityName }}
+            <!-- {{NombreActivdad}} -->
             .</span
           >
           <br />
-          <b>Para el Grupoo:</b>
+          <b>Para el Grupo:</b>
           <span style="color: #30dba0">
-            {{ Eshem.id_grupo }}
+           {{ ActivityGrupo }} .
             <!--{{NombreActivdad}}-->
-            .</span
+            </span
           >
           <br />
 
@@ -35,7 +35,7 @@
           <v-btn
             color="#FF4365"
             text
-            @click="executeEliminar(Eshem.id_actividad)"
+            @click="executeEliminar(idActividad)"
           >
             Si, Eliminar
           </v-btn>
@@ -50,12 +50,24 @@ import axios from "axios";
 export default {
   data() {
     return {
-      ActEliminar: "",
+      ActEliminar: [],
+
+      ActityName: "",
+      ActivityGrupo: "",
+
     };
   },
   props: ["idActividad"],
 
   methods: {
+
+    InitialTest(){
+      this.ActEliminar[0]={
+        nombre: "",
+        idGrupo: "",
+      }
+    },
+
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
     obtenerInfo() {
       axios
@@ -64,13 +76,16 @@ export default {
             this.idActividad
         )
         .then((r) => {
-          this.ActEliminar = r.data;
+          this.ActEliminar  = r.data;
+          this.ActityName = this.ActEliminar[0].nombre;
+          this.ActivityGrupo = this.ActEliminar[0].id_grupo;
+          console.log(this.ActEliminar[0]);
         })
         .catch(function (error) {
           console.log(error);
         });
     },
-
+    
     executeEliminar(id) {
       //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
       axios
@@ -89,11 +104,23 @@ export default {
       this.ActEliminar = "";
       this.$store.state.eliminarActividadDialog = false;
     },
+    
   },
 
   mounted() {
-    this.obtenerInfo();
+    this.InitialTest();
   },
+
+
+  watch: {
+    idActividad(val){
+      if(val > 0){
+        return this.obtenerInfo();
+      }
+    }
+
+  }
+
 };
 </script>
 

@@ -1,19 +1,19 @@
 <template>
   <div class="actividades">
     <v-container fluid>
-      <v-row class="container">
+      <v-row>
         <!-- AGREGAR AQUI EL {{idActividad}}  -->
         <!--#region ESTA CARD ES ESTATICA , ESTE ES EL BOTON PARA AGREGAR UNA ACTIVIDAD NUEVA --->
         <h1 class="titulo-seccion">ACTIVIDADES RECIENTES</h1>
         <v-col class="diver" cols="12" lg="12"> </v-col>
         <v-col sm="12" lg="3">
-          <v-card color="#23395B" dark height="auto" elevation="12">
+          <v-card color="#23395B" dark height="300" width="300" elevation="12" rounded="circle" class="mx-auto">
             <v-card-title class="texto-nueva-activity">
               <span
                 class="title-nueva-activity"
                 style="color: #adb9e3; font-weight: 800"
               >
-                AGREGAR NUEVA ACTIVIDAD
+                AGREGAR <br> NUEVA <br> ACTIVIDAD
               </span>
             </v-card-title>
 
@@ -33,8 +33,7 @@
         <!--#endregion-->
 
         <!--#region AQUI VAN LAS 3 CARDS QUE SE DESPLEGARAN EN ACTIVIDADES RECIENTES -->
-        <v-col sm="12" lg="3">
-          <!-- AQUI VA UN V-FOR PARA DESPLEGAR LAS ACTIVIDADES SEGUN LOS GRUPOS (IDs) SELECCIONADOS --->
+        <v-col class="mx-0 px-1" sm="12" lg="3" v-for="n in 3" :key="n"> <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
@@ -57,59 +56,40 @@
               <span class="texto-de-tarjeta2">"01/01/2021"</span> <br />
               <!-- AGREGAR AQUI EL {{FechaPublicacion}}  -->
               <span class="texto-de-tarjeta"> FECHA VENCIMIENTO:</span>
-              <span class="texto-de-tarjeta2">"01/01/2021"</span>
+              <span class="texto-de-tarjeta2">"01/01/2029"</span>
               <!-- AGREGAR AQUI EL {{FechaVencimiento}}  -->
             </v-card-subtitle>
 
-            <v-card-actions class="hidden-md-and-down">
-              <v-col cols="12" md="4">
-                <v-btn color="#FF4365" text @click="ShowEliminarDialog(n)">
+            <v-card-actions class="hidden-sm-and-down">
+                <v-btn color="#FF4365" text @click="ShowEliminarDialog(6)"><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
                   Eliminar
                 </v-btn>
-                <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
-              </v-col>
-
-              <v-col cols="12" md="4">
-                <v-btn color="#FFD166" text @click="ShowEditarDialog(n)">
+                <v-spacer/>
+                <v-btn color="#FFD166" text @click="ShowEditarDialog(5)">
                   Editar
                 </v-btn>
                 <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
-              </v-col>
-
-              <v-col cols="12" md="4">
+                <v-spacer/>
                 <v-btn color="#30DBA0" text @click="ShowRevisarDialog(n)">
                   Revisar
                 </v-btn>
                 <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
-              </v-col>
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
             <v-row class="hidden-md-and-up mx-n4">
-              <v-col cols="3" md="4">
-                <v-dialog v-model="eliminarDialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FF4365" text plain v-bind="attrs" v-on="on">
-                      <v-icon size="20">mdi-delete</v-icon>
-                    </v-btn>
-                  </template>
-                  <eliminarActividad
-                    @estado="eliminarDialog = $event"
-                    :idActividad="2"
-                  />
-                  <!-- AGREGAR AQUI EL idActividad  -->
-                </v-dialog>
-              </v-col>
-              <v-col cols="3" md="4">
-                <v-btn color="#FFD166" text plain>
+              
+                <v-btn color="#FF4365" text plain @click="ShowEliminarDialog(6)">
+                  <v-icon size="20">mdi-delete</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(5)">
                   <v-icon size="20">mdi-file-edit-outline</v-icon>
                 </v-btn>
-              </v-col>
-              <v-col cols="3" md="4">
+                <v-spacer></v-spacer>
                 <v-btn color="#30DBA0" text plain>
                   <v-icon size="20">mdi-check-all</v-icon>
                 </v-btn>
-              </v-col>
             </v-row>
           </v-card>
         </v-col>
@@ -117,7 +97,7 @@
         <!--#endregion-->
       </v-row>
       <!--#region ACTIVIDADES POR GRUPO ******************************************************************-->
-      <v-row class="container">
+      <v-row>
         <h1 class="titulo-seccion">ACTIVIDADES POR GRUPO</h1>
         <v-col class="diver-red" cols="12" lg="12"> </v-col>
         <template>
@@ -178,84 +158,13 @@
             </v-card-subtitle>
 
             <v-card-actions class="hidden-md-and-down">
-              <v-col cols="12" md="4">
-                <v-dialog v-model="eliminarDialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FF4365" text v-bind="attrs" v-on="on">
-                      Eliminar
-                    </v-btn>
-                  </template>
-                  <eliminarActividad
-                    @estado="eliminarDialog = $event"
-                    :idActividad="Act.id_actividad"
-                  />
-                  <!-- AGREGAR AQUI EL idActividad  -->
-                  {{ Act.id_actividad }}
-                </v-dialog>
-              </v-col>
-
-              <v-col cols="12" md="4">
-                <v-dialog
-                  v-model="editarDialog"
-                  fullscreen
-                  hide-overlay
-                  transition="dialog-bottom-transition"
-                >
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FFD166" text v-bind="attrs" v-on="on">
-                      Editar
-                    </v-btn>
-                  </template>
-                  <editarActividad
-                    @estado="editarDialog = $event"
-                    :idActividadEdit="Act.id_actividad"
-                  />
-                  <!-- AGREGAR AQUI EL idActividad  -->
-                  {{ Act.id_actividad }}
-                </v-dialog>
-              </v-col>
-
-              <v-col cols="12" md="4">
-                <v-dialog v-model="revisarDialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#30DBA0" text v-bind="attrs" v-on="on">
-                      Revisar
-                    </v-btn>
-                  </template>
-                  <eliminarActividad :idActividad="Act.id_actividad" />
-                  <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                  {{ Act.id_actividad }}
-                </v-dialog>
-              </v-col>
+              
+        
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
             <v-row class="hidden-md-and-up mx-n4">
-              <v-col cols="3" md="4">
-                <v-dialog v-model="eliminarDialog" width="500">
-                  <template v-slot:activator="{ on, attrs }">
-                    <v-btn color="#FF4365" text plain v-bind="attrs" v-on="on">
-                      <v-icon size="20">mdi-delete</v-icon>
-                    </v-btn>
-                  </template>
-                  <eliminarActividad
-                    @estado="eliminarDialog = $event"
-                    :idActividad="Act.id_actividad"
-                  />
-                  <!-- AGREGAR AQUI EL {{idActividad}}  -->
-                  {{ Act.id_actividad }}
-                </v-dialog>
-              </v-col>
-              <v-col cols="3" md="4">
-                <v-btn color="#FFD166" text plain>
-                  <v-icon size="20">mdi-file-edit-outline</v-icon>
-                </v-btn>
-              </v-col>
-              <v-col cols="3" md="4">
-                <v-btn color="#30DBA0" text plain>
-                  <v-icon size="20">mdi-check-all</v-icon>
-                </v-btn>
-              </v-col>
+              
             </v-row>
           </v-card>
         </v-col>
@@ -290,13 +199,6 @@ export default {
     return {
       select: "",
       items: [],
-
-      agregarDialog: false,
-      eliminarDialogs: [],
-      eliminarDialog: false,
-      editarDialog: false,
-      revisarDialog: false,
-
       idActividad: 0,
       cantidadDeActividades: 3,
     };
@@ -326,7 +228,7 @@ export default {
 
     ShowEliminarDialog(id) {
       this.idActividad = id;
-      this.$store.state.eliminarActividadDialog = "true";
+      this.$store.state.eliminarActividadDialog = true;
     },
 
     ShowEditarDialog(id) {
@@ -394,6 +296,7 @@ export default {
   font-size: 6px;
 }
 
+
 @media screen and (min-width: 800px) {
   .texto-de-tarjeta {
     color: #adb9e3;
@@ -424,12 +327,6 @@ export default {
   height: auto;
 }
 
-@media screen and (min-width: 800px) {
-  .card-settings {
-    height: auto;
-  }
-}
-
 .title-nueva-activity {
   margin-left: auto;
   margin-right: auto;
@@ -455,26 +352,11 @@ export default {
 }
 
 .container {
-  width: 100%;
+  width: 100vw;
   height: auto;
   font-family: "Montserrat";
 
   border-radius: 20px;
-}
-
-@media screen and (min-width: 800px) {
-  .diver {
-    width: 100%;
-    height: 5px;
-    background-color: #30dba0 !important;
-    border-radius: 20px;
-  }
-  .diver-red {
-    width: 100%;
-    height: 5px;
-    background-color: #d81e5b !important;
-    border-radius: 20px;
-  }
 }
 .diver {
   width: 100%;
