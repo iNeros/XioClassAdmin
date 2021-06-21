@@ -8,6 +8,7 @@
       app
       mini-variant-width="56"
       width="300"
+      height="100vh"
     >
       <v-divider></v-divider>
       <v-list nav dense flat>
@@ -78,8 +79,8 @@
 
         <!--#region SI EL USUARIO ES UN DOCENTE  -->
         <div v-if="userType == '1'">
-          <v-list-item-group v-model="btnSelectedAdmin" color="#283593">
-            <v-list-item class="my-6" link dark v-on:click="dsetOverview()">
+          <v-list-item-group v-model="btnSelectedAdmin" color="#283593" class="DocentesMenu">
+            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetOverview()">
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
               </v-list-item-icon>
@@ -88,7 +89,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link dark v-on:click="dsetAlumnos()">
+            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetAlumnos()">
               <v-list-item-icon>
                 <v-icon id="iconoDocente" small>mdi-account-plus</v-icon>
               </v-list-item-icon>
@@ -97,7 +98,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link dark v-on:click="dsetAvisos()">
+            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetAvisos()">
               <v-list-item-icon>
                 <v-icon id="iconoAvisos" small>mdi-message-alert</v-icon>
               </v-list-item-icon>
@@ -106,7 +107,7 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item class="my-6" link dark v-on:click="dsetActividades()">
+            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetActividades()">
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
               </v-list-item-icon>
@@ -114,8 +115,8 @@
                 <h2 id="textoContent" class="title-text">Actividades</h2>
               </v-list-item-title>
             </v-list-item>
-            <div class="spacer-height"></div>
-            <v-list-item class="my-6" link dark v-on:click="cerrarSesion()">
+            <!-- <div class="spacer-height"></div> -->
+            <v-list-item v-ripple class="down-we-go" link dark v-on:click="cerrarSesion()">
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-account-arrow-left</v-icon>
               </v-list-item-icon>
@@ -227,5 +228,12 @@ export default {
 }
 .spacer-height {
   height: 420px;
+}
+
+.DocentesMenu{
+  height: 100%!important;
+}
+.down-we-go{
+  float: inline-end!important;
 }
 </style>

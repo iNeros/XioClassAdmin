@@ -7,7 +7,7 @@
         <h1 class="titulo-seccion">ACTIVIDADES RECIENTES</h1>
         <v-col class="diver" cols="12" lg="12"> </v-col>
         <v-col sm="12" lg="3">
-          <v-card color="#23395B" dark height="300" width="300" elevation="12" rounded="circle" class="mx-auto">
+          <v-card color="#23395B" dark height="280" width="280" elevation="12" rounded="circle" class="ma-auto">
             <v-card-title class="texto-nueva-activity">
               <span
                 class="title-nueva-activity"
