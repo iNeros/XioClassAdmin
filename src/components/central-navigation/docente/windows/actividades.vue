@@ -33,14 +33,14 @@
         <!--#endregion-->
 
         <!--#region AQUI VAN LAS 3 CARDS QUE SE DESPLEGARAN EN ACTIVIDADES RECIENTES -->
-        <v-col class="mx-0 px-1" sm="12" lg="3" v-for="n in 3" :key="n"> <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
+        <v-col class="mx-0 px-1" cols="12" sm="12" lg="3" v-for="n in 3" :key="n"> <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
               <span class="titulo-de-tarjeta2">"NOMBRE DEL GRUPO"</span>
+              <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
-                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
-                <v-icon size="24" right>mdi-check-all</v-icon>
+                <v-icon size="24" right v-if="false" >mdi-check-all</v-icon> <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
               </div>
             </v-card-title>
 
@@ -65,7 +65,7 @@
                   Eliminar
                 </v-btn>
                 <v-spacer/>
-                <v-btn color="#FFD166" text @click="ShowEditarDialog(5)">
+                <v-btn color="#FFD166" text @click="ShowEditarDialog(6)">
                   Editar
                 </v-btn>
                 <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
@@ -77,17 +77,16 @@
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
-            <v-row class="hidden-md-and-up mx-n4">
-              
+            <v-row class="hidden-md-and-up mx-n4">  
                 <v-btn color="#FF4365" text plain @click="ShowEliminarDialog(6)">
                   <v-icon size="20">mdi-delete</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(5)">
+                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(6)">
                   <v-icon size="20">mdi-file-edit-outline</v-icon>
                 </v-btn>
                 <v-spacer></v-spacer>
-                <v-btn color="#30DBA0" text plain>
+                <v-btn color="#30DBA0" text plain @click="ShowRevisarDialog(n)">
                   <v-icon size="20">mdi-check-all</v-icon>
                 </v-btn>
             </v-row>
@@ -98,7 +97,7 @@
       </v-row>
       <!--#region ACTIVIDADES POR GRUPO ******************************************************************-->
       <v-row>
-        <h1 class="titulo-seccion">ACTIVIDADES POR GRUPO</h1>
+        <h1 class="titulo-seccion mt-6">ACTIVIDADES POR GRUPO</h1>
         <v-col class="diver-red" cols="12" lg="12"> </v-col>
         <template>
           <v-container fluid>
@@ -127,15 +126,15 @@
           </v-container>
         </template>
 
-        <v-col sm="12" lg="3" v-for="Act in select" :key="Act.id_actividad">
+        <v-col cols="12" sm="12" lg="3" v-for="Act in select" :key="Act.id_actividad">
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
               <span class="titulo-de-tarjeta2"> "{{ Act.id_grupo }}"</span>
+              <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
-                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
-                <v-icon size="24" right>mdi-check-all</v-icon>
+                <v-icon size="24" right v-if="Act.estado=='Activo'" >mdi-check-all</v-icon>  <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
               </div>
             </v-card-title>
 
@@ -143,7 +142,7 @@
               <span class="texto-de-tarjeta">ACTIVIDAD: {{ Act.nombre }} </span>
               <br />
               <span class="texto-de-tarjeta2">
-                {{ Act.descripcion }}}
+                {{ Act.descripcion }}
                 <!-- AGREGAR AQUI EL {{NombreActividad}}  -->
               </span>
               <br />
@@ -157,14 +156,34 @@
               <!-- AGREGAR AQUI EL {{FechaVencimiento}}  -->
             </v-card-subtitle>
 
-            <v-card-actions class="hidden-md-and-down">
-              
-        
+            <v-card-actions class="hidden-sm-and-down">
+              <v-btn color="#FF4365" text @click="ShowEliminarDialog(6)"><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
+                  Eliminar
+                </v-btn>
+                <v-spacer/>
+                <v-btn color="#FFD166" text @click="ShowEditarDialog(6)">
+                  Editar
+                </v-btn>
+                <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
+                <v-spacer/>
+                <v-btn color="#30DBA0" text @click="ShowRevisarDialog(n)">
+                  Revisar
+                </v-btn>
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
-            <v-row class="hidden-md-and-up mx-n4">
-              
+            <v-row class="hidden-md-and-up mx-n4">  
+                <v-btn color="#FF4365" text plain @click="ShowEliminarDialog(6)">
+                  <v-icon size="20">mdi-delete</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(6)">
+                  <v-icon size="20">mdi-file-edit-outline</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-btn color="#30DBA0" text plain @click="ShowRevisarDialog(n)">
+                  <v-icon size="20">mdi-check-all</v-icon>
+                </v-btn>
             </v-row>
           </v-card>
         </v-col>
@@ -258,7 +277,6 @@ export default {
 .titulo-seccion {
   font-family: "Montserrat";
   font-weight: 800;
-  color: white;
   font-size: 26px;
   margin-bottom: 5px;
   width: 100%;
@@ -267,7 +285,6 @@ export default {
   .titulo-seccion {
     font-family: "Montserrat";
     font-weight: 800;
-    color: white;
     font-size: 40px;
     margin-bottom: 5px;
     width: 100%;
@@ -278,22 +295,22 @@ export default {
 .texto-de-tarjeta {
   color: #adb9e3;
   font-weight: 800;
-  font-size: 6px;
+  font-size: 10px;
 }
 .texto-de-tarjeta2 {
   color: white !important;
   font-weight: 600 !important;
-  font-size: 6px !important;
+  font-size: 10px !important;
 }
 .titulo-de-tarjeta {
   color: #adb9e3;
   font-weight: 800;
-  font-size: 6px;
+  font-size: 10px;
 }
 .titulo-de-tarjeta2 {
   color: white;
   font-weight: 800;
-  font-size: 6px;
+  font-size: 10px;
 }
 
 

@@ -101,22 +101,6 @@
                 single-line
               ></v-textarea>
             </v-col>
-            <v-col cols="12">
-              <v-file-input
-                id="files"
-                v-model="files"
-                label="Agregar archivos"
-                truncate-length="15"
-                multiple
-                prepend-icon="mdi-paperclip"
-              >
-                <template v-slot:selection="{ text }">
-                  <v-chip small label color="primary">
-                    {{ text }}
-                  </v-chip>
-                </template>
-              </v-file-input>
-            </v-col>
           </v-row>
         </v-container>
       </v-card-text>
