@@ -15,16 +15,6 @@
                 <v-row class="mx-5">
                   <v-col cols="12" md="4" class="py-0">
                     <v-text-field
-                      v-model="nombreGrupo"
-                      label="Nombre del grupo"
-                      placeholder="..."
-                      outlined
-                      height="10px"
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4" class="py-0">
-                    <v-text-field
                       v-model="identificadorGrupo"
                       label="Identificador del grupo"
                       placeholder="A , B , C , D....."
@@ -105,7 +95,7 @@
                 LIMPIAR
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn class="mx-3" text color="#64DD17" @click="crearGrupo()">
+              <v-btn class="mx-3" text color="#1EFC1E" @click="crearGrupo()">
                 CREAR GRUPO
               </v-btn>
             </v-card-actions>
@@ -119,7 +109,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="2" v-for="n in 8" :key="n">
+        <v-col cols="12" md="2" v-for="n in 2" :key="n">
           <v-card max-width="300" outlined color="#9e9e9e" dark>
             <v-list-item three-line>
               <v-list-item-content>
@@ -128,7 +118,7 @@
                   1° - A - NOMBRE
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Alumnos inscritos: 14</v-list-item-subtitle
+                  >Alumnos inscritos: {{n}}</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
@@ -139,7 +129,7 @@
                 Eliminar
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text right color="#FF9800" @click="EditarDialog(n)">
+              <v-btn text right color="#E57C04" @click="EditarDialog(n)">
                 Editar
               </v-btn>
             </v-card-actions>
@@ -250,16 +240,15 @@ export default {
 .titulo-seccion {
   font-family: "Montserrat";
   font-weight: 800;
-  color: white;
   font-size: 26px;
   margin-bottom: 5px;
   width: 100%;
+  color: #23395b;
 }
 @media screen and (min-width: 800px) {
   .titulo-seccion {
     font-family: "Montserrat";
     font-weight: 800;
-    color: white;
     font-size: 40px;
     margin-bottom: 5px;
     width: 100%;

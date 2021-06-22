@@ -18,6 +18,10 @@ export default new Vuex.Store({
     eliminarActividadDialog: false,
     revisarActividadDialog: false,
     //#endregion
+
+    //#region  Variables Para Avisos
+    eliminarAvisoDialog: false,
+    //#endregion
   },
   mutations: {
     setWindowsOfUserAdmin(state) {
