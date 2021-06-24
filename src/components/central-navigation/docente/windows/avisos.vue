@@ -23,23 +23,14 @@
                       >
                       </v-text-field>
                     </v-col>
-                    <v-col cols="12" md="2" class="py-0">
+                    <v-col cols="12" md="6" class="py-0">
                       <v-text-field
                         v-model="fechaPublicacion"
-                        label="FECHA DE PUBLICACION*"
+                        label="FECHA DE PUBLICACION"
                         outlined
-                        type="date"
+                        type="datetime-local"
                       >
                       </v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="4" class="py-0">
-                      <v-file-input
-                        id="archivoAvisos"
-                        chips
-                        type="file"
-                        label="ARCHIVOS ADJUNTOS"
-                        truncate-length="15"
-                      ></v-file-input>
                     </v-col>
                   </v-row>
                   <v-row class="mx-5">
@@ -54,16 +45,25 @@
                     <v-col>
                       <v-text-field
                         v-model="enlace1"
-                        label="Enlaces"
+                        label="Enlace"
                         outlined
                       >
                       </v-text-field>
-                      <v-text-field
-                        v-model="enlace2"
-                        label="Enlaces"
-                        outlined
-                      >
-                      </v-text-field>
+          <v-list-group cols="12" md="4">
+            <template v-slot:activator>
+              <v-list-item-title>Selecciona grupo</v-list-item-title>
+            </template>
+            <!-- METER UN GET PARA VER LOS GRUPOS DEL DOCENTE-->
+            <div v-for="n in grupos" :key="n">
+              <v-list-item
+                class="menu-text"
+                v-if="n.tipo == 3"
+                @click="grupo(n.id_grupo)"
+              >
+                {{ n.id_grupo }}
+              </v-list-item>
+            </div>
+          </v-list-group>
                     </v-col>
                   </v-row>
               </v-container>
@@ -93,7 +93,8 @@
           <v-col class="diver-red" cols="12" lg="12"> </v-col>
         </v-col>
         <template>
-          <div class="tabla-avisos">
+          <!-- METER UN V-FOR EN EL DIV PARA SACAR TODOS LOS AVISOS DEL MAESTRO (YA ESTÁ EL AXIOS)-->
+          <div class="tabla-avisos" >
             <v-data-table
               :headers="encabezadosTabla"
               :items="contenidoTabla"
@@ -105,7 +106,7 @@
                   color="#8AEA92"
                   v-model="item.estado"
                   @click="CambiarEstado(item)"  
-                ></v-switch> <!--Agregar AQUI el POST para Cambiar Estado: !item.estado  -->
+                ></v-switch> <!--Agregar AQUI el POST para Cambiar Estado: !item.estado *OJITO* los avisos no tienen estado ._. XXX -->
               </template>
 
               <template v-slot:[`item.actions`]="{ item }">
@@ -127,6 +128,7 @@
 
 <script>
 import EliminarAviso from '../dialogs/avisos/EliminarAviso.vue';
+import axios from 'axios'
 export default {
   components: { 
     EliminarAviso
@@ -140,6 +142,7 @@ export default {
       enlace1: "",
       enlace2: "",
       enlaces: "",
+      Avisos1:'',
 
 
 
@@ -168,6 +171,7 @@ export default {
           estado: false,
         }
       ],
+      //
     }
   },
 
@@ -176,8 +180,24 @@ export default {
       this.idAvisoAEliminar = id;
       this.$store.state.eliminarAvisoDialog = true;
       console.log(this.idAvisoAEliminar.id);
-    }
-  }
+    },
+ AvisosGet() {
+      axios
+        .get(
+          "https://xicoclass.online/Avisos.php?id_docente="+
+            window.sessionStorage.getItem("id_docente")
+        )
+        .then((r) => {
+          this.Avisos1 = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
+mounted() {
+  this.AvisosGet();
+},
 
 
 

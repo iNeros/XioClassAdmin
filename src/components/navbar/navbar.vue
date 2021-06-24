@@ -185,9 +185,12 @@ export default {
     //#endregion
 
     cerrarSesion() {
-      //REMOVEMOS TODO DE EL localStorage
-      //window.localStorage.removeItem('');
-
+            window.sessionStorage.removeItem("id_docente");
+            window.sessionStorage.removeItem("nombre");
+            window.sessionStorage.removeItem("appPat");
+            window.sessionStorage.removeItem("appMat");
+            window.sessionStorage.removeItem("tipoUsuario");
+            window.sessionStorage.removeItem("usuario");
       window.location.href = "/";
     },
   },
