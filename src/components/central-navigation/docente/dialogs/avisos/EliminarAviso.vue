@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarAvisoDialog" width="500">
-      <v-card>
+      <v-card v-for="item in AvisoEliminar" :key="item.id_avisos">
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro Que Desea Eliminar La Actividad?
         </v-card-title>
@@ -10,7 +10,7 @@
           <br />
           <b>Usted Borrara El Aviso: </b>
           <span style="color: #30dba0">
-           {{ AvisoNombre }}
+           {{ item.nombre }}
             <!-- {{NombreActivdad}} -->
             .</span
           >
@@ -38,13 +38,11 @@
 </template>
 
 <script>
-//import axios from "axios";
+import axios from "axios"
 export default {
   data() {
     return {
       AvisoEliminar: [],
-      AvisoNombre: "",
-
     };
   },
   props: ["idAviso"],
@@ -57,14 +55,32 @@ export default {
 
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
+      axios
+        .get(
+          "https://xicoclass.online/Avisos.php?id_avisos="+ this.idAviso
+        )
+        .then((r) => {
+          this.AvisoEliminar = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       
     },
     
     executeEliminar(id) {
-
+      axios
+        .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
+        .then((r) => {
     //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+      console.log(r);
       console.log(id);
       this.closeDialog();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+
     },
 
     closeDialog() {

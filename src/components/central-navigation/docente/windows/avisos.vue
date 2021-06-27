@@ -53,14 +53,12 @@
             <template v-slot:activator>
               <v-list-item-title>Selecciona grupo</v-list-item-title>
             </template>
-            <!-- METER UN GET PARA VER LOS GRUPOS DEL DOCENTE-->
-            <div v-for="n in grupos" :key="n">
+            <div v-for="n in grupos" :key="n.id_grupo">
               <v-list-item
                 class="menu-text"
-                v-if="n.tipo == 3"
                 @click="grupo(n.id_grupo)"
-              >
-                {{ n.id_grupo }}
+              ><!--CHECAR SI VA A QUEDAR ASÍ, EL CÓMO SE MUESTRA LA LISTA, CON LOS 3 DATOS..-->
+                Nombre:{{n.nombre}} Grupo:{{n.grupo}} Periodo:{{n.periodo}}
               </v-list-item>
             </div>
           </v-list-group>
@@ -73,6 +71,7 @@
               <v-btn
                 text
                 color="#F97068"
+                @click="Limpiar()"
               >
                 LIMPIAR
               </v-btn>
@@ -80,6 +79,7 @@
               <v-btn
                 text
                 color="#8AEA92"
+                @click="Enviar()"
               >
                 GUARDAR
               </v-btn>
@@ -93,23 +93,14 @@
           <v-col class="diver-red" cols="12" lg="12"> </v-col>
         </v-col>
         <template>
-          <!-- METER UN V-FOR EN EL DIV PARA SACAR TODOS LOS AVISOS DEL MAESTRO (YA ESTÁ EL AXIOS)-->
           <div class="tabla-avisos" >
             <v-data-table
               :headers="encabezadosTabla"
-              :items="contenidoTabla"
+              :items="Avisos1"
               :items-per-page="5"
               class="tabla-avisos elevation-12 mx-5"
             >
-              <template v-slot:[`item.estado`]="{ item }">
-                <v-switch
-                  color="#8AEA92"
-                  v-model="item.estado"
-                  @click="CambiarEstado(item)"  
-                ></v-switch> <!--Agregar AQUI el POST para Cambiar Estado: !item.estado *OJITO* los avisos no tienen estado ._. XXX -->
-              </template>
-
-              <template v-slot:[`item.actions`]="{ item }">
+              <template v-slot:[`item.actions`]="{ item }"><!--HELP MINERO-->
                 <v-icon
                   @click="ElminarAviso(item)"
                   color="#F97068"
@@ -140,9 +131,9 @@ export default {
       fechaPublicacion: "",
       descripcionAviso: "",
       enlace1: "",
-      enlace2: "",
       enlaces: "",
-      Avisos1:'',
+      grupos:'',
+      grupoSelect:'',
 
 
 
@@ -151,32 +142,19 @@ export default {
           {
             text: 'Fecha Publicacion',
             align: 'start',
-            value: 'fechaPublica',
+            value: 'fecha',
           },
-          { text: 'Titulo Aviso', value: 'titulo', sortable: false },
-          { text: 'Mostrandose', value: 'estado', sortable: false, },
+          { text: 'Titulo Aviso', value: 'nombre', sortable: false },
+          { text: 'Grupo', value: 'id_grupo', sortable: false, },
           { text: 'Acciones', value: 'actions', sortable: false },
         ],
-      contenidoTabla: [
-        {
-          id: 8,
-          titulo: 'Aviso De Prueba Aqui',
-          fechaPublica: '10/07/2021',
-          estado: true,
-        },
-        {
-          id: 23,
-          titulo: 'Aviso De Prueba 2 Aqui',
-          fechaPublica: '10/08/2021',
-          estado: false,
-        }
-      ],
+      Avisos1:[],
       //
     }
   },
 
   methods: {
-    ElminarAviso(id){
+    EliminarAviso(id){
       this.idAvisoAEliminar = id;
       this.$store.state.eliminarAvisoDialog = true;
       console.log(this.idAvisoAEliminar.id);
@@ -194,9 +172,65 @@ export default {
           console.log(error);
         });
     },
+ gruposGet() {
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_docente="+
+            window.sessionStorage.getItem("id_docente")
+        )
+        .then((r) => {
+          this.grupos = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+grupo(id){
+  return this.grupoSelect = id;
+},
+Enviar(){
+if(this.grupoSelect == ''){
+  //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
+  window.alert("El grupo es requerido");
+}else{
+let config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      let parametros =
+        "nombre=" +
+        this.nombreAviso +
+        "&descripcion=" +
+        this.descripcionAviso +
+        "&urls=" +
+        this.enlace1 +
+        "&fecha=" +
+        this.fechaPublicacion +
+        "&id_grupo=" +
+        this.grupoSelect;
+        axios
+          .post("https://xicoclass.online/Avisos.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((error) => {
+            console.log(error);
+      });
+    this.Limpiar();  
+   }//cierra el else   
+},
+Limpiar(){
+        this.nombreAviso = '';
+        this.descripcionAviso = '';
+        this.enlace1 = '';
+        this.fechaPublicacion = '';
+        this.grupoSelect = '';
+},
   },
 mounted() {
   this.AvisosGet();
+  this.gruposGet();
 },
 
 
