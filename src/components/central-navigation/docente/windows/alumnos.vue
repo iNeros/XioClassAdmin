@@ -13,11 +13,20 @@
             <v-form>
               <v-container>
                 <v-row class="mx-5">
-                  <v-col cols="12" md="4" class="py-0">
+                  <v-col cols="12" md="8" class="py-0">
+                    <v-text-field
+                      v-model="nombreGrupo"
+                      label="Nombre del grupo"
+                      placeholder="Ejemplo: grupo ardillas."
+                      outlined
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2" class="py-0">
                     <v-text-field
                       v-model="identificadorGrupo"
                       label="Identificador del grupo"
-                      placeholder="A , B , C , D....."
+                      placeholder="Ejemplo: A,B,C, etc."
                       outlined
                     >
                     </v-text-field>
@@ -25,8 +34,8 @@
                   <v-col cols="12" md="2" class="py-0">
                     <v-text-field
                       v-model="periodoGrupo"
-                      label="Año"
-                      placeholder="1° , 2° , 3° ....."
+                      label="Periodo"
+                      placeholder="1 , 2 , 3 , etc"
                       outlined
                     >
                     </v-text-field>
@@ -34,30 +43,39 @@
                 </v-row>
                 <v-card-title class="text-h5"> AGREGAR ALUMNOS </v-card-title>
                 <v-row class="py-0 mx-5" v-for="(input, k) in inputs" :key="k">
-                  <v-col cols="12" md="4" class="py-0">
+                  <v-col cols="12" md="3" class="py-0">
                     <v-text-field
                       outlined
-                      label="Usuario*"
-                      v-model="inputs[k].username"
-                      placeholder="El usuario con el que el alumno iniciara sesion"
+                      label="Nombre*"
+                      v-model="inputs[k].nombre"
+                      placeholder="Nombre del alumno"
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4" class="py-0">
+                  <v-col cols="12" md="3" class="py-0">
                     <v-text-field
                       outlined
-                      label="Contraseña*"
-                      v-model="inputs[k].password"
-                      placeholder="Contraseña con la que el alumno iniciara sesion"
+                      label="Apellido paterno*"
+                      v-model="inputs[k].appPat"
+                      placeholder="Primer apellido del alumno"
                     >
                     </v-text-field>
                   </v-col>
-                  <v-col cols="12" md="4" class="py-0">
+                  <v-col cols="12" md="3" class="py-0">
                     <v-text-field
                       outlined
-                      label="Nombre"
-                      v-model="inputs[k].name"
-                      placeholder="Un nombre para el alumno"
+                      label="Apellido materno"
+                      v-model="inputs[k].appMat"
+                      placeholder="Segundo apellido del alumno"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-text-field
+                      outlined
+                      label="Fecha de nacimiento"
+                      v-model="inputs[k].FechaNac"
+                      type="date"
                     >
                     </v-text-field>
                   </v-col>
@@ -95,7 +113,7 @@
                 LIMPIAR
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn class="mx-3" text color="#1EFC1E" @click="crearGrupo()">
+              <v-btn class="mx-3" text color="#1EFC1E" @click="postGrupo()">
                 CREAR GRUPO
               </v-btn>
             </v-card-actions>
@@ -146,6 +164,7 @@
 <script>
 import editarGrupo from "../dialogs/alumnos/editarGrupo.vue";
 import eliminarGrupo from "../dialogs/alumnos/eliminarGrupo.vue";
+import axios from 'axios'
 
 export default {
   name: "alumnos",
@@ -158,13 +177,15 @@ export default {
       nombreGrupo: "",
       identificadorGrupo: "",
       periodoGrupo: "",
+      MaxG:'',
 
       inputs: [
         {
           index: 0,
-          username: "",
-          password: "",
-          name: "",
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
         },
       ],
 
@@ -181,9 +202,10 @@ export default {
       this.inputs = [
         {
           index: 0,
-          username: "",
-          password: "",
-          name: "",
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
         },
       ];
     },
@@ -202,11 +224,12 @@ export default {
       this.contadorAlumnos++;
       this.inputs.push({
         index: this.contadorAlumnos,
-        username: "",
-        password: "",
-        name: "",
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
       });
-      console.log(this.inputs[this.contadorAlumnos - 1].name);
+      console.log(this.inputs[this.contadorAlumnos - 1].nombre);
     },
     RemoveRow() {
       this.inputs.splice(this.inputs.length - 1);
@@ -214,23 +237,81 @@ export default {
       console.log(this.inputs);
     },
 
-    postGrupos() {
-      //AQUI DENTRO IRA EL POST QUE CREARA EL GRUPO: CON LOS DATOS: nombreGrupo,idGrupo(ESTE NO ES EL ID, es el otro campo),periodoGrupo
+    postGrupo() {
+  let config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      let parametros = 
+        "nombre=" +
+        this.nombreGrupo +
+        "&grupo=" +
+        this.identificadorGrupo +
+        "&periodo=" +
+        this.periodoGrupo +
+        "&id_docente=" +
+         window.sessionStorage.getItem("id_docente");
+        axios
+          .post("https://xicoclass.online/Grupo.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+            this.MaxGrupo();
+          })
+          .catch((error) => {
+            console.log(error);
+      });
     },
-    postAlumnos() {
+    MaxGrupo(){
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?MaxGrupo"
+        )
+        .then((r) => {
+          this.MaxG = r.data;
+          this.postAlumno();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  postAlumno(){
       for (var j = 0; j < this.contadorAlumnos; j++) {
         //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
+        let config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      let parametros =
+        "nombre=" +
+        this.inputs[j].nombre +
+        "&appPat=" +
+        this.inputs[j].appPat +
+        "&appMat=" +
+        this.inputs[j].appMat +
+        "&fechaNac=" +
+        this.inputs[j].FechaNac +
+        "&usuario=" +
+        this.inputs[j].nombre + '01' +
+        "&contraseña=1234" +
+         +
+        "&id_grupo=" +
+        this.MaxG[0].id_grupo;
+        axios
+          .post("https://xicoclass.online/Alumno.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((error) => {
+            console.log(error);
+      });
       }
-    },
-
-    crearGrupo() {
-      this.postGrupos();
-      this.postAlumnos();
-
-      //ESTE LIMPIAR VA EN EL .THEN DEL AXIOS (O FETCH) QUE HAGAS.
       this.Limpiar();
     },
   },
+mounted() {
+},
 };
 </script>
 
