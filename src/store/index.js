@@ -65,6 +65,9 @@ export default new Vuex.Store({
     dsetGrupos(state) {
       state.adminWindowsSelected = 14;
     },
+    dsetBiblioteca(state) {
+      state.adminWindowsSelected = 15;
+    },
     //#endregion
   },
   actions: {},

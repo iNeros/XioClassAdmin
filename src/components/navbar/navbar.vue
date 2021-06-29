@@ -115,6 +115,15 @@
                 <h2 id="textoContent" class="title-text">Actividades</h2>
               </v-list-item-title>
             </v-list-item>
+            
+            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetBiblioteca()">
+              <v-list-item-icon>
+                <v-icon id="iconoBiblioteca" small>mdi-book-open-variant</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoBiblioteca" class="title-text">Biblioteca</h2>
+              </v-list-item-title>
+            </v-list-item>
             <!-- <div class="spacer-height"></div> -->
             <v-list-item v-ripple class="down-we-go" link dark v-on:click="cerrarSesion()">
               <v-list-item-icon>
@@ -181,6 +190,9 @@ export default {
     },
     dsetGrupos() {
       this.$store.commit("dsetGrupos");
+    },
+    dsetBiblioteca() {
+      this.$store.commit("dsetBiblioteca");
     },
     //#endregion
 
