@@ -292,11 +292,7 @@ export default {
         this.inputs[j].appMat +
         "&fechaNac=" +
         this.inputs[j].FechaNac +
-        "&usuario=" +
-        this.inputs[j].nombre + '01' +
-        "&contraseña=1234" +
-         +
-        "&id_grupo=" +
+        "&id_grado=" +
         this.MaxG[0].id_grupo;
         axios
           .post("https://xicoclass.online/Alumno.php", parametros, config)

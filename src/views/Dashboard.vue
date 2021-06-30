@@ -45,7 +45,7 @@
           </v-window-item>
 
           <v-window-item :value="14">
-            <grupos />
+            <biblioteca />
           </v-window-item>
           <!--#endregion-->
         </v-window>
@@ -66,7 +66,7 @@ import docenteOverview from "@/components/central-navigation/docente/windows/ove
 import alumnos from "../components/central-navigation/docente/windows/alumnos.vue";
 import avisos from "../components/central-navigation/docente/windows/avisos.vue";
 import actividades from "../components/central-navigation/docente/windows/actividades.vue";
-import grupos from "../components/central-navigation/docente/windows/grupos.vue";
+import biblioteca from "../components/central-navigation/docente/windows/biblioteca.vue";
 
 export default {
   name: "Dashboard",
@@ -81,7 +81,7 @@ export default {
     alumnos,
     avisos,
     actividades,
-    grupos,
+    biblioteca,
   },
   data() {
     return {};

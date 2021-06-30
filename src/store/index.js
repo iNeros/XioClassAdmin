@@ -22,6 +22,11 @@ export default new Vuex.Store({
     //#region  Variables Para Avisos
     eliminarAvisoDialog: false,
     //#endregion
+
+    //#region  Variables Para BIBLIOTECA
+    tabsBiblio: 1,
+    //#endregion
+    
   },
   mutations: {
     setWindowsOfUserAdmin(state) {
@@ -62,8 +67,17 @@ export default new Vuex.Store({
     dsetActividades(state) {
       state.adminWindowsSelected = 13;
     },
-    dsetGrupos(state) {
+    dsetBiblioteca(state) {
       state.adminWindowsSelected = 14;
+    },
+    //#endregion
+
+    //#region Mutations FOR BIBLIOTECA
+    setImpresoTab(state) {
+      state.tabsBiblio = 1;
+    },
+    setVisualTab(state) {
+      state.tabsBiblio = 2;
     },
     //#endregion
   },
