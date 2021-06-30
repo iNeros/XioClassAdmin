@@ -8,7 +8,7 @@
         <v-col class="diver" cols="12"></v-col>
         <v-col>
           <v-card
-            color="#EDF2EF"
+            color="#9e9e9e"
           >
             <v-card-title></v-card-title>
             <v-form>
@@ -70,7 +70,7 @@
             <v-card-actions class="px-10">
               <v-btn
                 text
-                color="#F97068"
+                color="#ff3d00"
                 @click="Limpiar()"
               >
                 LIMPIAR
@@ -78,7 +78,7 @@
               <v-spacer></v-spacer>
               <v-btn
                 text
-                color="#8AEA92"
+                color="#1EFC1E"
                 @click="Enviar()"
               >
                 GUARDAR
@@ -269,14 +269,14 @@ mounted() {
 .diver {
   width: 100%;
   height: 5px;
-  background-color: #64dd17 !important;
+  background-color: #f57c00 !important;
   border-radius: 20px;
 }
 
 .diver-red {
   width: 100%;
   height: 5px;
-  background-color: #f44336 !important;
+  background-color: #0091ea !important;
   border-radius: 20px;
 }
 </style>

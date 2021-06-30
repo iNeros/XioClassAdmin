@@ -85,7 +85,7 @@
                 <v-row justify="space-around">
                   <div>
                     <v-btn
-                      color="#80D8FF"
+                      color="#64DD17"
                       elevation="12"
                       height="56"
                       class="mx-4"
@@ -94,7 +94,7 @@
                       <v-icon> mdi-plus </v-icon>
                     </v-btn>
                     <v-btn
-                      color="#80D8FF"
+                      color="#D50000"
                       elevation="12"
                       height="56"
                       class="mx-4"
@@ -349,14 +349,14 @@ mounted() {
 .diver {
   width: 100%;
   height: 5px;
-  background-color: #64dd17 !important;
+  background-color: #6a1b9a !important;
   border-radius: 20px;
 }
 
 .diver-red {
   width: 100%;
   height: 5px;
-  background-color: #f44336 !important;
+  background-color: #c2185b !important;
   border-radius: 20px;
 }
 

@@ -1,6 +1,6 @@
 <template>
   <div class="menuTabs">
-      <v-tabs grow class="menu-tabs" color="#23395b">
+      <v-tabs grow class="menu-tabs" color="#FF9800">
         <v-tab @click="setImpreso()">
           Impresos
         </v-tab>
@@ -29,8 +29,9 @@ export default {
 </script>
 
 <style scoped>
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap');
 .menu-tabs {
+  font-family: "Poppins";
   max-width: 100% !important;
   min-width: 800px !important;
   margin-left: auto;

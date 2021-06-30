@@ -395,14 +395,14 @@ export default {
 .diver {
   width: 100%;
   height: 5px;
-  background-color: #30dba0 !important;
+  background-color: #ffd600 !important;
   border-radius: 20px;
 }
 
 .diver-red {
   width: 100%;
   height: 5px;
-  background-color: #d81e5b !important;
+  background-color: #1565c0 !important;
   border-radius: 20px;
 }
 </style>

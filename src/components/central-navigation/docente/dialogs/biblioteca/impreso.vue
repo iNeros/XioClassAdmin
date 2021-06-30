@@ -8,7 +8,8 @@
         </v-col>
 
         <v-col cols="12">
-          <v-card color="#EDF2EF">
+          <v-card color="#9e9e9e">
+             <v-card-title></v-card-title>
             <v-form>
               <v-container>
                 <v-row class="mx-5">
@@ -66,9 +67,9 @@
               </v-container>
             </v-form>
             <v-card-actions class="px-10">
-              <v-btn text color="#F97068" @click="limpiar()"> LIMPIAR </v-btn>
+              <v-btn text color="#ff3d00" @click="limpiar()"> LIMPIAR </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text color="#8AEA92" @click="enviar()"> GUARDAR </v-btn>
+              <v-btn text color="#1EFC1E" @click="enviar()"> GUARDAR </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
