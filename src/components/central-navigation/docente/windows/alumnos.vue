@@ -127,27 +127,27 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="2" v-for="n in 2" :key="n">
+        <v-col cols="12" md="3" sm="6" v-for="Grupos in GruposDocente" :key="Grupos.id_grupo">
           <v-card max-width="300" outlined color="#9e9e9e" dark>
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="text-overline mb-4">Grupo:</div>
+                <div class="text-overline mb-4">Grupo: {{Grupos.id_grupo}}</div>
                 <v-list-item-title class="text-h5 mb-1">
-                  1° - A - NOMBRE
+                  {{Grupos.periodo}}° - "{{Grupos.grupo}}" - {{Grupos.nombre}}
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Alumnos inscritos: {{n}}</v-list-item-subtitle
+                  >Edita para visualizar los alumnos inscritos</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
 
             <v-card-actions>
-              <v-btn text color="#ff3d00" @click="EliminarDialog(n)">
+              <v-btn text color="#ff3d00" @click="EliminarDialog(Grupos.id_grupo)">
                 <!-- AQUI LE PASAMOS EL IdGrupo Como Parametro -->
                 Eliminar
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text right color="#E57C04" @click="EditarDialog(n)">
+              <v-btn text right color="#E57C04" @click="EditarDialog(Grupos.id_grupo)">
                 Editar
               </v-btn>
             </v-card-actions>
@@ -178,6 +178,7 @@ export default {
       identificadorGrupo: "",
       periodoGrupo: "",
       MaxG:'',
+      GruposDocente:[],
 
       inputs: [
         {
@@ -276,7 +277,7 @@ export default {
         });
     },
   postAlumno(){
-      for (var j = 0; j < this.contadorAlumnos; j++) {
+      for (var j = 0; j <= this.contadorAlumnos; j++) {
         //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
         let config = {
         headers: {
@@ -305,8 +306,23 @@ export default {
       }
       this.Limpiar();
     },
+    GruposDoc(){
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_docente="+
+           window.sessionStorage.getItem("id_docente")
+        )
+        .then((r) => {
+          this.GruposDocente = r.data;
+          console.log(this.GruposDocente);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
 mounted() {
+  this.GruposDoc();
 },
 };
 </script>

@@ -40,7 +40,7 @@
       <v-card-text class="container">
         <v-container>
           <v-row class="texto-form">
-            <v-col cols="12" sm="6" md="4">
+            <v-col cols="12" sm="6" md="4" v-for="data in DatosGrupo" :key="data.id_grupo">
               <v-text-field
                 v-model="nombreGrupo"
                 filled
@@ -59,49 +59,126 @@
 
             <v-col cols="12" sm="6" md="4">
               <v-text-field
-                id="Año Asociado*"
                 v-model="periodoGrupo"
                 filled
-                label="Año del grupo*"
+                label="periodoGrupo*"
                 required
                 :value="periodoGrupo"
               ></v-text-field>
             </v-col>
           </v-row>
+          <v-card-title class="text-h5">ALUMNOS</v-card-title>
+          
+          <!---->
+          <v-row class="py-0 mx-5" v-for="alum in DatosAlumnos" :key="alum.id_alumno">
+                  <v-col cols="12" md="2" class="py-0">
+                    <v-text-field
+                      v-model="alum.nombre"
+                      label="Nombre"
+                      outlined
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2" class="py-0">
+                    <v-text-field
+                      v-model="alum.appPat"
+                      label="Apellido paterno"
+                      outlined
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2" class="py-0">
+                    <v-text-field
+                      v-model="alum.appMat"
+                      label="Apellido materno"
+                      outlined
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2" class="py-0">
+                    <v-text-field
+                      v-model="alum.fechaNac"
+                      label="Fecha de nacimiento"
+                      outlined
+                      readonly
+                      type="date"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="2" class="py-0">
+                    <v-text-field
+                      v-model="alum.usuario"
+                      label="Usuario"
+                      outlined
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="1" class="py-0">
+                    <v-text-field
+                      v-model="alum.contraseña"
+                      label="Contraseña"
+                      outlined
+                      readonly
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="1" class="py-0">
+                    <v-btn
+                   color="#ff0000"
+                   height="60"
+                   class="mx-3"
+                   @click="AddRow()"
+                  >
+                  <v-icon> mdi-close-circle-outline </v-icon>
+                  </v-btn>
+                  </v-col>
+                  <v-col cols="12" class="dividerAlumnos mt-n5 mb-2"> </v-col>
+                </v-row>
+
           <v-card-title class="text-h5"> AGREGAR ALUMNOS </v-card-title>
           <v-row class="py-0 mx-5" v-for="(input, k) in inputs" :key="k">
-            <v-col cols="12" md="4" class="py-0">
-              <v-text-field
-                outlined
-                label="Usuario*"
-                v-model="inputs[k].username"
-                placeholder="El usuario con el que el alumno iniciara sesion"
-                :value="inputs[k].username"
-              >
-              </v-text-field>
-            </v-col>
-            <v-col cols="12" md="4" class="py-0">
-              <v-text-field
-                outlined
-                label="Contraseña*"
-                v-model="inputs[k].password"
-                placeholder="Contraseña con la que el alumno iniciara sesion"
-                :value="inputs[k].password"
-              >
-              </v-text-field>
-            </v-col>
-            <v-col cols="12" md="4" class="py-0">
-              <v-text-field
-                outlined
-                label="Nombre"
-                v-model="inputs[k].name"
-                placeholder="Un nombre para el alumno"
-                :value="inputs[k].name"
-              >
-              </v-text-field>
-            </v-col>
-            <v-col cols="12" class="dividerAlumnos mt-n5 mb-2"> </v-col>
-          </v-row>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-text-field
+                      outlined
+                      label="Nombre*"
+                      v-model="inputs[k].nombre"
+                      placeholder="Nombre del alumno"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-text-field
+                      outlined
+                      label="Apellido paterno*"
+                      v-model="inputs[k].appPat"
+                      placeholder="Primer apellido del alumno"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-text-field
+                      outlined
+                      label="Apellido materno"
+                      v-model="inputs[k].appMat"
+                      placeholder="Segundo apellido del alumno"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-text-field
+                      outlined
+                      label="Fecha de nacimiento"
+                      v-model="inputs[k].FechaNac"
+                      type="date"
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" class="dividerAlumnos mt-n5 mb-2"> </v-col>
+                </v-row>
 
           <v-row justify="space-around">
             <div>
@@ -133,6 +210,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
     return {
@@ -142,14 +220,16 @@ export default {
       nombreGrupo: "",
       identificadorGrupo: "",
       periodoGrupo: "",
+      DatosGrupo:[],
+      DatosAlumnos:[],
 
       inputs: [
         {
           index: 0,
-          username: "",
-          password: "",
-          name: "",
-          idAlumno: "",
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
         },
       ],
 
@@ -163,6 +243,20 @@ export default {
   },
 
   methods: {
+      Limpiar() {
+      this.nombreGrupo = "";
+      this.identificadorGrupo = "";
+      this.periodoGrupo = "";
+      this.inputs = [
+        {
+          index: 0,
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
+        },
+      ];
+    },
     closeDialog() {
       this.$store.state.editarGrupoDialog = false;
     },
@@ -170,23 +264,49 @@ export default {
       this.contadorAlumnos++;
       this.inputs.push({
         index: this.contadorAlumnos,
-        username: "",
-        password: "",
-        name: "",
+          nombre: "",
+          appPat: "",
+          appMat: "",
+          FechaNac:"",
       });
-      console.log(this.inputs[this.contadorAlumnos - 1].name);
+      console.log(this.inputs[this.contadorAlumnos - 1].nombre);
     },
     RemoveRow() {
       this.inputs.splice(this.inputs.length - 1);
       this.contadorAlumnos--;
       console.log(this.inputs);
     },
+     // AQUI VA EL GET PARA OBTENER LOS DEL Grupo WHERE idGrupo = idGrupoDialog , y Guardarlos En : nombreGrupo , identificadorGrupo periodoGrupo
+      GrupoDatos(){
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_grupo="+this.idGrupoDialog
+        )
+        .then((r) => {
+          this.DatosGrupo = r.data;
+          console.log(this.DatosGrupo);
+          this.nombreGrupo = this.DatosGrupo[0].nombre;
+          this.identificadorGrupo = this.DatosGrupo[0].grupo;
+          this.periodoGrupo = this.DatosGrupo[0].periodo;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+        axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_grupos="+this.idGrupoDialog+"&id_docentes="+window.sessionStorage.getItem("id_docente")
+        )
+        .then((r) => {
+          this.DatosAlumnos = r.data;
+          console.log(this.DatosAlumnos);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 
     ObtenerDatos() {
-      // AQUI VA EL GET PARA OBTENER LOS DEL Grupo WHERE idGrupo = idGrupoDialog , y Guardarlos En : nombreGrupo , identificadorGrupo periodoGrupo
-
       //LUEGO DE ESTO OBTENDRAS EL TOTAL DE ALUMNOS QUE TIENE EL GRUPO CON un COUNT() WHERE idGrupo = idGrupoDialog Y GUARDAS EL COUNT EN: contadorAlumnos
-
       //LUEGO DE ESTO GUARDAS A TODOS LOS ALUMNOS WHERE idGrupo = idGrupoDialog en inputs[] (Guardas El Id Del Alumno Que Traes En: this.idAlumnos.)
       for (var i = 0; i < this.contadorAlumnos; i++) {
         this.inputs[i].index = i;
@@ -195,16 +315,59 @@ export default {
 
     executeSave() {
       //AQUI VA EL POST PARA MODIFICAR LA EL CONTENIDO DE GRUPOS WHERE idGrupo SEA = idGrupoDialog
+        axios
+        .put(
+          "https://xicoclass.online/Grupo.php?nombre=" +
+            this.nombreGrupo +
+            "&grupo=" +
+            this.identificadorGrupo +
+            "&periodo=" +
+            this.periodoGrupo +
+            "&id_grupo=" +
+            this.idGrupoDialog
+        )
+        .then((r) => {
+          //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
+          console.log(r.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
       //------------------------------------------------------------------------------------------------------
-      for (var n = 0; n < this.contadorAlumnos; n++) {
         //AQUI VA EL POST PARA MODIFICAR EL CONTENIDO DE LOS ALUMNOS WHERE idAlumnos = this.inputs[n].idAlumno
-      }
-
-      console.log();
-
-      //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
-      this.closeDialog();
+      
+      for (var j = 0; j <= this.contadorAlumnos; j++) {
+        //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
+        let config = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      let parametros =
+        "nombre=" +
+        this.inputs[j].nombre +
+        "&appPat=" +
+        this.inputs[j].appPat +
+        "&appMat=" +
+        this.inputs[j].appMat +
+        "&fechaNac=" +
+        this.inputs[j].FechaNac +
+        "&id_grado=" +
+        this.idGrupoDialog;
+        axios
+          .post("https://xicoclass.online/Alumno.php", parametros, config)
+          .then((r) => {
+             console.log(r);
+            //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
+            this.Limpiar();
+            this.closeDialog();
+          })
+          .catch((error) => {
+            console.log(error);
+      });
+      }//cierra el for
+      //cierra el if contalumnos = 0
     },
   },
   watch: {
@@ -215,6 +378,11 @@ export default {
     guardar(val) {
       if (!val) return;
       this.executeSave();
+    },
+    idGrupoDialog(val){
+      if(val > 0){
+        return this.GrupoDatos();
+      }
     },
   },
 };
@@ -229,5 +397,10 @@ export default {
   height: auto;
   font-family: "Montserrat", sans-serif;
   font-weight: 600;
+}
+.dividerAlumnos {
+  background-color: #616161;
+  height: 5px;
+  border-radius: 5px;
 }
 </style>
