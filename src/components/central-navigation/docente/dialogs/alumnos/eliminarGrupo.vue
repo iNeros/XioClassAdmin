@@ -1,27 +1,20 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarGrupoDialog" width="500">
-      <v-card>
+      <v-card v-for="delit in GrupoDelete" :key="delit.id_grupo">
         <v-card-title class="text-center grey lighten-2">
-          ¿Seguro Que Desea Eliminar La Actividad?
+          ¿Seguro que desea eliminar el grupo?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted Borrara La Actividad: </b>
+          <b>Usted eliminará el grupo: </b>
           <span style="color: #30dba0">
-            <!--{{NombreActivdad}}-->
+            {{delit.nombre}}
             .</span
           >
-          <br />
-          <b>Para el Grupoo:</b>
-          <span style="color: #30dba0">
-            <!--{{NombreDelGrupo}}-->
-            .</span
-          >
-          <br />
 
-          <br />Esto hara que los archivos que usted y los alumnos hayan subido
+          <br />Esto hara que el grupo y todos los datos relacionados del grupo {{delit.nombre}} "{{delit.grupo}}" {{delit.periodo}}° 
           tambien se eliminen, ¿desea continuar?
         </v-card-text>
 
@@ -40,22 +33,43 @@
 </template>
 
 <script>
+import axios from 'axios'
 export default {
   data() {
-    return {};
+    return {
+      GrupoDelete:[],
+    };
   },
   props: ["idGrupoDialog"],
 
   methods: {
     obtenerInfo() {
       //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idGrupoDialog
+            axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_grupo=" +
+            this.idGrupoDialog
+        )
+        .then((r) => {
+          this.GrupoDelete = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     executeEliminar() {
       //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
-
-      //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-      this.closeDialog();
+      axios
+        .delete("https://xicoclass.online/Grupo.php?id_grupo="+this.idGrupoDialog)
+        .then((r) => {
+          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+          this.closeDialog();
+          console.log(r.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
 
     closeDialog() {
@@ -66,6 +80,14 @@ export default {
   mounted() {
     //Mandar a llama a obtenerInfo()
   },
+  watch: {
+    idGrupoDialog(val){
+      if(val > 0){
+        return this.obtenerInfo();
+      }
+    }
+
+  }
 };
 </script>
 

@@ -127,11 +127,11 @@
                     </v-text-field>
                   </v-col>
                   <v-col cols="12" md="1" class="py-0">
+                    <!--Meterle un @click="Eliminar alumno()"-->
                     <v-btn
                    color="#ff0000"
                    height="60"
                    class="mx-3"
-                   @click="AddRow()"
                   >
                   <v-icon> mdi-close-circle-outline </v-icon>
                   </v-btn>
