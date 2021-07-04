@@ -229,6 +229,8 @@ export default {
       this.Load = false;
       this.Actividad();
     },
+  //meter una api para acortar el url 
+
     //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS
     Actividad() {
       let config = {
@@ -255,8 +257,17 @@ export default {
           .catch((error) => {
             console.log(error);
       });
+//probando meter archivos con get
+      axios
+        .get("https://xicoclass.online/Archivos.php?nombre="+this.Archivos.name+"&ruta="+this.urlFile+"&tipo=PDF&id_actividades1="+this.CapetaNueva[0].nuevo_id)
+        .then((r) => {
+          console.log(r);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
 
-
+/*
           let config1 = {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -282,7 +293,7 @@ export default {
                 .catch((error) => {
                   console.log(error);
                 });
-
+*/
     },
 
     executeSave() {
