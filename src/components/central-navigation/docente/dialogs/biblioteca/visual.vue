@@ -126,7 +126,13 @@ export default {
       this.link = "";
       this.tipoVideo = "";
     },
-
+    enviar(){
+      let url = this.link;
+      let conver = url.replace('watch?v=','embed/');
+      conver = conver.split('&');
+      this.nombreVideo = conver[0];
+      //return conver[0];
+    },
     obtenerVisual() {
       axios
         .get("https://xicoclass.online/Visual.php?periodoAsociado=1")
