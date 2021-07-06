@@ -11,9 +11,7 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title
-          >Editar Actividad</v-toolbar-title
-        >
+        <v-toolbar-title>Editar Actividad</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
@@ -21,7 +19,7 @@
             :loading="dialog"
             dark
             text
-            @click="dialog=true"
+            @click="dialog = true"
           >
             Guardar
           </v-btn>
@@ -129,9 +127,7 @@ export default {
   },
   props: ["idActividadEdit"],
 
-  mounted() {
-
-  },
+  mounted() {},
 
   methods: {
     closeDialog() {
@@ -158,7 +154,7 @@ export default {
         .then((r) => {
           //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
           console.log(r.data);
-          this.closeDialog();  
+          this.closeDialog();
         })
         .catch(function (error) {
           console.log(error);
@@ -194,12 +190,11 @@ export default {
       if (!val) return;
       this.executeSave(this.idActividadEdit);
     },
-    idActividadEdit(val){
-      if(val > 0){
+    idActividadEdit(val) {
+      if (val > 0) {
         return this.ObtenerDatos();
       }
     },
-
   },
 };
 </script>

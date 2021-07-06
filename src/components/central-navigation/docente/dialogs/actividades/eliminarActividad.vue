@@ -10,17 +10,16 @@
           <br />
           <b>Usted Borrara La Actividad:</b>
           <span style="color: #30dba0">
-           {{ ActityName }}
+            {{ ActityName }}
             <!-- {{NombreActivdad}} -->
             .</span
           >
           <br />
           <b>Para el Grupo:</b>
           <span style="color: #30dba0">
-           {{ ActivityGrupo }} .
+            {{ ActivityGrupo }} .
             <!--{{NombreActivdad}}-->
-            </span
-          >
+          </span>
           <br />
 
           <br />Esto hara que los archivos que usted y los alumnos hayan subido
@@ -32,11 +31,7 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            color="#FF4365"
-            text
-            @click="executeEliminar(idActividad)"
-          >
+          <v-btn color="#FF4365" text @click="executeEliminar(idActividad)">
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -54,18 +49,16 @@ export default {
 
       ActityName: "",
       ActivityGrupo: "",
-
     };
   },
   props: ["idActividad"],
 
   methods: {
-
-    InitialTest(){
-      this.ActEliminar[0]={
+    InitialTest() {
+      this.ActEliminar[0] = {
         nombre: "",
         idGrupo: "",
-      }
+      };
     },
 
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
@@ -76,7 +69,7 @@ export default {
             this.idActividad
         )
         .then((r) => {
-          this.ActEliminar  = r.data;
+          this.ActEliminar = r.data;
           this.ActityName = this.ActEliminar[0].nombre;
           this.ActivityGrupo = this.ActEliminar[0].id_grupo;
           console.log(this.ActEliminar[0]);
@@ -85,7 +78,7 @@ export default {
           console.log(error);
         });
     },
-    
+
     executeEliminar(id) {
       //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
       axios
@@ -104,23 +97,19 @@ export default {
       this.ActEliminar = "";
       this.$store.state.eliminarActividadDialog = false;
     },
-    
   },
 
   mounted() {
     this.InitialTest();
   },
 
-
   watch: {
-    idActividad(val){
-      if(val > 0){
+    idActividad(val) {
+      if (val > 0) {
         return this.obtenerInfo();
       }
-    }
-
-  }
-
+    },
+  },
 };
 </script>
 

@@ -79,8 +79,18 @@
 
         <!--#region SI EL USUARIO ES UN DOCENTE  -->
         <div v-if="userType == '1'">
-          <v-list-item-group v-model="btnSelectedAdmin" color="#283593" class="DocentesMenu">
-            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetOverview()">
+          <v-list-item-group
+            v-model="btnSelectedAdmin"
+            color="#283593"
+            class="DocentesMenu"
+          >
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetOverview()"
+            >
               <v-list-item-icon>
                 <v-icon id="iconoVista" small>mdi-desktop-mac-dashboard</v-icon>
               </v-list-item-icon>
@@ -89,7 +99,13 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetAlumnos()">
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetAlumnos()"
+            >
               <v-list-item-icon>
                 <v-icon id="iconoDocente" small>mdi-account-plus</v-icon>
               </v-list-item-icon>
@@ -98,7 +114,13 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetAvisos()">
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetAvisos()"
+            >
               <v-list-item-icon>
                 <v-icon id="iconoAvisos" small>mdi-message-alert</v-icon>
               </v-list-item-icon>
@@ -107,7 +129,13 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetActividades()">
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetActividades()"
+            >
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-content-copy</v-icon>
               </v-list-item-icon>
@@ -116,17 +144,31 @@
               </v-list-item-title>
             </v-list-item>
 
-            <v-list-item v-ripple  class="my-6" link dark v-on:click="dsetBiblioteca()">
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetBiblioteca()"
+            >
               <v-list-item-icon>
-                <v-icon id="iconoBiblioteca" small>mdi-book-open-variant</v-icon>
+                <v-icon id="iconoBiblioteca" small
+                  >mdi-book-open-variant</v-icon
+                >
               </v-list-item-icon>
               <v-list-item-title>
                 <h2 id="textoBiblioteca" class="title-text">Biblioteca</h2>
               </v-list-item-title>
             </v-list-item>
-            
+
             <!-- <div class="spacer-height"></div> -->
-            <v-list-item v-ripple class="down-we-go" link dark v-on:click="cerrarSesion()">
+            <v-list-item
+              v-ripple
+              class="down-we-go"
+              link
+              dark
+              v-on:click="cerrarSesion()"
+            >
               <v-list-item-icon>
                 <v-icon id="iconoContent" small>mdi-account-arrow-left</v-icon>
               </v-list-item-icon>
@@ -195,12 +237,12 @@ export default {
     //#endregion
 
     cerrarSesion() {
-            window.sessionStorage.removeItem("id_docente");
-            window.sessionStorage.removeItem("nombre");
-            window.sessionStorage.removeItem("appPat");
-            window.sessionStorage.removeItem("appMat");
-            window.sessionStorage.removeItem("tipoUsuario");
-            window.sessionStorage.removeItem("usuario");
+      window.sessionStorage.removeItem("id_docente");
+      window.sessionStorage.removeItem("nombre");
+      window.sessionStorage.removeItem("appPat");
+      window.sessionStorage.removeItem("appMat");
+      window.sessionStorage.removeItem("tipoUsuario");
+      window.sessionStorage.removeItem("usuario");
       window.location.href = "/";
     },
   },
@@ -243,10 +285,10 @@ export default {
   height: 420px;
 }
 
-.DocentesMenu{
-  height: 100%!important;
+.DocentesMenu {
+  height: 100% !important;
 }
-.down-we-go{
-  float: inline-end!important;
+.down-we-go {
+  float: inline-end !important;
 }
 </style>

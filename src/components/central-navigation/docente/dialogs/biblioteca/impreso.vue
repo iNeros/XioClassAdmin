@@ -9,7 +9,7 @@
 
         <v-col cols="12">
           <v-card color="#9e9e9e">
-             <v-card-title></v-card-title>
+            <v-card-title></v-card-title>
             <v-form>
               <v-container>
                 <v-row class="mx-5">
@@ -115,19 +115,25 @@ export default {
       nombreDocumento: "",
       tipoDocumento: "",
       documentoSubido: "",
-      type: ["1.- Cuento", "2.- Recortable", "3.- Mi álbum", "4.- Valores", "5.- Otro"],
+      type: [
+        "1.- Cuento",
+        "2.- Recortable",
+        "3.- Mi álbum",
+        "4.- Valores",
+        "5.- Otro",
+      ],
       datos: [],
       encabezadosTabla: [
-          {
-            text: 'Titulo',
-            align: 'start',
-            value: 'titulo',
-          },
-          //{ text: 'Ruta', value: 'ruta', sortable: false },
-          { text: 'Grado', value: 'periodoAsociado'},
-          { text: 'Tipo', value: 'tipo' },
-          { text: 'Acciones', value: 'actions', sortable: false },
-        ],
+        {
+          text: "Titulo",
+          align: "start",
+          value: "titulo",
+        },
+        //{ text: 'Ruta', value: 'ruta', sortable: false },
+        { text: "Grado", value: "periodoAsociado" },
+        { text: "Tipo", value: "tipo" },
+        { text: "Acciones", value: "actions", sortable: false },
+      ],
     };
   },
   methods: {
@@ -139,9 +145,7 @@ export default {
 
     obtenerImpreso() {
       axios
-        .get(
-          "https://xicoclass.online/Impreso.php"
-        )
+        .get("https://xicoclass.online/Impreso.php")
         .then((r) => {
           this.datos = r.data;
           console.log(this.datos);

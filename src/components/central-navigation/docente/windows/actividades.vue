@@ -7,13 +7,23 @@
         <h1 class="titulo-seccion">ACTIVIDADES RECIENTES</h1>
         <v-col class="diver" cols="12" lg="12"> </v-col>
         <v-col sm="12" lg="3">
-          <v-card color="#23395B" dark height="280" width="280" elevation="12" rounded="circle" class="ma-auto">
+          <v-card
+            color="#23395B"
+            dark
+            height="280"
+            width="280"
+            elevation="12"
+            rounded="circle"
+            class="ma-auto"
+          >
             <v-card-title class="texto-nueva-activity">
               <span
                 class="title-nueva-activity"
                 style="color: #adb9e3; font-weight: 800"
               >
-                AGREGAR <br> NUEVA <br> ACTIVIDAD
+                AGREGAR <br />
+                NUEVA <br />
+                ACTIVIDAD
               </span>
             </v-card-title>
 
@@ -33,62 +43,102 @@
         <!--#endregion-->
 
         <!--#region AQUI VAN LAS 3 CARDS QUE SE DESPLEGARAN EN ACTIVIDADES RECIENTES -->
-        <v-col class="mx-0 px-1" cols="12" sm="12" lg="3" v-for="n in preview" :key="n.id_actividad"> <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
+        <v-col
+          class="mx-0 px-1"
+          cols="12"
+          sm="12"
+          lg="3"
+          v-for="n in preview"
+          :key="n.id_actividad"
+        >
+          <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{n.id_grupo}}"</span>
+              <span class="titulo-de-tarjeta2">"{{ n.id_grupo }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
-                <v-icon size="24" right v-if="false" >mdi-check-all</v-icon> <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+                <v-icon size="24" right v-if="false">mdi-check-all</v-icon>
+                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
               </div>
             </v-card-title>
 
             <v-card-subtitle class="texto-tarjeta-settings">
-              <span class="texto-de-tarjeta">ACTIVIDAD: {{n.id_actividad}} </span> <br />
+              <span class="texto-de-tarjeta"
+                >ACTIVIDAD: {{ n.id_actividad }}
+              </span>
+              <br />
               <span class="texto-de-tarjeta2">
-                "{{n.nombre}}"
+                "{{ n.nombre }}"
                 <!-- AGREGAR AQUI EL {{NombreActividad}}  -->
               </span>
               <br />
               <br />
               <span class="texto-de-tarjeta"> FECHA PUBLICACION:</span>
-              <span class="texto-de-tarjeta2">"{{n.fecha_inicio}}"</span> <br />
+              <span class="texto-de-tarjeta2">"{{ n.fecha_inicio }}"</span>
+              <br />
               <!-- AGREGAR AQUI EL {{FechaPublicacion}}  -->
               <span class="texto-de-tarjeta"> FECHA VENCIMIENTO:</span>
-              <span class="texto-de-tarjeta2">"{{n.fecha_fin}}"</span>
+              <span class="texto-de-tarjeta2">"{{ n.fecha_fin }}"</span>
               <!-- AGREGAR AQUI EL {{FechaVencimiento}}  -->
             </v-card-subtitle>
 
             <v-card-actions class="hidden-sm-and-down">
-                <v-btn color="#FF4365" text @click="ShowEliminarDialog(n.id_actividad)"><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
-                  Eliminar
-                </v-btn>
-                <v-spacer/>
-                <v-btn color="#FFD166" text @click="ShowEditarDialog(n.id_actividad)">
-                  Editar
-                </v-btn>
-                <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
-                <v-spacer/>
-                <v-btn color="#30DBA0" text @click="ShowRevisarDialog(n.id_actividad)">
-                  Revisar
-                </v-btn>
-                <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
+              <v-btn
+                color="#FF4365"
+                text
+                @click="ShowEliminarDialog(n.id_actividad)"
+                ><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
+                Eliminar
+              </v-btn>
+              <v-spacer />
+              <v-btn
+                color="#FFD166"
+                text
+                @click="ShowEditarDialog(n.id_actividad)"
+              >
+                Editar
+              </v-btn>
+              <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
+              <v-spacer />
+              <v-btn
+                color="#30DBA0"
+                text
+                @click="ShowRevisarDialog(n.id_actividad)"
+              >
+                Revisar
+              </v-btn>
+              <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
-            <v-row class="hidden-md-and-up mx-n4">  
-                <v-btn color="#FF4365" text plain @click="ShowEliminarDialog(n.id_actividad)">
-                  <v-icon size="20">mdi-delete</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(n.id_actividad)">
-                  <v-icon size="20">mdi-file-edit-outline</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="#30DBA0" text plain @click="ShowRevisarDialog(n.id_actividad)">
-                  <v-icon size="20">mdi-check-all</v-icon>
-                </v-btn>
+            <v-row class="hidden-md-and-up mx-n4">
+              <v-btn
+                color="#FF4365"
+                text
+                plain
+                @click="ShowEliminarDialog(n.id_actividad)"
+              >
+                <v-icon size="20">mdi-delete</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="#FFD166"
+                text
+                plain
+                @click="ShowEditarDialog(n.id_actividad)"
+              >
+                <v-icon size="20">mdi-file-edit-outline</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="#30DBA0"
+                text
+                plain
+                @click="ShowRevisarDialog(n.id_actividad)"
+              >
+                <v-icon size="20">mdi-check-all</v-icon>
+              </v-btn>
             </v-row>
           </v-card>
         </v-col>
@@ -126,7 +176,13 @@
           </v-container>
         </template>
 
-        <v-col cols="12" sm="12" lg="3" v-for="Act in todos" :key="Act.id_actividad">
+        <v-col
+          cols="12"
+          sm="12"
+          lg="3"
+          v-for="Act in todos"
+          :key="Act.id_actividad"
+        >
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
@@ -134,7 +190,10 @@
               <span class="titulo-de-tarjeta2"> "{{ Act.id_grupo }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
-                <v-icon size="24" right v-if="Act.estado=='Activo'" >mdi-check-all</v-icon>  <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+                <v-icon size="24" right v-if="Act.estado == 'Activo'"
+                  >mdi-check-all</v-icon
+                >
+                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
               </div>
             </v-card-title>
 
@@ -157,33 +216,60 @@
             </v-card-subtitle>
 
             <v-card-actions class="hidden-sm-and-down">
-              <v-btn color="#FF4365" text @click="ShowEliminarDialog(Act.id_actividad)"><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
-                  Eliminar
-                </v-btn>
-                <v-spacer/>
-                <v-btn color="#FFD166" text @click="ShowEditarDialog(Act.id_actividad)">
-                  Editar
-                </v-btn>
-                <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
-                <v-spacer/>
-                <v-btn color="#30DBA0" text @click="ShowRevisarDialog(Act.id_actividad)">
-                  Revisar
-                </v-btn>
+              <v-btn
+                color="#FF4365"
+                text
+                @click="ShowEliminarDialog(Act.id_actividad)"
+                ><!-- SUSTITUIR El Numero 6 POR EL {{IdActividad}}  -->
+                Eliminar
+              </v-btn>
+              <v-spacer />
+              <v-btn
+                color="#FFD166"
+                text
+                @click="ShowEditarDialog(Act.id_actividad)"
+              >
+                Editar
+              </v-btn>
+              <!-- SUSTITUIR LA n POR EL {{IdActividad}}  -->
+              <v-spacer />
+              <v-btn
+                color="#30DBA0"
+                text
+                @click="ShowRevisarDialog(Act.id_actividad)"
+              >
+                Revisar
+              </v-btn>
             </v-card-actions>
 
             <!--                                VIZUALIZACION DE LOS BOTONES EN DISPITIVO MOVILES                     -->
-            <v-row class="hidden-md-and-up mx-n4">  
-                <v-btn color="#FF4365" text plain @click="ShowEliminarDialog(Act.id_actividad)">
-                  <v-icon size="20">mdi-delete</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="#FFD166" text plain @click="ShowEditarDialog(Act.id_actividad)">
-                  <v-icon size="20">mdi-file-edit-outline</v-icon>
-                </v-btn>
-                <v-spacer></v-spacer>
-                <v-btn color="#30DBA0" text plain @click="ShowRevisarDialog(Act.id_actividad)">
-                  <v-icon size="20">mdi-check-all</v-icon>
-                </v-btn>
+            <v-row class="hidden-md-and-up mx-n4">
+              <v-btn
+                color="#FF4365"
+                text
+                plain
+                @click="ShowEliminarDialog(Act.id_actividad)"
+              >
+                <v-icon size="20">mdi-delete</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="#FFD166"
+                text
+                plain
+                @click="ShowEditarDialog(Act.id_actividad)"
+              >
+                <v-icon size="20">mdi-file-edit-outline</v-icon>
+              </v-btn>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="#30DBA0"
+                text
+                plain
+                @click="ShowRevisarDialog(Act.id_actividad)"
+              >
+                <v-icon size="20">mdi-check-all</v-icon>
+              </v-btn>
             </v-row>
           </v-card>
         </v-col>
@@ -217,8 +303,8 @@ export default {
   data() {
     return {
       todos: [],
-      preview:[],
-      Filtro:[],
+      preview: [],
+      Filtro: [],
       items: [],
       idActividad: 0,
       cantidadDeActividades: 3,
@@ -244,7 +330,7 @@ export default {
     CargaInicial2() {
       axios
         .get(
-          "https://xicoclass.online/Actividades.php?id_docenteP="+
+          "https://xicoclass.online/Actividades.php?id_docenteP=" +
             window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
@@ -329,7 +415,6 @@ export default {
   font-weight: 800;
   font-size: 10px;
 }
-
 
 @media screen and (min-width: 800px) {
   .texto-de-tarjeta {

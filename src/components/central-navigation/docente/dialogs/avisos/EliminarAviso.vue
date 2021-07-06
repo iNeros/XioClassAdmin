@@ -10,13 +10,14 @@
           <br />
           <b>Usted Borrara El Aviso: </b>
           <span style="color: #30dba0">
-           {{ item.nombre }}
+            {{ item.nombre }}
             <!-- {{NombreActivdad}} -->
             .</span
           >
           <br />
 
-          <br />Esto no solo hara que el aviso ya no sea visible si no que eliminara por completo los archivos cargados y datos del mismo
+          <br />Esto no solo hara que el aviso ya no sea visible si no que
+          eliminara por completo los archivos cargados y datos del mismo
         </v-card-text>
 
         <v-divider></v-divider>
@@ -24,11 +25,7 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn
-            color="#FF4365"
-            text
-            @click="executeEliminar(idAviso)"
-          >
+          <v-btn color="#FF4365" text @click="executeEliminar(idAviso)">
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -38,7 +35,7 @@
 </template>
 
 <script>
-import axios from "axios"
+import axios from "axios";
 export default {
   data() {
     return {
@@ -48,62 +45,53 @@ export default {
   props: ["idAviso"],
 
   methods: {
-
-    InitialTest(){
-      return 0
+    InitialTest() {
+      return 0;
     },
 
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get(
-          "https://xicoclass.online/Avisos.php?id_avisos="+ this.idAviso
-        )
+        .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idAviso)
         .then((r) => {
           this.AvisoEliminar = r.data;
         })
         .catch(function (error) {
           console.log(error);
         });
-      
     },
-    
+
     executeEliminar(id) {
       axios
         .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
         .then((r) => {
-    //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-      console.log(r);
-      console.log(id);
-      this.closeDialog();
+          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+          console.log(r);
+          console.log(id);
+          this.closeDialog();
         })
         .catch(function (error) {
           console.log(error);
         });
-
     },
 
     closeDialog() {
       this.AvisoEliminar = "";
       this.$store.state.eliminarAvisoDialog = false;
     },
-    
   },
 
   mounted() {
     this.InitialTest();
   },
 
-
   watch: {
-    idAviso(val){
-      if(val > 0){
+    idAviso(val) {
+      if (val > 0) {
         return this.obtenerInfo();
       }
-    }
-
-  }
-
+    },
+  },
 };
 </script>
 

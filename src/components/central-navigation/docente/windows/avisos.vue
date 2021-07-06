@@ -7,82 +7,66 @@
         </v-col>
         <v-col class="diver" cols="12"></v-col>
         <v-col>
-          <v-card
-            color="#9e9e9e"
-          >
+          <v-card color="#9e9e9e">
             <v-card-title></v-card-title>
             <v-form>
               <v-container>
                 <v-row class="mx-5">
-                    <v-col cols="12" md="6" class="py-0">
-                      <v-text-field
-                        v-model="nombreAviso"
-                        label="NOMBRE DEL AVISO*"
-                        placeholder=""
-                        outlined
-                      >
-                      </v-text-field>
-                    </v-col>
-                    <v-col cols="12" md="6" class="py-0">
-                      <v-text-field
-                        v-model="fechaPublicacion"
-                        label="FECHA DE PUBLICACION"
-                        outlined
-                        type="datetime-local"
-                      >
-                      </v-text-field>
-                    </v-col>
-                  </v-row>
-                  <v-row class="mx-5">
-                    <v-col cols="12" md="8">
-                      <v-textarea
-                        v-model="descripcionAviso"
-                        name="AvisoDescripcion"
-                        label="DESCRIPCION DEL AVISO*"
-                        hint="Breves descripciones son más atractivas de leer"
-                      ></v-textarea>
-                    </v-col>
-                    <v-col>
-                      <v-text-field
-                        v-model="enlace1"
-                        label="Enlace"
-                        outlined
-                      >
-                      </v-text-field>
-          <v-list-group cols="12" md="4">
-            <template v-slot:activator>
-              <v-list-item-title>Selecciona grupo</v-list-item-title>
-            </template>
-            <div v-for="n in grupos" :key="n.id_grupo">
-              <v-list-item
-                class="menu-text"
-                @click="grupo(n.id_grupo)"
-              ><!--CHECAR SI VA A QUEDAR ASÍ, EL CÓMO SE MUESTRA LA LISTA, CON LOS 3 DATOS..-->
-                Nombre:{{n.nombre}} Grupo:{{n.grupo}} Periodo:{{n.periodo}}
-              </v-list-item>
-            </div>
-          </v-list-group>
-                    </v-col>
-                  </v-row>
+                  <v-col cols="12" md="6" class="py-0">
+                    <v-text-field
+                      v-model="nombreAviso"
+                      label="NOMBRE DEL AVISO*"
+                      placeholder=""
+                      outlined
+                    >
+                    </v-text-field>
+                  </v-col>
+                  <v-col cols="12" md="6" class="py-0">
+                    <v-text-field
+                      v-model="fechaPublicacion"
+                      label="FECHA DE PUBLICACION"
+                      outlined
+                      type="datetime-local"
+                    >
+                    </v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row class="mx-5">
+                  <v-col cols="12" md="8">
+                    <v-textarea
+                      v-model="descripcionAviso"
+                      name="AvisoDescripcion"
+                      label="DESCRIPCION DEL AVISO*"
+                      hint="Breves descripciones son más atractivas de leer"
+                    ></v-textarea>
+                  </v-col>
+                  <v-col>
+                    <v-text-field v-model="enlace1" label="Enlace" outlined>
+                    </v-text-field>
+                    <v-list-group cols="12" md="4">
+                      <template v-slot:activator>
+                        <v-list-item-title>Selecciona grupo</v-list-item-title>
+                      </template>
+                      <div v-for="n in grupos" :key="n.id_grupo">
+                        <v-list-item
+                          class="menu-text"
+                          @click="grupo(n.id_grupo)"
+                          ><!--CHECAR SI VA A QUEDAR ASÍ, EL CÓMO SE MUESTRA LA LISTA, CON LOS 3 DATOS..-->
+                          Nombre:{{ n.nombre }} Grupo:{{ n.grupo }} Periodo:{{
+                            n.periodo
+                          }}
+                        </v-list-item>
+                      </div>
+                    </v-list-group>
+                  </v-col>
+                </v-row>
               </v-container>
             </v-form>
 
             <v-card-actions class="px-10">
-              <v-btn
-                text
-                color="#ff3d00"
-                @click="Limpiar()"
-              >
-                LIMPIAR
-              </v-btn>
+              <v-btn text color="#ff3d00" @click="Limpiar()"> LIMPIAR </v-btn>
               <v-spacer></v-spacer>
-              <v-btn
-                text
-                color="#1EFC1E"
-                @click="Enviar()"
-              >
-                GUARDAR
-              </v-btn>
+              <v-btn text color="#1EFC1E" @click="Enviar()"> GUARDAR </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -93,18 +77,16 @@
           <v-col class="diver-red" cols="12" lg="12"> </v-col>
         </v-col>
         <template>
-          <div class="tabla-avisos" >
+          <div class="tabla-avisos">
             <v-data-table
               :headers="encabezadosTabla"
               :items="Avisos1"
               :items-per-page="5"
               class="tabla-avisos elevation-12 mx-5"
             >
-              <template v-slot:[`item.actions`]="{ item }"><!--HELP MINERO-->
-                <v-icon
-                  @click="ElminarAviso(item)"
-                  color="#F97068"
-                >
+              <template v-slot:[`item.actions`]="{ item }"
+                ><!--HELP MINERO-->
+                <v-icon @click="EliminarAviso(item.id_avisos)" color="#F97068">
                   mdi-delete-forever
                 </v-icon>
               </template>
@@ -113,56 +95,58 @@
         </template>
       </v-row>
     </v-container>
-    <EliminarAviso :idAviso="idAvisoAEliminar"/>
+    <EliminarAviso :idAviso="idAvisoAEliminar" />
   </div>
 </template>
 
 <script>
-import EliminarAviso from '../dialogs/avisos/EliminarAviso.vue';
-import axios from 'axios'
+import EliminarAviso from "../dialogs/avisos/EliminarAviso.vue";
+import axios from "axios";
 export default {
-  components: { 
-    EliminarAviso
+  components: {
+    EliminarAviso,
   },
   name: "avisos",
-  data(){
-    return{
+  data() {
+    return {
       nombreAviso: "",
       fechaPublicacion: "",
       descripcionAviso: "",
       enlace1: "",
       enlaces: "",
-      grupos:'',
-      grupoSelect:'',
-
-
+      grupos: "",
+      grupoSelect: "",
 
       idAvisoAEliminar: 0,
       encabezadosTabla: [
-          {
-            text: 'Fecha Publicacion',
-            align: 'start',
-            value: 'fecha',
-          },
-          { text: 'Titulo Aviso', value: 'nombre', sortable: false },
-          { text: 'Grupo', value: 'id_grupo', sortable: false, },
-          { text: 'Acciones', value: 'actions', sortable: false },
-        ],
-      Avisos1:[],
+        {
+          text: "Fecha Publicacion",
+          align: "start",
+          value: "fecha",
+        },
+        { text: "Titulo Aviso", value: "nombre", sortable: false },
+        { text: "Grupo", value: "id_grupo", sortable: false },
+        { text: "Acciones", value: "actions", sortable: false },
+      ],
+      Avisos1: [],
       //
-    }
+    };
   },
 
   methods: {
-    EliminarAviso(id){
+    EliminarAviso(id) {
       this.idAvisoAEliminar = id;
       this.$store.state.eliminarAvisoDialog = true;
       console.log(this.idAvisoAEliminar.id);
     },
- AvisosGet() {
+    Elimina(id) {
+      window.alert(id);
+      console.log(id);
+    },
+    AvisosGet() {
       axios
         .get(
-          "https://xicoclass.online/Avisos.php?id_docente="+
+          "https://xicoclass.online/Avisos.php?id_docente=" +
             window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
@@ -172,10 +156,10 @@ export default {
           console.log(error);
         });
     },
- gruposGet() {
+    gruposGet() {
       axios
         .get(
-          "https://xicoclass.online/Grupo.php?id_docente="+
+          "https://xicoclass.online/Grupo.php?id_docente=" +
             window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
@@ -185,30 +169,30 @@ export default {
           console.log(error);
         });
     },
-grupo(id){
-  return this.grupoSelect = id;
-},
-Enviar(){
-if(this.grupoSelect == ''){
-  //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
-  window.alert("El grupo es requerido");
-}else{
-let config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      };
-      let parametros =
-        "nombre=" +
-        this.nombreAviso +
-        "&descripcion=" +
-        this.descripcionAviso +
-        "&urls=" +
-        this.enlace1 +
-        "&fecha=" +
-        this.fechaPublicacion +
-        "&id_grupo=" +
-        this.grupoSelect;
+    grupo(id) {
+      return (this.grupoSelect = id);
+    },
+    Enviar() {
+      if (this.grupoSelect == "") {
+        //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
+        window.alert("El grupo es requerido");
+      } else {
+        let config = {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        };
+        let parametros =
+          "nombre=" +
+          this.nombreAviso +
+          "&descripcion=" +
+          this.descripcionAviso +
+          "&urls=" +
+          this.enlace1 +
+          "&fecha=" +
+          this.fechaPublicacion +
+          "&id_grupo=" +
+          this.grupoSelect;
         axios
           .post("https://xicoclass.online/Avisos.php", parametros, config)
           .then((r) => {
@@ -216,33 +200,28 @@ let config = {
           })
           .catch((error) => {
             console.log(error);
-      });
-    this.Limpiar();  
-   }//cierra el else   
-},
-Limpiar(){
-        this.nombreAviso = '';
-        this.descripcionAviso = '';
-        this.enlace1 = '';
-        this.fechaPublicacion = '';
-        this.grupoSelect = '';
-},
+          });
+        this.Limpiar();
+      } //cierra el else
+    },
+    Limpiar() {
+      this.nombreAviso = "";
+      this.descripcionAviso = "";
+      this.enlace1 = "";
+      this.fechaPublicacion = "";
+      this.grupoSelect = "";
+    },
   },
-mounted() {
-  this.AvisosGet();
-  this.gruposGet();
-},
-
-
-
-
-
+  mounted() {
+    this.AvisosGet();
+    this.gruposGet();
+  },
 };
 </script>
 
 <style scoped>
-.tabla-avisos{
-  width: 100%!important;
+.tabla-avisos {
+  width: 100% !important;
 }
 
 .titulo-seccion {
@@ -263,7 +242,7 @@ mounted() {
     color: #23395b;
   }
 }
-.full-width{
+.full-width {
   width: 100vw;
 }
 .diver {

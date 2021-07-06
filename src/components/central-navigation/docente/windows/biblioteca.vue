@@ -1,8 +1,7 @@
 <template>
   <div class="biblioteca">
-    
     <h1 class="titulo-seccion">DOCUMENTOS DE BIBLIOTECA</h1>
-    
+
     <div class="tab">
       <menuTabsBiblio> </menuTabsBiblio>
     </div>
@@ -17,7 +16,6 @@
         </v-window-item>
       </v-window>
     </div>
-
   </div>
 </template>
 

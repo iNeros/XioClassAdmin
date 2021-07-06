@@ -127,27 +127,46 @@
         </v-col>
       </v-row>
       <v-row>
-        <v-col cols="12" md="3" sm="6" v-for="Grupos in GruposDocente" :key="Grupos.id_grupo">
+        <v-col
+          cols="12"
+          md="3"
+          sm="6"
+          v-for="Grupos in GruposDocente"
+          :key="Grupos.id_grupo"
+        >
           <v-card max-width="300" outlined color="#9e9e9e" dark>
             <v-list-item three-line>
               <v-list-item-content>
-                <div class="text-overline mb-4">Grupo: {{Grupos.id_grupo}}</div>
+                <div class="text-overline mb-4">
+                  Grupo: {{ Grupos.id_grupo }}
+                </div>
                 <v-list-item-title class="text-h5 mb-1">
-                  {{Grupos.periodo}}° - "{{Grupos.grupo}}" - {{Grupos.nombre}}
+                  {{ Grupos.periodo }}° - "{{ Grupos.grupo }}" -
+                  {{ Grupos.nombre }}
                 </v-list-item-title>
                 <v-list-item-subtitle
-                  >Edita para visualizar los alumnos inscritos</v-list-item-subtitle
+                  >Edita para visualizar los alumnos
+                  inscritos</v-list-item-subtitle
                 >
               </v-list-item-content>
             </v-list-item>
 
             <v-card-actions>
-              <v-btn text color="#ff3d00" @click="EliminarDialog(Grupos.id_grupo)">
+              <v-btn
+                text
+                color="#ff3d00"
+                @click="EliminarDialog(Grupos.id_grupo)"
+              >
                 <!-- AQUI LE PASAMOS EL IdGrupo Como Parametro -->
                 Eliminar
               </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text right color="#E57C04" @click="EditarDialog(Grupos.id_grupo)">
+              <v-btn
+                text
+                right
+                color="#E57C04"
+                @click="EditarDialog(Grupos.id_grupo)"
+              >
                 Editar
               </v-btn>
             </v-card-actions>
@@ -164,7 +183,7 @@
 <script>
 import editarGrupo from "../dialogs/alumnos/editarGrupo.vue";
 import eliminarGrupo from "../dialogs/alumnos/eliminarGrupo.vue";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "alumnos",
@@ -177,8 +196,8 @@ export default {
       nombreGrupo: "",
       identificadorGrupo: "",
       periodoGrupo: "",
-      MaxG:'',
-      GruposDocente:[],
+      MaxG: "",
+      GruposDocente: [],
 
       inputs: [
         {
@@ -186,7 +205,7 @@ export default {
           nombre: "",
           appPat: "",
           appMat: "",
-          FechaNac:"",
+          FechaNac: "",
         },
       ],
 
@@ -206,7 +225,7 @@ export default {
           nombre: "",
           appPat: "",
           appMat: "",
-          FechaNac:"",
+          FechaNac: "",
         },
       ];
     },
@@ -225,10 +244,10 @@ export default {
       this.contadorAlumnos++;
       this.inputs.push({
         index: this.contadorAlumnos,
-          nombre: "",
-          appPat: "",
-          appMat: "",
-          FechaNac:"",
+        nombre: "",
+        appPat: "",
+        appMat: "",
+        FechaNac: "",
       });
       console.log(this.inputs[this.contadorAlumnos - 1].nombre);
     },
@@ -239,12 +258,12 @@ export default {
     },
 
     postGrupo() {
-  let config = {
+      let config = {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
         },
       };
-      let parametros = 
+      let parametros =
         "nombre=" +
         this.nombreGrupo +
         "&grupo=" +
@@ -252,22 +271,20 @@ export default {
         "&periodo=" +
         this.periodoGrupo +
         "&id_docente=" +
-         window.sessionStorage.getItem("id_docente");
-        axios
-          .post("https://xicoclass.online/Grupo.php", parametros, config)
-          .then((r) => {
-            console.log(r);
-            this.MaxGrupo();
-          })
-          .catch((error) => {
-            console.log(error);
-      });
-    },
-    MaxGrupo(){
+        window.sessionStorage.getItem("id_docente");
       axios
-        .get(
-          "https://xicoclass.online/Grupo.php?MaxGrupo"
-        )
+        .post("https://xicoclass.online/Grupo.php", parametros, config)
+        .then((r) => {
+          console.log(r);
+          this.MaxGrupo();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+    MaxGrupo() {
+      axios
+        .get("https://xicoclass.online/Grupo.php?MaxGrupo")
         .then((r) => {
           this.MaxG = r.data;
           this.postAlumno();
@@ -276,25 +293,25 @@ export default {
           console.log(error);
         });
     },
-  postAlumno(){
+    postAlumno() {
       for (var j = 0; j <= this.contadorAlumnos; j++) {
         //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
         let config = {
-        headers: {
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-      };
-      let parametros =
-        "nombre=" +
-        this.inputs[j].nombre +
-        "&appPat=" +
-        this.inputs[j].appPat +
-        "&appMat=" +
-        this.inputs[j].appMat +
-        "&fechaNac=" +
-        this.inputs[j].FechaNac +
-        "&id_grado=" +
-        this.MaxG[0].id_grupo;
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        };
+        let parametros =
+          "nombre=" +
+          this.inputs[j].nombre +
+          "&appPat=" +
+          this.inputs[j].appPat +
+          "&appMat=" +
+          this.inputs[j].appMat +
+          "&fechaNac=" +
+          this.inputs[j].FechaNac +
+          "&id_grado=" +
+          this.MaxG[0].id_grupo;
         axios
           .post("https://xicoclass.online/Alumno.php", parametros, config)
           .then((r) => {
@@ -302,15 +319,15 @@ export default {
           })
           .catch((error) => {
             console.log(error);
-      });
+          });
       }
       this.Limpiar();
     },
-    GruposDoc(){
+    GruposDoc() {
       axios
         .get(
-          "https://xicoclass.online/Grupo.php?id_docente="+
-           window.sessionStorage.getItem("id_docente")
+          "https://xicoclass.online/Grupo.php?id_docente=" +
+            window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
           this.GruposDocente = r.data;
@@ -321,9 +338,9 @@ export default {
         });
     },
   },
-mounted() {
-  this.GruposDoc();
-},
+  mounted() {
+    this.GruposDoc();
+  },
 };
 </script>
 

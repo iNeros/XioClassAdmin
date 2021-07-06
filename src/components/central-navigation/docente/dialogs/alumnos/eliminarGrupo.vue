@@ -10,12 +10,13 @@
           <br />
           <b>Usted eliminará el grupo: </b>
           <span style="color: #30dba0">
-            {{delit.nombre}}
+            {{ delit.nombre }}
             .</span
           >
 
-          <br />Esto hara que el grupo y todos los datos relacionados del grupo {{delit.nombre}} "{{delit.grupo}}" {{delit.periodo}}° 
-          tambien se eliminen, ¿desea continuar?
+          <br />Esto hara que el grupo y todos los datos relacionados del grupo
+          {{ delit.nombre }} "{{ delit.grupo }}" {{ delit.periodo }}° tambien se
+          eliminen, ¿desea continuar?
         </v-card-text>
 
         <v-divider></v-divider>
@@ -33,11 +34,11 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   data() {
     return {
-      GrupoDelete:[],
+      GrupoDelete: [],
     };
   },
   props: ["idGrupoDialog"],
@@ -45,10 +46,9 @@ export default {
   methods: {
     obtenerInfo() {
       //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idGrupoDialog
-            axios
+      axios
         .get(
-          "https://xicoclass.online/Grupo.php?id_grupo=" +
-            this.idGrupoDialog
+          "https://xicoclass.online/Grupo.php?id_grupo=" + this.idGrupoDialog
         )
         .then((r) => {
           this.GrupoDelete = r.data;
@@ -61,7 +61,9 @@ export default {
     executeEliminar() {
       //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
       axios
-        .delete("https://xicoclass.online/Grupo.php?id_grupo="+this.idGrupoDialog)
+        .delete(
+          "https://xicoclass.online/Grupo.php?id_grupo=" + this.idGrupoDialog
+        )
         .then((r) => {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           this.closeDialog();
@@ -81,13 +83,12 @@ export default {
     //Mandar a llama a obtenerInfo()
   },
   watch: {
-    idGrupoDialog(val){
-      if(val > 0){
+    idGrupoDialog(val) {
+      if (val > 0) {
         return this.obtenerInfo();
       }
-    }
-
-  }
+    },
+  },
 };
 </script>
 

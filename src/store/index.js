@@ -26,7 +26,6 @@ export default new Vuex.Store({
     //#region  Variables Para BIBLIOTECA
     tabsBiblio: 1,
     //#endregion
-    
   },
   mutations: {
     setWindowsOfUserAdmin(state) {

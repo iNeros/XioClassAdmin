@@ -39,11 +39,11 @@
         </v-card-text>
         <v-divider></v-divider>
         <v-card-actions>
-            <v-btn color="#FF4365" text @click="closeDialog()"> Cerrar </v-btn>
+          <v-btn color="#FF4365" text @click="closeDialog()"> Cerrar </v-btn>
           <v-spacer></v-spacer>
-            <v-btn color="#30DBA0" text @click="executeRevisar()">
-              Guardar
-            </v-btn>
+          <v-btn color="#30DBA0" text @click="executeRevisar()">
+            Guardar
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>

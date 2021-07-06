@@ -108,16 +108,16 @@ export default {
       type: ["1.- Cuento", "2.- Clases", "3.- Reforzamiento"],
       datos: [],
       encabezadosTabla: [
-          {
-            text: 'Titulo',
-            align: 'start',
-            value: 'titulo',
-          },
-          { text: 'Ruta', value: 'url', sortable: false },
-          { text: 'Grado', value: 'periodoAsociado'},
-          { text: 'Tipo', value: 'tipo' },
-          { text: 'Acciones', value: 'actions', sortable: false },
-        ],
+        {
+          text: "Titulo",
+          align: "start",
+          value: "titulo",
+        },
+        { text: "Ruta", value: "url", sortable: false },
+        { text: "Grado", value: "periodoAsociado" },
+        { text: "Tipo", value: "tipo" },
+        { text: "Acciones", value: "actions", sortable: false },
+      ],
     };
   },
   methods: {
@@ -126,10 +126,10 @@ export default {
       this.link = "";
       this.tipoVideo = "";
     },
-    enviar(){
+    enviar() {
       let url = this.link;
-      let conver = url.replace('watch?v=','embed/');
-      conver = conver.split('&');
+      let conver = url.replace("watch?v=", "embed/");
+      conver = conver.split("&");
       this.nombreVideo = conver[0];
       //return conver[0];
     },
