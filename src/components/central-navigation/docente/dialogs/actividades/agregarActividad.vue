@@ -230,8 +230,6 @@ export default {
       this.Load = false;
       this.Actividad();
     },
-  //meter una api para acortar el url 
-
     //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS
     Actividad() {
       let config = {
@@ -254,36 +252,29 @@ export default {
           .post("https://xicoclass.online/Actividades.php", parametros, config)
           .then((r) => {
             console.log(r);
+            this.Archi();
           })
           .catch((error) => {
             console.log(error);
       });
-//probando meter archivos con get
-
-  /*    
-      axios
-        .get("https://xicoclass.online/Archivos.php?nombre=ESHEM2&ruta="+this.urlFile+"&tipo=PDF&id_actividades1="+this.CapetaNueva[0].nuevo_id)
-        .then((r) => {
-          console.log(r);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-
-*/
+    },
+  Archi(){
+//Esta mamada es para decodificar: const decodedData = window.atob(encodedData);
+//esta es para codificar:
+//for (var i = 0; i < this.cantidadDeFiles; i++) {
+var encodedData = btoa(''+this.urlFile);
           let config1 = {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                   },
           };
-              console.log(this.urlFile);
               const parametros1 =
-                "nombre=" + "MAGOArchivo" +
-                //this.Archivos.name +
+                "nombre=" + 
+                this.Archivos[0].name +
                 "&tipo=PDF&id_actividades=" +
                 this.CapetaNueva[0].nuevo_id +
-                "&ruta=" +
-                this.urlFile; +
+                "&ruta="+
+                encodedData;
               axios
                 .post(
                   "https://xicoclass.online/Archivos.php",
@@ -298,7 +289,6 @@ export default {
                 });
 
     },
-
     executeSave() {
       //this.cargarArchivos();
       this.subirArchivo();
