@@ -42,6 +42,8 @@
                     show-size
                     truncate-length="90"
                     label="DOCUMENTO A SUBIR"
+                    :disabled="Load"
+                    @change="prueba"
                   ></v-file-input>
                 </v-row>
 
@@ -156,6 +158,7 @@ export default {
       guardar: false,
       Archivos: [],
       urlFile: "",
+      Load:false,
     };
   },
   methods: {
@@ -167,8 +170,12 @@ export default {
       this.urlFile = [];
       this.files = "";
     },
+    prueba(e){
+      let filevue = e;
+      console.log(filevue);
+    },
     enviar(){
-      
+
     },
     obtenerImpreso() {
       axios
@@ -186,10 +193,11 @@ export default {
     },
     async subirArchivo(){
       try {
-        const { files } = this.$refs.ArchivosImpreso;
+        //const { files } = this.$refs.ArchivosImpreso;
         this.Load = true;
-        const file = files;
-        this.Archivos[0] = files;
+        const file = this.files;
+        //const file = this.filesvue;
+        //this.Archivos[0] = files;
         if (file) {
             const response = await firebase
               .storage()
