@@ -37,7 +37,7 @@ export default {
   },
 
   mounted() {
-    this.Session();
+    //this.Session();
   },
 };
 </script>

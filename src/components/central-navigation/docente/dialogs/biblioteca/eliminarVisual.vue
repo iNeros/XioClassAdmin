@@ -1,23 +1,23 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="$store.state.eliminarAvisoDialog" width="500">
-      <v-card v-for="item in AvisoEliminar" :key="item.id_avisos">
+    <v-dialog v-model="$store.state.eliminarVisualDialog" width="500">
+      <v-card v-for="item in visualEliminar" :key="item.id_visual">
         <v-card-title class="text-center grey lighten-2">
-          ¿Seguro que desea eliminar la Actividad?
+          ¿Seguro que desea eliminar este Video?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted borrará el aviso: </b>
+          <b>Usted borrará el video: </b>
           <span style="color: #30dba0">
-            {{ item.nombre }}
+            {{ item.titulo }}
             <!-- {{NombreActivdad}} -->
             .</span
           >
           <br />
 
-          <br />Esto no solo hara que el aviso ya no sea visible si no que
-          eliminará por completo los archivos cargados y datos del mismo.
+          <br />Esto no solo hará que el video ya no sea visible si no que
+          eliminará por completo datos del mismo.
         </v-card-text>
 
         <v-divider></v-divider>
@@ -25,7 +25,7 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#FF4365" text @click="executeEliminar(idAviso)">
+          <v-btn color="#FF4365" text @click="executeEliminar(idVisual)">
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -39,10 +39,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      AvisoEliminar: [],
+      visualEliminar: [],
     };
   },
-  props: ["idAviso"],
+  props: ["idVisual"],
 
   methods: {
     InitialTest() {
@@ -52,9 +52,9 @@ export default {
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idAviso)
+        .get("https://xicoclass.online/Visual.php?id_visual=" + this.idVisual)
         .then((r) => {
-          this.AvisoEliminar = r.data;
+          this.visualEliminar = r.data;
         })
         .catch(function (error) {
           console.log(error);
@@ -63,7 +63,7 @@ export default {
 
     executeEliminar(id) {
       axios
-        .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
+        .delete("https://xicoclass.online/Visual.php?id_visual=" + id)
         .then((r) => {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           console.log(r);
@@ -76,8 +76,8 @@ export default {
     },
 
     closeDialog() {
-      this.AvisoEliminar = "";
-      this.$store.state.eliminarAvisoDialog = false;
+      this.visualEliminar = "";
+      this.$store.state.eliminarVisualDialog = false;
     },
   },
 
@@ -86,7 +86,7 @@ export default {
   },
 
   watch: {
-    idAviso(val) {
+    idVisual(val) {
       if (val > 0) {
         return this.obtenerInfo();
       }

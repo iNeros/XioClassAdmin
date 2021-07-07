@@ -1,16 +1,16 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="$store.state.eliminarAvisoDialog" width="500">
-      <v-card v-for="item in AvisoEliminar" :key="item.id_avisos">
+    <v-dialog v-model="$store.state.eliminarImpresoDialog" width="500">
+      <v-card v-for="item in visualEliminar" :key="item.id_visual">
         <v-card-title class="text-center grey lighten-2">
-          ¿Seguro que desea eliminar la Actividad?
+          ¿Seguro que desea eliminar este Documento?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted borrará el aviso: </b>
+          <b>Usted borrará el documento: </b>
           <span style="color: #30dba0">
-            {{ item.nombre }}
+            {{ item.titulo }}
             <!-- {{NombreActivdad}} -->
             .</span
           >
@@ -39,7 +39,7 @@ import axios from "axios";
 export default {
   data() {
     return {
-      AvisoEliminar: [],
+      visualEliminar: [],
     };
   },
   props: ["idAviso"],
@@ -54,7 +54,7 @@ export default {
       axios
         .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idAviso)
         .then((r) => {
-          this.AvisoEliminar = r.data;
+          this.visualEliminar = r.data;
         })
         .catch(function (error) {
           console.log(error);
@@ -76,7 +76,7 @@ export default {
     },
 
     closeDialog() {
-      this.AvisoEliminar = "";
+      this.visualEliminar = "";
       this.$store.state.eliminarAvisoDialog = false;
     },
   },

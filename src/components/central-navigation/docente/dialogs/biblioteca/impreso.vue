@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-card color="#9e9e9e">
+          <v-card color="#9e9e9e" dark>
             <v-card-title></v-card-title>
             <v-form>
               <v-container>
@@ -36,12 +36,25 @@
                                 -->
 
                   <v-file-input
+                    id="files"
+                    type="file"
+                    ref="ArchivosImpreso"
                     show-size
                     truncate-length="90"
                     label="DOCUMENTO A SUBIR"
                   ></v-file-input>
                 </v-row>
 
+                <v-row class="mx-5">
+                  <v-col>
+                    <v-select
+                      v-model="tipoDocumento"
+                      :items="type"
+                      label="Tipo de Documento"
+                      required
+                    ></v-select>
+                  </v-col>
+                </v-row>
                 <v-row class="mx-5">
                   <v-col>
                     <!--
@@ -57,9 +70,9 @@
                                     </v-list-group>
                                     -->
                     <v-select
-                      v-model="tipoDocumento"
-                      :items="type"
-                      label="Tipo de Documento"
+                      v-model="periodoAsociado"
+                      :items="typePeriodo"
+                      label="Periodo"
                       required
                     ></v-select>
                   </v-col>
@@ -69,7 +82,7 @@
             <v-card-actions class="px-10">
               <v-btn text color="#ff3d00" @click="limpiar()"> LIMPIAR </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text color="#1EFC1E" @click="enviar()"> GUARDAR </v-btn>
+              <v-btn text color="#1EFC1E" @click="guardar = true"> GUARDAR </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -88,7 +101,7 @@
                 :headers="encabezadosTabla"
                 :items="datos"
                 :items-per-page="5"
-                class="tabla-avisos elevation-12 mx-5"
+                class="tabla-impreso elevation-12 mx-5"
               >
                 <template v-slot:[`item.actions`]="{ item }"
                   ><!--HELP MINERO-->
@@ -107,6 +120,7 @@
 
 <script>
 import axios from "axios";
+import firebase from "firebase";
 
 export default {
   name: "impreso",
@@ -114,13 +128,18 @@ export default {
     return {
       nombreDocumento: "",
       tipoDocumento: "",
-      documentoSubido: "",
+      periodoAsociado: "",
       type: [
         "1.- Cuento",
         "2.- Recortable",
         "3.- Mi álbum",
         "4.- Valores",
         "5.- Otro",
+      ],
+      typePeriodo: [
+        "1er grado",
+        "2do grado",
+        "3er grado",
       ],
       datos: [],
       encabezadosTabla: [
@@ -134,15 +153,23 @@ export default {
         { text: "Tipo", value: "tipo" },
         { text: "Acciones", value: "actions", sortable: false },
       ],
+      guardar: false,
+      Archivos: [],
+      urlFile: "",
     };
   },
   methods: {
     limpiar() {
       this.nombreDocumento = "";
       this.tipoDocumento = "";
-      this.documentoSubido = "";
+      this.periodoAsociado = "";
+      this.Archivos = null;
+      this.urlFile = [];
+      this.files = "";
     },
-
+    enviar(){
+      
+    },
     obtenerImpreso() {
       axios
         .get("https://xicoclass.online/Impreso.php")
@@ -154,6 +181,69 @@ export default {
           console.log(error);
         });
     },
+    executeSave() {
+      this.subirArchivo();
+    },
+    async subirArchivo(){
+      try {
+        const { files } = this.$refs.ArchivosImpreso;
+        this.Load = true;
+        const file = files;
+        this.Archivos[0] = files;
+        if (file) {
+            const response = await firebase
+              .storage()
+              .ref(`/Impreso/1/${file.name}`)
+              .put(file);
+              const url = await response.ref.getDownloadURL();
+            this.urlFile = url;
+            console.log('archivo disponible en ', this.urlFile);
+        } else {
+          console.log('falta el archivo');
+        }
+      } catch (error) {
+        console.error(error);
+      }
+      this.Load = false;
+      this.Actividad();
+    },
+    Actividad() {
+      let config1 = {
+        headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      console.log(this.urlFile);
+      const parametros1 =
+      "titulo="+
+      this.nombreDocumento +
+      "&ruta=" +
+      this.urlFile +
+      "&tipo=" +
+      this.tipoDocumento[0] +
+      "&periodoAsociado=" +
+      this.periodoAsociado[0];
+
+      axios
+      .post(
+      "https://xicoclass.online/Impreso.php",
+      parametros1,
+      config1
+      )
+      .then((r) => {
+      console.log(r);
+      })
+      .catch((error) => {
+      console.log(error);
+      });
+      this.limpiar();
+    },
+  },
+  watch: {
+    guardar(val) {
+      if (!val) return;
+      this.executeSave();    
+    },  
   },
   mounted() {
     this.obtenerImpreso();
@@ -193,4 +283,7 @@ export default {
   margin-left: 20px;
   font-size: 18px;
 }
+/*.tabla-impreso {
+  width: 100% !important;
+}*/
 </style>

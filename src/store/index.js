@@ -24,6 +24,8 @@ export default new Vuex.Store({
     //#endregion
 
     //#region  Variables Para BIBLIOTECA
+    eliminarVisualDialog: false,
+    eliminarImpresoDialog: false,
     tabsBiblio: 1,
     //#endregion
   },

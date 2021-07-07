@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-card color="#EDF2EF">
+          <v-card color="#9e9e9e" dark>
             <v-card-title></v-card-title>
             <v-form>
               <v-container>
@@ -78,11 +78,11 @@
                 :headers="encabezadosTabla"
                 :items="datos"
                 :items-per-page="5"
-                class="tabla-avisos elevation-12 mx-5"
+                class="tabla-visual elevation-12 mx-5"
               >
                 <template v-slot:[`item.actions`]="{ item }"
                   ><!--HELP MINERO-->
-                  <v-icon @click="elminarAviso(item)" color="#F97068">
+                  <v-icon @click="eliminarVisualMethod(item.id_visual)" color="#F97068">
                     mdi-delete-forever
                   </v-icon>
                 </template>
@@ -92,13 +92,19 @@
         </v-col>
       </v-row>
     </v-container>
+    <eliminarVisual :idVisual="idVisualAEliminar" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 
+import eliminarVisual from "@/components/central-navigation/docente/dialogs/biblioteca/eliminarVisual.vue";
+
 export default {
+  components: {
+    eliminarVisual,
+  },
   name: "visual",
   data() {
     return {
@@ -107,6 +113,7 @@ export default {
       tipoVideo: "",
       type: ["1.- Cuento", "2.- Clases", "3.- Reforzamiento"],
       datos: [],
+      idVisualAEliminar: 0,
       encabezadosTabla: [
         {
           text: "Titulo",
@@ -130,12 +137,45 @@ export default {
       let url = this.link;
       let conver = url.replace("watch?v=", "embed/");
       conver = conver.split("&");
-      this.nombreVideo = conver[0];
+      //this.nombreVideo = conver[0];
+      //this.nombreVideo = this.tipoVideo[0];
       //return conver[0];
+      if (this.nombreVideo == "" || this.link == "" || this.tipoVideo == "") {
+        //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
+        window.alert("Todos los campos son requeridos.");
+      } else {
+        let config = {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        };
+        let parametros =
+          "titulo=" +
+          this.nombreVideo +
+          "&url=" +
+          conver[0] +
+          "&periodoAsociado=1" +
+          "&tipo=" +
+          this.tipoVideo[0];
+        axios
+          .post("https://xicoclass.online/Visual.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        this.limpiar();
+      }
+    },
+    eliminarVisualMethod(id) {
+      this.idVisualAEliminar = id;
+      this.$store.state.eliminarVisualDialog = true;
+      console.log(this.idVisualAEliminar.id);
     },
     obtenerVisual() {
       axios
-        .get("https://xicoclass.online/Visual.php?periodoAsociado=1")
+        .get("https://xicoclass.online/Visual.php")
         .then((r) => {
           this.datos = r.data;
           console.log(this.datos);
