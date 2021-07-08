@@ -38,7 +38,6 @@
                   <input
                 id="files"
                 type="file"
-                multiple
                 ref="ArchivoImpreso"
                 label="Agregar archivos"
                   >
@@ -205,6 +204,7 @@ export default {
       this.Actividad();
     },
     Actividad() {
+      var encodedData = btoa(''+this.urlFile);
       let config1 = {
         headers: {
         "Content-Type": "application/x-www-form-urlencoded",
@@ -215,7 +215,7 @@ export default {
       "titulo="+
       this.nombreDocumento +
       "&ruta=" +
-      this.urlFile +
+      encodedData +
       "&tipo=" +
       this.tipoDocumento[0] +
       "&periodoAsociado=" +
