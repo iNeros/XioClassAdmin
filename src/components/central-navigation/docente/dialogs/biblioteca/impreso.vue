@@ -35,16 +35,13 @@
                                 </v-col>
                                 -->
 
-                  <v-file-input
-                    id="files"
-                    type="file"
-                    ref="ArchivosImpreso"
-                    show-size
-                    truncate-length="90"
-                    label="DOCUMENTO A SUBIR"
-                    :disabled="Load"
-                    @change="prueba"
-                  ></v-file-input>
+                  <input
+                id="files"
+                type="file"
+                multiple
+                ref="ArchivoImpreso"
+                label="Agregar archivos"
+                  >
                 </v-row>
 
                 <v-row class="mx-5">
@@ -158,7 +155,6 @@ export default {
       guardar: false,
       Archivos: [],
       urlFile: "",
-      Load:false,
     };
   },
   methods: {
@@ -169,10 +165,6 @@ export default {
       this.Archivos = null;
       this.urlFile = [];
       this.files = "";
-    },
-    prueba(e){
-      let filevue = e;
-      console.log(filevue);
     },
     enviar(){
 
@@ -193,11 +185,9 @@ export default {
     },
     async subirArchivo(){
       try {
-        //const { files } = this.$refs.ArchivosImpreso;
-        this.Load = true;
-        const file = this.files;
-        //const file = this.filesvue;
-        //this.Archivos[0] = files;
+        const { files } = this.$refs.ArchivoImpreso;
+        const file = files[0];
+        this.Archivos[0] = files[0];
         if (file) {
             const response = await firebase
               .storage()
@@ -212,7 +202,6 @@ export default {
       } catch (error) {
         console.error(error);
       }
-      this.Load = false;
       this.Actividad();
     },
     Actividad() {
