@@ -8,7 +8,7 @@
         </v-col>
 
         <v-col cols="12">
-          <v-card color="#9e9e9e" dark>
+          <v-card>
             <v-card-title></v-card-title>
             <v-form>
               <v-container>
