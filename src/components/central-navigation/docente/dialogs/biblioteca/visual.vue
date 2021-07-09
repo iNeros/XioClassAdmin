@@ -135,8 +135,12 @@ export default {
     },
     enviar() {
       let url = this.link;
-      let conver = url.replace("watch?v=", "embed/");
-      conver = conver.split("&");
+      let bandera = 0;
+      let conver = "";
+      let config = "";
+      let parametros = "";
+      //let conver = url.replace("watch?v=", "embed/");   ESTO FUNCIONABA AQUI ANTES
+      //conver = conver.split("&");                       X2
       //this.nombreVideo = conver[0];
       //this.nombreVideo = this.tipoVideo[0];
       //return conver[0];
@@ -144,28 +148,70 @@ export default {
         //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
         window.alert("Todos los campos son requeridos.");
       } else {
-        let config = {
-          headers: {
-            "Content-Type": "application/x-www-form-urlencoded",
-          },
-        };
-        let parametros =
-          "titulo=" +
-          this.nombreVideo +
-          "&url=" +
-          conver[0] +
-          "&periodoAsociado=1" +
-          "&tipo=" +
-          this.tipoVideo[0];
-        axios
-          .post("https://xicoclass.online/Visual.php", parametros, config)
-          .then((r) => {
-            console.log(r);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-        this.limpiar();
+        if(url.indexOf('www.youtube.com') > 0){
+          bandera = 1;
+        }
+        if(url.indexOf('youtu.be') > 0){
+          bandera = 2;
+        }
+        switch(bandera){
+          case 1:
+            conver = url.replace("watch?v=", "embed/");
+            conver = conver.split("&");
+            config = {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            };
+            parametros =
+              "titulo=" +
+              this.nombreVideo +
+              "&url=" +
+              conver[0] +
+              "&periodoAsociado=1" +
+              "&tipo=" +
+              this.tipoVideo[0];
+            axios
+              .post("https://xicoclass.online/Visual.php", parametros, config)
+              .then((r) => {
+                console.log(r);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            this.limpiar();
+            window.alert("El video se subió correctamente.");
+            break;
+          case 2:
+            conver = url.replace("youtu.be/", "www.youtube.com/embed/");
+            config = {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+            };
+            parametros =
+              "titulo=" +
+              this.nombreVideo +
+              "&url=" +
+              conver +
+              "&periodoAsociado=1" +
+              "&tipo=" +
+              this.tipoVideo[0];
+            axios
+              .post("https://xicoclass.online/Visual.php", parametros, config)
+              .then((r) => {
+                console.log(r);
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+            this.limpiar();
+            window.alert("El video se subió correctamente.");
+            break;
+          default:
+            window.alert("El video es requerido de Youtube.");
+            break;
+        }
       }
     },
     eliminarVisualMethod(id) {
