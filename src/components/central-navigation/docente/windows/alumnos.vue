@@ -7,7 +7,7 @@
           <v-col class="diver" cols="12" lg="12"> </v-col>
         </v-col>
         <v-col cols="12">
-          <v-card color="#9e9e9e" dark>
+          <v-card elevation="18" color="#9e9e9e" dark>
             <v-card-title class="text-h5"> </v-card-title>
 
             <v-form>
@@ -134,7 +134,7 @@
           v-for="Grupos in GruposDocente"
           :key="Grupos.id_grupo"
         >
-          <v-card max-width="300" outlined color="#9e9e9e" dark>
+          <v-card max-width="300" outlined elevation="8">
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="text-overline mb-4">

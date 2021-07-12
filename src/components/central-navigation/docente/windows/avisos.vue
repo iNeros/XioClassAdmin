@@ -7,7 +7,7 @@
         </v-col>
         <v-col class="diver" cols="12"></v-col>
         <v-col>
-          <v-card color="#9e9e9e">
+          <v-card elevation="18">
             <v-card-title></v-card-title>
             <v-form>
               <v-container>

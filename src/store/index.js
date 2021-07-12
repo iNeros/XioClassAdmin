@@ -5,7 +5,11 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    adminWindowsSelected: 1,
+    adminWindowsSelected: 10,
+    
+    //#region Variables Para Overview
+    eliminarImagenDialog: false,
+    //#endregion
 
     //#region Variables Para Grupos
     editarGrupoDialog: false,
