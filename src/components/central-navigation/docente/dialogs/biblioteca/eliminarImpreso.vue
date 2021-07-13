@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="$store.state.eliminarImpresoDialog" width="500">
-      <v-card v-for="item in visualEliminar" :key="item.id_visual">
+    <v-dialog v-model="$store.state.eliminarImpresoDialog" width="600">
+      <v-card v-for="item in impresoEliminar" :key="item.id_impreso">
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro que desea eliminar este Documento?
         </v-card-title>
@@ -16,7 +16,7 @@
           >
           <br />
 
-          <br />Esto no solo hara que el aviso ya no sea visible si no que
+          <br />Esto no solo hara que el documento ya no sea visible si no que
           eliminará por completo los archivos cargados y datos del mismo.
         </v-card-text>
 
@@ -25,7 +25,7 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#FF4365" text @click="executeEliminar(idAviso)">
+          <v-btn color="#FF4365" text @click="executeEliminar(idImpreso)">
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -39,10 +39,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      visualEliminar: [],
+      impresoEliminar: [],
     };
   },
-  props: ["idAviso"],
+  props: ["idImpreso"],
 
   methods: {
     InitialTest() {
@@ -52,9 +52,9 @@ export default {
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idAviso)
+        .get("https://xicoclass.online/Impreso.php?id_impreso=" + this.idImpreso)
         .then((r) => {
-          this.visualEliminar = r.data;
+          this.impresoEliminar = r.data;
         })
         .catch(function (error) {
           console.log(error);
@@ -63,7 +63,7 @@ export default {
 
     executeEliminar(id) {
       axios
-        .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
+        .delete("https://xicoclass.online/Impreso.php?id_impreso=" + id)
         .then((r) => {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           console.log(r);
@@ -76,8 +76,8 @@ export default {
     },
 
     closeDialog() {
-      this.visualEliminar = "";
-      this.$store.state.eliminarAvisoDialog = false;
+      this.impresoEliminar = "";
+      this.$store.state.eliminarImpresoDialog = false;
     },
   },
 
@@ -86,7 +86,7 @@ export default {
   },
 
   watch: {
-    idAviso(val) {
+    idImpreso(val) {
       if (val > 0) {
         return this.obtenerInfo();
       }

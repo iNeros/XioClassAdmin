@@ -103,7 +103,7 @@
               >
                 <template v-slot:[`item.actions`]="{ item }"
                   ><!--HELP MINERO-->
-                  <v-icon @click="elminarAviso(item)" color="#F97068">
+                  <v-icon @click="eliminarVisualMethod(item.id_impreso)" color="#F97068">
                     mdi-delete-forever
                   </v-icon>
                 </template>
@@ -113,14 +113,19 @@
         </v-col>
       </v-row>
     </v-container>
+    <eliminarImpreso :idImpreso="idImpresoAEliminar" />
   </div>
 </template>
 
 <script>
 import axios from "axios";
 import firebase from "firebase";
+import eliminarImpreso from "@/components/central-navigation/docente/dialogs/biblioteca/eliminarImpreso.vue";
 
 export default {
+  components: {
+    eliminarImpreso,
+  },
   name: "impreso",
   data() {
     return {
@@ -154,6 +159,7 @@ export default {
       guardar: false,
       Archivos: [],
       urlFile: "",
+      idImpresoAEliminar: 0,
     };
   },
   methods: {
@@ -165,8 +171,10 @@ export default {
       this.urlFile = [];
       this.files = "";
     },
-    enviar(){
-
+    eliminarVisualMethod(id) {
+      this.idImpresoAEliminar = id;
+      this.$store.state.eliminarImpresoDialog = true;
+      console.log(this.idImpresoAEliminar.id);
     },
     obtenerImpreso() {
       axios
