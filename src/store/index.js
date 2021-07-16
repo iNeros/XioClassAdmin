@@ -9,6 +9,7 @@ export default new Vuex.Store({
     
     //#region Variables Para Overview
     eliminarImagenDialog: false,
+    eliminarNoticiaDialog: false,
     //#endregion
 
     //#region Variables Para Grupos

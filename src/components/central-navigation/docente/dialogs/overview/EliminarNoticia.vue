@@ -1,21 +1,22 @@
 <template>
   <div class="text-center">
-    <v-dialog v-model="$store.state.eliminarImagenDialog" width="500">
-      <v-card v-for="item in ImagenEliminar" :key="item">
+    <v-dialog v-model="$store.state.eliminarNoticiaDialog" width="35%">
+      <v-card v-for="item in NoticiaEliminar" :key="item">
         <v-card-title class="text-center grey lighten-2">
-          ¿Seguro que desea eliminar la Imagen?
+          ¿Seguro que desea eliminar la Noticia Global?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted borrará la imagen: </b>
+          <b>Usted borrará la Noticia Global: </b>
           <span style="color: #30dba0">
-            <!-- {{item.nombre}} -->
+            <!-- {{Nombre Imagen}} -->
+            {{item.nombre}}
             .</span
           >
           <br />
 
-          <br />Esto hará que se elimine por completo la imagen del sistema.
+          <br />Esto hará que se borre totalmente la Noticia Global.
         </v-card-text>
 
         <v-divider></v-divider>
@@ -23,7 +24,7 @@
         <v-card-actions>
           <v-btn color="#2403fc" text @click="closeDialog()"> Cancelar </v-btn>
           <v-spacer></v-spacer>
-          <v-btn color="#FF4365" text @click="executeEliminar(idImagen)">
+          <v-btn color="#FF4365" text @click="executeEliminar(idNoticia)">
             Si, Eliminar
           </v-btn>
         </v-card-actions>
@@ -37,10 +38,10 @@ import axios from "axios";
 export default {
   data() {
     return {
-      ImagenEliminar: [],
+      NoticiaEliminar: [],
     };
   },
-  props: ["idImagen"],
+  props: ["idNoticia"],
 
   methods: {
     InitialTest() {
@@ -50,9 +51,9 @@ export default {
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idImagen)
+        .get("https://xicoclass.online/Noticias_globales.php?id_noticias=" + this.idNoticia)
         .then((r) => {
-          this.AvisoEliminar = r.data;
+          this.NoticiaEliminar = r.data;
         })
         .catch(function (error) {
           console.log(error);
@@ -61,7 +62,7 @@ export default {
 
     executeEliminar(id) {
       axios
-        .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
+        .delete("https://xicoclass.online/Noticias_globales.php?id_noticias=" + id)
         .then((r) => {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           console.log(r);
@@ -74,8 +75,8 @@ export default {
     },
 
     closeDialog() {
-      this.ImagenEliminar = "";
-      this.$store.state.eliminarImagenDialog = false;
+      this.NoticiaEliminar = "";
+      this.$store.state.eliminarNoticiaDialog = false;
     },
   },
 
@@ -84,7 +85,7 @@ export default {
   },
 
   watch: {
-    idImagen(val) {
+    idNoticia(val) {
       if (val > 0) {
         return this.obtenerInfo();
       }

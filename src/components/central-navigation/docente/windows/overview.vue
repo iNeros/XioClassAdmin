@@ -1,11 +1,11 @@
 <template>
   <div class="docente-overview">
     <v-col>
-      <h1 class="titulo-seccion">AVISOS GLOBALES</h1>
+      <h1 class="titulo-seccion">NOTICIAS GLOBALES</h1>
       <v-col class="diver" cols="12" lg="12"> </v-col>
     </v-col>
     <v-row justify="space-around">
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="5">
         <v-card elevation="18" class="my-10 ml-8">
             <v-card-title></v-card-title>
             <v-form>
@@ -56,7 +56,7 @@
             </v-card-actions>
           </v-card>
       </v-col>
-      <v-col cols="12" md="6">
+      <v-col cols="12" md="7">
         <template>
           <div class="tabla-avisos my-10 ml-8">
             <v-data-table
@@ -68,7 +68,7 @@
             >
               <template v-slot:[`item.actions`]="{ item }"
                 ><!--HELP MINERO-->
-                <v-icon @click="EliminarAviso(item.id_avisos)" color="#F97068">
+                <v-icon @click="EliminarNoticia(item.id_noticias)" color="#F97068">
                   mdi-delete-forever
                 </v-icon>
               </template>
@@ -97,7 +97,7 @@
             :src="item.src"
             reverse-transition="fade-transition"
             transition="fade-transition"
-            @click="window.location.href = '#'"
+            @click="Alerta(item.src)"
           >
           </v-carousel-item>
         </v-carousel>
@@ -114,10 +114,7 @@
             >
               <template v-slot:[`item.actions`]="{ item }"
                 ><!--HELP MINERO-->
-                <v-icon @click="EditarImagen(item.id_avisos)" color="#02A9EA"> 
-                  mdi-image-edit
-                </v-icon>
-                <v-icon @click="EliminarImagen(item.id_avisos)" color="#F97068">
+                <v-icon @click="EliminarImagen(item.ide)" color="#F97068">
                   mdi-delete-forever
                 </v-icon>
               </template>
@@ -128,6 +125,7 @@
               block 
               color="teal"
               dark
+              @click="Alerta()"
               >
                 Agregar Imagen
               </v-btn>
@@ -141,27 +139,38 @@
         
       </v-col>
     </v-row>
-
+    <EliminarNoticia :idNoticia="idNoticiaEliminar" />
+    <EliminarImagen :idImagen="idImagenEliminar" />
   </div>
 </template>
 
 <script>
+import EliminarNoticia from "../dialogs/overview/EliminarNoticia.vue";
+import EliminarImagen from "../dialogs/overview/EliminarImagen.vue";
+import axios from 'axios'
 export default {
+    components: {
+    EliminarNoticia,
+    EliminarImagen,
+  },
   name: "docente-overview",
   data(){
     return{
       nombreAvisoGlobal: "",
       fechaPublicacionGlobal: "",
       descripcionAvisoGlobal: "",
+      enlace1: "",
+      idNoticiaEliminar: 0,
+      idImagenEliminar:0,
       
       encabezadosTabla: [
         {
-          text: "Fecha Publicacion",
+          text: "Título Noticia",
           align: "start",
-          value: "fecha",
+          value: "nombre",
         },
-        { text: "Titulo Aviso", value: "nombre", sortable: false },
-        { text: "Grupo", value: "id_grupo", sortable: false },
+        { text: "Descripción", value: "descripcion", sortable: false },
+        { text: "Enlace", value: "ruta_archivo", sortable: false },
         { text: "Acciones", value: "actions", sortable: false },
       ],
 
@@ -177,7 +186,7 @@ export default {
 
       Avisos1: [],
       Imagenes1 : [
-        {fecha: "17/07/2021" , nombre: "Ejemplo" }
+        {fecha: "17/07/2021" , nombre: "Ejemplo" ,ide: 1}
       ],
 
       items: [
@@ -194,10 +203,72 @@ export default {
     }
   },
 
-  methods: {
+methods: {
+    EliminarImagen(id) {
+      this.idImagenEliminar = id;
+      this.$store.state.eliminarImagenDialog = true;
+    },
+    EliminarNoticia(id) {
+      this.idNoticiaEliminar = id;
+      this.$store.state.eliminarNoticiaDialog = true;
+    },
+    Alerta(id){
+window.alert(id);
+    },
+    AvisosGet() {
+      axios
+        .get(
+          "https://xicoclass.online/Noticias_globales.php"
+        )
+        .then((r) => {
+          this.Avisos1 = r.data;
+          console.log(this.Avisos1);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
 
-  }, 
-
+    Enviar() {
+      if (this.grupoSelect == "" || this.nombreAviso == "" || this.fechaPublicacion == "") {
+        //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
+        this.dialog = true;
+      } else {
+        let config = {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        };
+        let parametros =
+          "nombre=" +
+          this.nombreAvisoGlobal +
+          "&descripcion=" +
+          this.descripcionAvisoGlobal +
+          "&ruta_archivo=" +
+          this.enlace1 +
+          "&estado="+
+          this.fechaPublicacionGlobal;
+        axios
+          .post("https://xicoclass.online/Noticias_globales.php", parametros, config)
+          .then((r) => {
+            console.log(r);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+        this.Limpiar();
+      } //cierra el else
+    },
+    Limpiar() {
+      this.descripcionAvisoGlobal = "";
+      this.nombreAvisoGlobal = "";
+      this.fechaPublicacionGlobal = "";
+      this.enlace1 = "";
+    },
+  },
+  mounted() {
+    this.AvisosGet();
+  },
 };
 </script>
 
