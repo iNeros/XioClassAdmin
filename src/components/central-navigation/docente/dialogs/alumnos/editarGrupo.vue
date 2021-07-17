@@ -138,7 +138,8 @@
             </v-col>
             <v-col cols="12" md="1" class="py-0">
               <!--Meterle un @click="Eliminar alumno()"-->
-              <v-btn color="#ff0000" height="60" class="mx-3">
+              <v-btn color="#ff0000" height="60" class="mx-3"
+                @click="Borrar(alum.id_alumno)">
                 <v-icon> mdi-close-circle-outline </v-icon>
               </v-btn>
             </v-col>
@@ -218,10 +219,13 @@
 <script>
 import axios from "axios";
 export default {
+    components: {
+  },
   data() {
     return {
       guardar: false,
       dialog: false,
+      idAlumnoEliminar:0,
 
       nombreGrupo: "",
       identificadorGrupo: "",
@@ -249,6 +253,10 @@ export default {
   },
 
   methods: {
+    Borrar(id){
+      this.idAlumnoEliminar = id;
+      window.alert("borrar alumno"+id);
+    },
     Limpiar() {
       this.nombreGrupo = "";
       this.identificadorGrupo = "";

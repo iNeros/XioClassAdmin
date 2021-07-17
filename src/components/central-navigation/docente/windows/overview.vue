@@ -15,7 +15,7 @@
                     <v-text-field
                       filled
                       v-model="nombreAvisoGlobal"
-                      label="NOMBRE DEL AVISO*"
+                      label="TITULO AVISO GLOBAL*"
                       placeholder=""
                       outlined
                     >
@@ -29,7 +29,7 @@
                     <v-text-field
                       filled
                       v-model="fechaPublicacionGlobal"
-                      label="FECHA DE PUBLICACION"
+                      label="FECHA DE PUBLICACION*"
                       outlined
                       type="date"
                     >
@@ -42,7 +42,7 @@
                       filled                     
                       v-model="descripcionAvisoGlobal"
                       name="AvisoDescripcion"
-                      label="DESCRIPCION DEL AVISO*"
+                      label="DESCRIPCION AVISO GLOBAL*"
                       hint="Breves descripciones son más atractivas de leer"
                     ></v-textarea>
                   </v-col>
@@ -141,6 +141,36 @@
     </v-row>
     <EliminarNoticia :idNoticia="idNoticiaEliminar" />
     <EliminarImagen :idImagen="idImagenEliminar" />
+        <!-- Dialog para validar datos requeridos-->
+ <template>
+  <v-row justify="center">
+    <v-dialog
+      v-model="dialog"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="text-h5">
+          Campos requeridos
+        </v-card-title>
+        <v-card-text>
+          Verifíca que hayas llenado todos los campos requeridos.<br>
+          Título - Descripción - Fecha.
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="green darken-1"
+            text
+            @click="dialog = false"
+          >
+            Cerrar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+</template>
+      <!-- aqui acaba -->
   </div>
 </template>
 
@@ -162,6 +192,7 @@ export default {
       enlace1: "",
       idNoticiaEliminar: 0,
       idImagenEliminar:0,
+      dialog:false,
       
       encabezadosTabla: [
         {
@@ -230,7 +261,7 @@ window.alert(id);
     },
 
     Enviar() {
-      if (this.grupoSelect == "" || this.nombreAviso == "" || this.fechaPublicacion == "") {
+      if (this.nombreAvisoGlobal == "" || this.descripcionAvisoGlobal == "" || this.fechaPublicacionGlobal == "") {
         //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
         this.dialog = true;
       } else {
