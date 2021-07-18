@@ -138,10 +138,9 @@
             <v-list-item three-line>
               <v-list-item-content>
                 <div class="text-overline mb-4">
-                  Grupo: {{ Grupos.id_grupo }}
+                  Grupo: {{ Grupos.periodo }}° - "{{ Grupos.grupo }}" 
                 </div>
                 <v-list-item-title class="text-h5 mb-1">
-                  {{ Grupos.periodo }}° - "{{ Grupos.grupo }}" -
                   {{ Grupos.nombre }}
                 </v-list-item-title>
                 <v-list-item-subtitle
