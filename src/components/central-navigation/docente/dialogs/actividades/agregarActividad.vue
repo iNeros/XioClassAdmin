@@ -149,7 +149,9 @@ export default {
         .get("https://xicoclass.online/Actividades.php?max")
         .then((r) => {
           this.CapetaNueva = r.data;
+          this.CapetaNueva[0].nuevo_id = parseInt(this.CapetaNueva[0].nuevo_id)+1;
           console.log(this.CapetaNueva[0].nuevo_id);
+
         })
         .catch(function (error) {
           console.log(error);
@@ -169,7 +171,7 @@ export default {
       this.descripcionActividad = "";
       this.Archivos = null;
       this.cantidadDeFiles = 0;
-      this.urlFile = [];
+      this.urlFile = '';
     },
 
    /* cargarArchivos() {
@@ -208,15 +210,17 @@ export default {
      // this.closeDialog();
     },*/
     async subirArchivo(){
+      this.cantidadDeFiles = 2;
+      for (var i = 0; i < this.cantidadDeFiles; i++) {
       try {
         const { files } = this.$refs.ArchivosDocentes;
         this.Load = true;
-        const file = files[0];
-        this.Archivos[0] = files[0];
+        const file = files[i];
+        this.Archivos[i] = files[i];
         if (file) {
             const response = await firebase
               .storage()
-              .ref(`/ArchivosDocentes/101/${file.name}`)
+              .ref(`/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${file.name}`)
               .put(file);
               const url = await response.ref.getDownloadURL();
             this.urlFile = url;
@@ -224,9 +228,12 @@ export default {
         } else {
           console.log('falta el archivo');
         }
+
+        
       } catch (error) {
         console.error(error);
       }
+      }//termina el for
       this.Load = false;
       this.Actividad();
     },
@@ -261,8 +268,8 @@ export default {
   Archi(){
 //Esta mamada es para decodificar: const decodedData = window.atob(encodedData);
 //esta es para codificar:
-//for (var i = 0; i < this.cantidadDeFiles; i++) {
-var encodedData = btoa(''+this.urlFile);
+for (var i = 0; i < this.cantidadDeFiles; i++) {
+var encodedData = btoa(''+this.urlFile[i]);
           let config1 = {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -270,7 +277,7 @@ var encodedData = btoa(''+this.urlFile);
           };
               const parametros1 =
                 "nombre=" + 
-                this.Archivos[0].name +
+                this.Archivos[i].name +
                 "&tipo=PDF&id_actividades=" +
                 this.CapetaNueva[0].nuevo_id +
                 "&ruta="+
@@ -287,7 +294,7 @@ var encodedData = btoa(''+this.urlFile);
                 .catch((error) => {
                   console.log(error);
                 });
-
+}//aqui cierra el for
     },
     executeSave() {
       //this.cargarArchivos();
