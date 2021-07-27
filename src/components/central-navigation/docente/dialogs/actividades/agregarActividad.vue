@@ -169,48 +169,13 @@ export default {
       this.fechaPublicacion = "";
       this.fechaCierre = "";
       this.descripcionActividad = "";
-      this.Archivos = null;
+      this.Archivos = [];
       this.cantidadDeFiles = 0;
-      this.urlFile = '';
+      this.urlFile = [];
     },
-
-   /* cargarArchivos() {
-      this.cantidadDeFiles = this.files.length;
-      for (var i = 0; i < this.cantidadDeFiles; i++) {
-        const storageRef = firebase
-          .storage()
-          .ref(
-            `/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${this.files[i].name}`
-          );
-        const task = storageRef.put(this.files[i]);
-
-        task.on(
-          "state_changed",
-          (snapshot) => {
-            let percentage =
-              (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-            this.uploadValue = percentage;
-          },
-          (error) => {
-            console.log(error.message);
-          },
-          () => {
-            this.uploadValue = 100;
-            //OBTENER EL LINK
-            task.snapshot.ref.getDownloadURL().then((url) => {
-              this.urlFile[i] = url;
-              console.log(this.urlFile[i]);
-            });
-          }
-        );
-        //AQUI VA EL AXIOS PARA GUARDAR EL REGISTRO EN TABLA ARCHIVOS_DOCENTES
-      }
-    //setTimeout(() => ((this.Bandera = true)), 4000);
-
-     // this.closeDialog();
-    },*/
+  
     async subirArchivo(){
-      this.cantidadDeFiles = 2;
+      this.cantidadDeFiles = 5;
       for (var i = 0; i < this.cantidadDeFiles; i++) {
       try {
         const { files } = this.$refs.ArchivosDocentes;
@@ -224,6 +189,7 @@ export default {
               .put(file);
               const url = await response.ref.getDownloadURL();
             this.urlFile = url;
+            this.Archi(i);
             console.log('archivo disponible en ', this.urlFile);
         } else {
           console.log('falta el archivo');
@@ -234,8 +200,8 @@ export default {
         console.error(error);
       }
       }//termina el for
+      this.closeDialog();
       this.Load = false;
-      this.Actividad();
     },
     //AXIOS POST DE GUARDAR LA INFO , Y LOS LINKS
     Actividad() {
@@ -259,17 +225,16 @@ export default {
           .post("https://xicoclass.online/Actividades.php", parametros, config)
           .then((r) => {
             console.log(r);
-            this.Archi();
+            this.subirArchivo();
           })
           .catch((error) => {
             console.log(error);
       });
     },
-  Archi(){
+  Archi(i){
 //Esta mamada es para decodificar: const decodedData = window.atob(encodedData);
 //esta es para codificar:
-for (var i = 0; i < this.cantidadDeFiles; i++) {
-var encodedData = btoa(''+this.urlFile[i]);
+var encodedData = btoa(''+this.urlFile);
           let config1 = {
                   headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
@@ -294,11 +259,9 @@ var encodedData = btoa(''+this.urlFile[i]);
                 .catch((error) => {
                   console.log(error);
                 });
-}//aqui cierra el for
     },
     executeSave() {
-      //this.cargarArchivos();
-      this.subirArchivo();
+      this.Actividad();
     },
   },
   watch: {

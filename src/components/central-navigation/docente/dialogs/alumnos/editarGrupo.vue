@@ -139,7 +139,7 @@
             <v-col cols="12" md="1" class="py-0">
               <!--Meterle un @click="Eliminar alumno()"-->
               <v-btn color="#ff0000" height="60" class="mx-3"
-                @click="Borrar(alum.id_alumno)">
+                @click="Borrar(alum.id_alumno,alum.nombre)">
                 <v-icon> mdi-close-circle-outline </v-icon>
               </v-btn>
             </v-col>
@@ -213,6 +213,43 @@
         </v-container>
       </v-card-text>
     </v-card>
+      <!-- Dialog para validar datos requeridos-->
+ <template>
+  <v-row justify="center">
+    <v-dialog v-model="dialog1" width="500">
+      <v-card >
+        <v-card-title class="text-center grey lighten-2">
+          ¿Seguro que desea eliminar el alumno?
+        </v-card-title>
+
+        <v-card-text>
+          <br />
+          <b>Usted eliminará el alumno: </b>
+          <span style="color: #30dba0">
+            {{nombreAlumnoEliminar}}
+            <!-- {{NombreActivdad}} -->
+            .</span
+          >
+          <br />
+
+          <br />Esto no solo hara que el alumno se elimine, sino también todo
+          el contenido relacionado al alumno.
+        </v-card-text>
+
+        <v-divider></v-divider>
+
+        <v-card-actions>
+          <v-btn color="#2403fc" text @click="dialog1 = false"> Cancelar </v-btn>
+          <v-spacer></v-spacer>
+          <v-btn color="#FF4365" text @click="BorrarD(idAlumnoEliminar)">
+            Si, Eliminar
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-row>
+</template>
+      <!-- aqui acaba -->
   </v-dialog>
 </template>
 
@@ -225,7 +262,9 @@ export default {
     return {
       guardar: false,
       dialog: false,
+      dialog1: false,
       idAlumnoEliminar:0,
+      nombreAlumnoEliminar:'',
 
       nombreGrupo: "",
       identificadorGrupo: "",
@@ -253,9 +292,23 @@ export default {
   },
 
   methods: {
-    Borrar(id){
+    Borrar(id,nombre){
+      this.nombreAlumnoEliminar = nombre;
       this.idAlumnoEliminar = id;
-      window.alert("borrar alumno"+id);
+        this.dialog1 = true;
+    },
+    BorrarD(id){
+      axios
+        .delete("https://xicoclass.online/Alumno.php?id_alumno=" + id)
+        .then((r) => {
+          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
+          console.log(r);
+          this.dialog1 = false;
+          this.closeDialog();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
     Limpiar() {
       this.nombreGrupo = "";
