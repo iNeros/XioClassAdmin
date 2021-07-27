@@ -11,7 +11,7 @@
           <b>Usted borrará la Noticia Global: </b>
           <span style="color: #30dba0">
             <!-- {{Nombre Imagen}} -->
-            {{item.nombre}}
+            {{ item.nombre }}
             .</span
           >
           <br />
@@ -51,7 +51,10 @@ export default {
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get("https://xicoclass.online/Noticias_globales.php?id_noticias=" + this.idNoticia)
+        .get(
+          "https://xicoclass.online/Noticias_globales.php?id_noticias=" +
+            this.idNoticia
+        )
         .then((r) => {
           this.NoticiaEliminar = r.data;
         })
@@ -62,7 +65,9 @@ export default {
 
     executeEliminar(id) {
       axios
-        .delete("https://xicoclass.online/Noticias_globales.php?id_noticias=" + id)
+        .delete(
+          "https://xicoclass.online/Noticias_globales.php?id_noticias=" + id
+        )
         .then((r) => {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           console.log(r);

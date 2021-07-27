@@ -7,54 +7,59 @@
     <v-row justify="space-around">
       <v-col cols="12" md="5">
         <v-card elevation="18" class="my-10 ml-8">
-            <v-card-title></v-card-title>
-            <v-form>
-              <v-container class="pa-0">
-                <v-row class="mx-5">
-                  <v-col cols="12" md="5" class="py-0">
-                    <v-text-field
-                      filled
-                      v-model="nombreAvisoGlobal"
-                      label="TITULO AVISO GLOBAL*"
-                      placeholder=""
-                      outlined
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="4" class="py-0">
-                    <v-text-field v-model="enlace1" label="Enlace" filled outlined>
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="3" class="py-0 pr-0" >
-                    <v-text-field
-                      filled
-                      v-model="fechaPublicacionGlobal"
-                      label="FECHA DE PUBLICACION*"
-                      outlined
-                      type="date"
-                    >
-                    </v-text-field>
-                  </v-col>
-                </v-row>
-                <v-row class="mx-5">
-                  <v-col cols="12" md="12">
-                    <v-textarea
-                      filled                     
-                      v-model="descripcionAvisoGlobal"
-                      name="AvisoDescripcion"
-                      label="DESCRIPCION AVISO GLOBAL*"
-                      hint="Breves descripciones son más atractivas de leer"
-                    ></v-textarea>
-                  </v-col>
-                </v-row>
-              </v-container>
-            </v-form>
-            <v-card-actions class="px-10">
-              <v-btn text color="#ff3d00" @click="Limpiar()"> LIMPIAR </v-btn>
-              <v-spacer></v-spacer>
-              <v-btn text color="#1EFC1E" @click="Enviar()"> GUARDAR </v-btn>
-            </v-card-actions>
-          </v-card>
+          <v-card-title></v-card-title>
+          <v-form>
+            <v-container class="pa-0">
+              <v-row class="mx-5">
+                <v-col cols="12" md="5" class="py-0">
+                  <v-text-field
+                    filled
+                    v-model="nombreAvisoGlobal"
+                    label="TITULO AVISO GLOBAL*"
+                    placeholder=""
+                    outlined
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12" md="4" class="py-0">
+                  <v-text-field
+                    v-model="enlace1"
+                    label="Enlace"
+                    filled
+                    outlined
+                  >
+                  </v-text-field>
+                </v-col>
+                <v-col cols="12" md="3" class="py-0 pr-0">
+                  <v-text-field
+                    filled
+                    v-model="fechaPublicacionGlobal"
+                    label="FECHA DE PUBLICACION*"
+                    outlined
+                    type="date"
+                  >
+                  </v-text-field>
+                </v-col>
+              </v-row>
+              <v-row class="mx-5">
+                <v-col cols="12" md="12">
+                  <v-textarea
+                    filled
+                    v-model="descripcionAvisoGlobal"
+                    name="AvisoDescripcion"
+                    label="DESCRIPCION AVISO GLOBAL*"
+                    hint="Breves descripciones son más atractivas de leer"
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+          <v-card-actions class="px-10">
+            <v-btn text color="#ff3d00" @click="Limpiar()"> LIMPIAR </v-btn>
+            <v-spacer></v-spacer>
+            <v-btn text color="#1EFC1E" @click="Enviar()"> GUARDAR </v-btn>
+          </v-card-actions>
+        </v-card>
       </v-col>
       <v-col cols="12" md="7">
         <template>
@@ -68,7 +73,10 @@
             >
               <template v-slot:[`item.actions`]="{ item }"
                 ><!--HELP MINERO-->
-                <v-icon @click="EliminarNoticia(item.id_noticias)" color="#F97068">
+                <v-icon
+                  @click="EliminarNoticia(item.id_noticias)"
+                  color="#F97068"
+                >
                   mdi-delete-forever
                 </v-icon>
               </template>
@@ -83,7 +91,11 @@
     </v-col>
     <v-row class="my-4">
       <v-col cols="12" md="8">
-        <v-carousel height="auto" hide-delimiter-background show-arrows-on-hover>
+        <v-carousel
+          height="350"
+          hide-delimiter-background
+          show-arrows-on-hover
+        >
           <template v-slot:prev="{ on, attrs }">
             <v-btn color="#B2FF59" v-bind="attrs" v-on="on">←</v-btn>
           </template>
@@ -92,9 +104,9 @@
           </template>
           <v-carousel-item
             eager
-            v-for="(item, i) in items"
+            v-for="(item, i) in Imagenes1"
             :key="i"
-            :src="item.src"
+            :src="item.url_img"
             reverse-transition="fade-transition"
             transition="fade-transition"
             @click="Alerta(item.src)"
@@ -102,15 +114,15 @@
           </v-carousel-item>
         </v-carousel>
       </v-col>
-      <v-col cols="12" md="4"> 
+      <v-col cols="12" md="4">
         <template>
-          <div class="tabla-avisos ">
+          <div class="tabla-avisos">
             <v-data-table
               :headers="encabezadosTablaSliders"
               :items="Imagenes1"
               :items-per-page="5"
               class="tabla-avisos elevation-12 mx-5"
-              height="250"
+              height="200"
             >
               <template v-slot:[`item.actions`]="{ item }"
                 ><!--HELP MINERO-->
@@ -119,81 +131,82 @@
                 </v-icon>
               </template>
             </v-data-table>
-            <div class="px-5">
-              <v-btn 
-              class="mt-6"
-              block 
-              color="teal"
-              dark
-              @click="Alerta()"
-              >
-                Agregar Imagen
-              </v-btn>
-            </div>
-            
-            
+            <v-row class="mt-2">
+              <v-col cols="10"> 
+                <v-file-input
+                class="mt-2 mb-n4"
+                label="Subir Imagen"
+                filled
+                accept="img"
+                v-model="UploadImg"
+                prepend-icon="mdi-camera"
+              ></v-file-input>
+              </v-col>
+              <v-col cols="2">
+                <v-btn
+                class="mt-5"
+                  color="teal"
+                  dark
+                  @click="subirImagen()"
+                  icon
+                >
+                  <v-icon> mdi-upload</v-icon>
+                </v-btn>
+              </v-col>   
+            </v-row>
           </div>
         </template>
-
-          
-        
       </v-col>
     </v-row>
     <EliminarNoticia :idNoticia="idNoticiaEliminar" />
     <EliminarImagen :idImagen="idImagenEliminar" />
-        <!-- Dialog para validar datos requeridos-->
- <template>
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Campos requeridos
-        </v-card-title>
-        <v-card-text>
-          Verifíca que hayas llenado todos los campos requeridos.<br>
-          Título - Descripción - Fecha.
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Cerrar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-</template>
-      <!-- aqui acaba -->
+    <!-- Dialog para validar datos requeridos-->
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="dialog" max-width="290">
+          <v-card>
+            <v-card-title class="text-h5"> Campos requeridos </v-card-title>
+            <v-card-text>
+              Verifíca que hayas llenado todos los campos requeridos.<br />
+              Título - Descripción - Fecha.
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="dialog = false">
+                Cerrar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+    <!-- aqui acaba -->
   </div>
 </template>
 
 <script>
 import EliminarNoticia from "../dialogs/overview/EliminarNoticia.vue";
 import EliminarImagen from "../dialogs/overview/EliminarImagen.vue";
-import axios from 'axios'
+import axios from "axios";
+import firebase from "firebase"
+
 export default {
-    components: {
+  components: {
     EliminarNoticia,
     EliminarImagen,
   },
   name: "docente-overview",
-  data(){
-    return{
+  data() {
+    return {
       nombreAvisoGlobal: "",
       fechaPublicacionGlobal: "",
       descripcionAvisoGlobal: "",
       enlace1: "",
       idNoticiaEliminar: 0,
-      idImagenEliminar:0,
-      dialog:false,
-      
+      idImagenEliminar: 0,
+      dialog: false,
+      UploadImg: [],
+
       encabezadosTabla: [
         {
           text: "Título Noticia",
@@ -216,25 +229,75 @@ export default {
       ],
 
       Avisos1: [],
-      Imagenes1 : [
-        {fecha: "17/07/2021" , nombre: "Ejemplo" ,ide: 1}
-      ],
 
-      items: [
-        {
-          src: require("@/assets/media/carusel/carusel1.png"),
-        },
-        {
-          src: require("@/assets/media/carusel/carusel2.png"),
-        },
-        {
-          src: require("@/assets/media/carusel/carusel3.png"),
-        },
-      ],
-    }
+      Imagenes1: [],
+    };
   },
 
-methods: {
+  methods: {
+
+    async obtenerImagenes(){
+      const imagenes = [];
+       await firebase.firestore().collection('carruselPrincipal').get()
+            .then(snapshot => {
+                snapshot.docs.forEach(imagen => {
+                    let currentID = imagen.id
+                    let appObj = { ...imagen.data(), ['id']: currentID }
+                    imagenes.push(appObj);
+            })
+            this.Imagenes1 = imagenes;
+            for(var i=0;i<this.Imagenes1.length;i++){
+              this.Imagenes1[i].fecha = this.fechaFormato(this.Imagenes1[i].fecha)
+            }
+            console.log(this.Imagenes1);
+        });
+
+    },
+
+    fechaFormato(miliseconds) {
+        if (miliseconds) {
+            const fecha = new Date(miliseconds);
+            // fecha.setMilliseconds = miliseconds * 1000;
+            let mes = "";
+            if (fecha.getMonth() + 1 < 10) {
+                mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+            } else {
+                mes = fecha.getMonth() + 1;
+            }
+
+            let dia = '';
+            if ( fecha.getDate() < 10){
+                dia = (fecha.getDate()).toString().padStart(2, "0");
+            } else {
+                dia = fecha.getDate();
+            }
+            return dia + "/" + mes + "/" + fecha.getFullYear();
+        }
+    },
+
+
+    async subirImagen() {
+      if (this.UploadImg != null) {
+        const file = this.UploadImg;
+        const response = await firebase
+          .storage()
+          .ref(`/CarouselHome/${file.name}`)
+          .put(file);
+        const url = await response.ref.getDownloadURL();
+        console.log("archivo disponible en: ", url);
+        await firebase.firestore().collection("carruselPrincipal").add({
+          fecha: Date.now(),
+          nombre: this.UploadImg.name,
+          url_img: url,
+        });
+        //window.location.reload();
+      }
+    },
+
+    eliminarImagen(){
+
+    },
+
     EliminarImagen(id) {
       this.idImagenEliminar = id;
       this.$store.state.eliminarImagenDialog = true;
@@ -243,14 +306,12 @@ methods: {
       this.idNoticiaEliminar = id;
       this.$store.state.eliminarNoticiaDialog = true;
     },
-    Alerta(id){
-window.alert(id);
+    Alerta(id) {
+      window.alert(id);
     },
     AvisosGet() {
       axios
-        .get(
-          "https://xicoclass.online/Noticias_globales.php"
-        )
+        .get("https://xicoclass.online/Noticias_globales.php")
         .then((r) => {
           this.Avisos1 = r.data;
           console.log(this.Avisos1);
@@ -261,7 +322,11 @@ window.alert(id);
     },
 
     Enviar() {
-      if (this.nombreAvisoGlobal == "" || this.descripcionAvisoGlobal == "" || this.fechaPublicacionGlobal == "") {
+      if (
+        this.nombreAvisoGlobal == "" ||
+        this.descripcionAvisoGlobal == "" ||
+        this.fechaPublicacionGlobal == ""
+      ) {
         //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
         this.dialog = true;
       } else {
@@ -277,10 +342,14 @@ window.alert(id);
           this.descripcionAvisoGlobal +
           "&ruta_archivo=" +
           this.enlace1 +
-          "&estado="+
+          "&estado=" +
           this.fechaPublicacionGlobal;
         axios
-          .post("https://xicoclass.online/Noticias_globales.php", parametros, config)
+          .post(
+            "https://xicoclass.online/Noticias_globales.php",
+            parametros,
+            config
+          )
           .then((r) => {
             console.log(r);
           })
@@ -299,6 +368,7 @@ window.alert(id);
   },
   mounted() {
     this.AvisosGet();
+    this.obtenerImagenes();
   },
 };
 </script>
@@ -339,7 +409,7 @@ window.alert(id);
 .diver {
   width: 100%;
   height: 5px;
-  background-color: #ACDDE7 !important;
+  background-color: #acdde7 !important;
   border-radius: 20px;
 }
 
@@ -355,6 +425,4 @@ window.alert(id);
   height: 10px;
   border-radius: 15px;
 }
-
-
 </style>

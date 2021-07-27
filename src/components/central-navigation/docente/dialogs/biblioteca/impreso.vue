@@ -36,11 +36,11 @@
                                 -->
 
                   <input
-                id="files"
-                type="file"
-                ref="ArchivoImpreso"
-                label="Agregar archivos"
-                  >
+                    id="files"
+                    type="file"
+                    ref="ArchivoImpreso"
+                    label="Agregar archivos"
+                  />
                 </v-row>
 
                 <v-row class="mx-5">
@@ -80,7 +80,9 @@
             <v-card-actions class="px-10">
               <v-btn text color="#ff3d00" @click="limpiar()"> LIMPIAR </v-btn>
               <v-spacer></v-spacer>
-              <v-btn text color="#1EFC1E" @click="guardar = true"> GUARDAR </v-btn>
+              <v-btn text color="#1EFC1E" @click="guardar = true">
+                GUARDAR
+              </v-btn>
             </v-card-actions>
           </v-card>
         </v-col>
@@ -103,7 +105,10 @@
               >
                 <template v-slot:[`item.actions`]="{ item }"
                   ><!--HELP MINERO-->
-                  <v-icon @click="eliminarVisualMethod(item.id_impreso)" color="#F97068">
+                  <v-icon
+                    @click="eliminarVisualMethod(item.id_impreso)"
+                    color="#F97068"
+                  >
                     mdi-delete-forever
                   </v-icon>
                 </template>
@@ -139,11 +144,7 @@ export default {
         "4.- Valores",
         "5.- Otro",
       ],
-      typePeriodo: [
-        "1er grado",
-        "2do grado",
-        "3er grado",
-      ],
+      typePeriodo: ["1er grado", "2do grado", "3er grado"],
       datos: [],
       encabezadosTabla: [
         {
@@ -190,21 +191,21 @@ export default {
     executeSave() {
       this.subirArchivo();
     },
-    async subirArchivo(){
+    async subirArchivo() {
       try {
         const { files } = this.$refs.ArchivoImpreso;
         const file = files[0];
         this.Archivos[0] = files[0];
         if (file) {
-            const response = await firebase
-              .storage()
-              .ref(`/Impreso/1/${file.name}`)
-              .put(file);
-              const url = await response.ref.getDownloadURL();
-            this.urlFile = url;
-            console.log('archivo disponible en ', this.urlFile);
+          const response = await firebase
+            .storage()
+            .ref(`/Impreso/1/${file.name}`)
+            .put(file);
+          const url = await response.ref.getDownloadURL();
+          this.urlFile = url;
+          console.log("archivo disponible en ", this.urlFile);
         } else {
-          console.log('falta el archivo');
+          console.log("falta el archivo");
         }
       } catch (error) {
         console.error(error);
@@ -212,43 +213,39 @@ export default {
       this.Actividad();
     },
     Actividad() {
-      var encodedData = btoa(''+this.urlFile);
+      var encodedData = btoa("" + this.urlFile);
       let config1 = {
         headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
+          "Content-Type": "application/x-www-form-urlencoded",
         },
       };
       console.log(this.urlFile);
       const parametros1 =
-      "titulo="+
-      this.nombreDocumento +
-      "&ruta=" +
-      encodedData +
-      "&tipo=" +
-      this.tipoDocumento[0] +
-      "&periodoAsociado=" +
-      this.periodoAsociado[0];
+        "titulo=" +
+        this.nombreDocumento +
+        "&ruta=" +
+        encodedData +
+        "&tipo=" +
+        this.tipoDocumento[0] +
+        "&periodoAsociado=" +
+        this.periodoAsociado[0];
 
       axios
-      .post(
-      "https://xicoclass.online/Impreso.php",
-      parametros1,
-      config1
-      )
-      .then((r) => {
-      console.log(r);
-      })
-      .catch((error) => {
-      console.log(error);
-      });
+        .post("https://xicoclass.online/Impreso.php", parametros1, config1)
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
       this.limpiar();
     },
   },
   watch: {
     guardar(val) {
       if (!val) return;
-      this.executeSave();    
-    },  
+      this.executeSave();
+    },
   },
   mounted() {
     this.obtenerImpreso();

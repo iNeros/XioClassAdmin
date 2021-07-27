@@ -5,7 +5,11 @@ import store from "./store";
 import vuetify from "./plugins/vuetify";
 import Vuex from "vuex";
 import Vuelidate from "vuelidate";
-import firebase from "firebase";
+
+import firebase from 'firebase/app';
+import 'firebase/database'; // If using Firebase database
+import 'firebase/storage';  // If using Firebase storage
+import 'firebase/firestore';
 
 Vue.use(Vuex);
 Vue.use(Vuelidate);
@@ -20,6 +24,7 @@ firebase.initializeApp({
   appId: "1:396970834685:web:bd23a246b1676f014a9c94",
   measurementId: "G-925M3LDKTF",
 });
+
 
 new Vue({
   router,

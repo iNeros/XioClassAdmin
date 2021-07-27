@@ -97,35 +97,26 @@
     </v-container>
     <EliminarAviso :idAviso="idAvisoAEliminar" />
     <!-- Dialog para validar datos requeridos-->
- <template>
-  <v-row justify="center">
-    <v-dialog
-      v-model="dialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="text-h5">
-          Campos requeridos
-        </v-card-title>
-        <v-card-text>
-          Verifíca que hayas llenado todos los campos requeridos.<br>
-          Título - Grupo - Fecha.
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn
-            color="green darken-1"
-            text
-            @click="dialog = false"
-          >
-            Cerrar
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-row>
-</template>
-      <!-- aqui acaba -->
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="dialog" max-width="290">
+          <v-card>
+            <v-card-title class="text-h5"> Campos requeridos </v-card-title>
+            <v-card-text>
+              Verifíca que hayas llenado todos los campos requeridos.<br />
+              Título - Grupo - Fecha.
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="dialog = false">
+                Cerrar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
+    <!-- aqui acaba -->
   </div>
 </template>
 
@@ -146,7 +137,7 @@ export default {
       enlaces: "",
       grupos: "",
       grupoSelect: "",
-      dialog:false,
+      dialog: false,
 
       idAvisoAEliminar: 0,
       encabezadosTabla: [
@@ -204,7 +195,11 @@ export default {
       return (this.grupoSelect = id);
     },
     Enviar() {
-      if (this.grupoSelect == "" || this.nombreAviso == "" || this.fechaPublicacion == "") {
+      if (
+        this.grupoSelect == "" ||
+        this.nombreAviso == "" ||
+        this.fechaPublicacion == ""
+      ) {
         //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
         this.dialog = true;
       } else {

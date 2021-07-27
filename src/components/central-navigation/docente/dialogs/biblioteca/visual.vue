@@ -82,7 +82,10 @@
               >
                 <template v-slot:[`item.actions`]="{ item }"
                   ><!--HELP MINERO-->
-                  <v-icon @click="eliminarVisualMethod(item.id_visual)" color="#F97068">
+                  <v-icon
+                    @click="eliminarVisualMethod(item.id_visual)"
+                    color="#F97068"
+                  >
                     mdi-delete-forever
                   </v-icon>
                 </template>
@@ -148,20 +151,20 @@ export default {
         //CAMBIAR ESTA WINDOW ALERT POR ALGO MÁS PERRON AND THATS IT..
         window.alert("Todos los campos son requeridos.");
       } else {
-        if(url.indexOf('www.youtube.com') > 0){
+        if (url.indexOf("www.youtube.com") > 0) {
           bandera = 1;
         }
-        if(url.indexOf('youtu.be') > 0){
+        if (url.indexOf("youtu.be") > 0) {
           bandera = 2;
         }
-        switch(bandera){
+        switch (bandera) {
           case 1:
             conver = url.replace("watch?v=", "embed/");
             conver = conver.split("&");
             config = {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
             };
             parametros =
               "titulo=" +
@@ -185,9 +188,9 @@ export default {
           case 2:
             conver = url.replace("youtu.be/", "www.youtube.com/embed/");
             config = {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+              headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+              },
             };
             parametros =
               "titulo=" +

@@ -52,7 +52,9 @@ export default {
     //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
     obtenerInfo() {
       axios
-        .get("https://xicoclass.online/Impreso.php?id_impreso=" + this.idImpreso)
+        .get(
+          "https://xicoclass.online/Impreso.php?id_impreso=" + this.idImpreso
+        )
         .then((r) => {
           this.impresoEliminar = r.data;
         })
