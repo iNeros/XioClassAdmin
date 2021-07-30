@@ -109,7 +109,6 @@
             :src="item.url_img"
             reverse-transition="fade-transition"
             transition="fade-transition"
-            @click="Alerta(item.src)"
           >
           </v-carousel-item>
         </v-carousel>
@@ -126,7 +125,7 @@
             >
               <template v-slot:[`item.actions`]="{ item }"
                 ><!--HELP MINERO-->
-                <v-icon @click="EliminarImagen(item.ide)" color="#F97068">
+                <v-icon @click="EliminarImagen(item.id)" color="#F97068">
                   mdi-delete-forever
                 </v-icon>
               </template>
@@ -292,10 +291,7 @@ export default {
         });
         //window.location.reload();
       }
-    },
-
-    eliminarImagen(){
-
+      this.UploadImg = null;
     },
 
     EliminarImagen(id) {
@@ -306,9 +302,7 @@ export default {
       this.idNoticiaEliminar = id;
       this.$store.state.eliminarNoticiaDialog = true;
     },
-    Alerta(id) {
-      window.alert(id);
-    },
+    
     AvisosGet() {
       axios
         .get("https://xicoclass.online/Noticias_globales.php")

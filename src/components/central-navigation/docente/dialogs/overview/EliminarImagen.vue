@@ -1,16 +1,15 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarImagenDialog" width="500">
-      <v-card v-for="item in ImagenEliminar" :key="item">
+      <v-card >
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro que desea eliminar la Imagen?
         </v-card-title>
 
         <v-card-text>
           <br />
-          <b>Usted borrará la imagen: </b>
+          <b>Usted borrará la imagen definitivamente </b>
           <span style="color: #30dba0">
-            <!-- {{item.nombre}} -->
             .</span
           >
           <br />
@@ -33,7 +32,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import firebase from "firebase"
 export default {
   data() {
     return {
@@ -47,30 +46,13 @@ export default {
       return 0;
     },
 
-    //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idAviso
-    obtenerInfo() {
-      axios
-        .get("https://xicoclass.online/Avisos.php?id_avisos=" + this.idImagen)
-        .then((r) => {
-          this.AvisoEliminar = r.data;
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
     executeEliminar(id) {
-      axios
-        .delete("https://xicoclass.online/Avisos.php?id_avisos=" + id)
-        .then((r) => {
-          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-          console.log(r);
-          console.log(id);
-          this.closeDialog();
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+    firebase.firestore().collection("carruselPrincipal").doc(id).delete().then(() => {
+    console.log("Document successfully deleted!");
+    this.closeDialog();
+}).catch((error) => {
+    console.error("Error removing document: ", error);
+});
     },
 
     closeDialog() {
@@ -82,14 +64,14 @@ export default {
   mounted() {
     this.InitialTest();
   },
-
+/*
   watch: {
     idImagen(val) {
       if (val > 0) {
         return this.obtenerInfo();
       }
     },
-  },
+  },*/
 };
 </script>
 
