@@ -51,7 +51,16 @@
           >
             INICIAR SESIÓN
           </v-btn>
-        </v-card-actions>
+          <v-btn
+          dark
+            color="red"
+            width="200"
+            class="btn-design"
+            @click="$store.state.registroDocenteDialog = true"
+        >
+          Registrarme
+        </v-btn>
+          </v-card-actions>
         <v-alert
           v-show="show"
           color="orange"
@@ -62,18 +71,26 @@
           >¡Verifíca tu usuario y contraseña!</v-alert
         >
       </v-card>
-      <div class="forgotten-password"></div>
+      <div class="forgotten-password">
+        <forgottenPasswordDocentes></forgottenPasswordDocentes>
+        <registroDocente />
+      </div>
     </div>
   </body>
 </template>
 
 <script>
+import forgottenPasswordDocentes from "@/components/central-navigation/docente/dialogs/login/forgottenPasswordDocentes.vue";
+import registroDocente from "@/components/central-navigation/docente/dialogs/login/registroDocente.vue";
 import { required, email } from "vuelidate/lib/validators";
 import axios from "axios";
 
 export default {
   name: "Landing",
-  components: {},
+  components: {
+    registroDocente,
+    forgottenPasswordDocentes,
+  },
   data() {
     return {
       show: false,
@@ -117,6 +134,9 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    },
+      ShowRegistroDocente() {
+      this.$store.state.registroDocenteDialog = true;
     },
   },
 

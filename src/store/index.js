@@ -12,6 +12,12 @@ export default new Vuex.Store({
     eliminarNoticiaDialog: false,
     //#endregion
 
+    //#region Variables Para Login
+    registroDocenteDialog: false,
+    forgottenPasswordDialog: false,
+    //#endregion
+
+
     //#region Variables Para Grupos
     editarGrupoDialog: false,
     eliminarGrupoDialog: false,
