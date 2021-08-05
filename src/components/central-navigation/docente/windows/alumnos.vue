@@ -256,7 +256,7 @@ export default {
       console.log(this.inputs);
     },
 
-    postGrupo() {
+   async postGrupo() {
       let config = {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -271,7 +271,7 @@ export default {
         this.periodoGrupo +
         "&id_docente=" +
         window.sessionStorage.getItem("id_docente");
-      axios
+        await axios
         .post("https://xicoclass.online/Grupo.php", parametros, config)
         .then((r) => {
           console.log(r);
@@ -281,8 +281,8 @@ export default {
           console.log(error);
         });
     },
-    MaxGrupo() {
-      axios
+    async MaxGrupo() {
+        await axios
         .get("https://xicoclass.online/Grupo.php?MaxGrupo")
         .then((r) => {
           this.MaxG = r.data;
@@ -292,7 +292,7 @@ export default {
           console.log(error);
         });
     },
-    postAlumno() {
+    async postAlumno() {
       for (var j = 0; j <= this.contadorAlumnos; j++) {
         //AQUI DENTRO IRA EL POST QUE CREARA LA N CANTIDAD DE ALUMNOS: obteniendo los datos de inputs[j].
         let config = {
@@ -311,10 +311,11 @@ export default {
           this.inputs[j].FechaNac +
           "&id_grado=" +
           this.MaxG[0].id_grupo;
-        axios
+        await axios
           .post("https://xicoclass.online/Alumno.php", parametros, config)
           .then((r) => {
             console.log(r);
+            window.location.reload();
           })
           .catch((error) => {
             console.log(error);

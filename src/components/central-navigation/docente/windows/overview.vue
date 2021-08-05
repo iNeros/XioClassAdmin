@@ -287,9 +287,10 @@ export default {
           nombre: this.UploadImg.name,
           url_img: url,
         });
-        //window.location.reload();
       }
       this.UploadImg = null;
+      window.location.reload();
+
     },
 
     EliminarImagen(id) {
