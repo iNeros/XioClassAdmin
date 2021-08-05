@@ -17,7 +17,6 @@ export default new Vuex.Store({
     forgottenPasswordDialog: false,
     //#endregion
 
-
     //#region Variables Para Grupos
     editarGrupoDialog: false,
     eliminarGrupoDialog: false,

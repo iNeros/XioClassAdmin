@@ -1,7 +1,5 @@
 <template>
-  <v-dialog
-    v-model="$store.state.crearActividadDialog"
-  >
+  <v-dialog v-model="$store.state.crearActividadDialog">
     <v-card>
       <v-toolbar dark color="#5d4f63">
         <v-btn icon dark @click="closeDialog()">
@@ -10,12 +8,7 @@
         <v-toolbar-title>Crear Actividad</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
-          <v-btn
-            :disabled="dialog"
-            dark
-            text
-            @click="guardar = true"
-          >
+          <v-btn :disabled="dialog" dark text @click="guardar = true">
             Guardar
           </v-btn>
           <v-dialog v-model="dialog" hide-overlay persistent width="300">
@@ -99,12 +92,12 @@
                 ref="ArchivosDocentes"
                 :disabled="Load"
                 label="Agregar archivos"
-              >
-                <template v-slot:selection="{ text }">
-                  <v-chip small label color="primary">
-                    {{ text }}
-                  </v-chip>
-                </template>
+              />
+              <template v-slot:selection="{ text }">
+                <v-chip small label color="primary">
+                  {{ text }}
+                </v-chip>
+              </template>
             </v-col>
           </v-row>
         </v-container>
@@ -123,14 +116,14 @@ export default {
     return {
       guardar: false,
       dialog: false,
-      Load:false,
+      Load: false,
       //variables para el post del axios
       nombreActividad: "",
       grupoActividad: "",
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
-      pruebamagos:[],
+      pruebamagos: [],
       //variable para crear una carpeta en firebase manualmente
       //se asignará el número de carpeta, usando el id de la actividad creada
       CapetaNueva: "",
@@ -140,7 +133,7 @@ export default {
       cantidadDeFiles: 0,
       urlFile: "",
 
-      Bandera:false,
+      Bandera: false,
     };
   },
   methods: {
@@ -149,9 +142,9 @@ export default {
         .get("https://xicoclass.online/Actividades.php?max")
         .then((r) => {
           this.CapetaNueva = r.data;
-          this.CapetaNueva[0].nuevo_id = parseInt(this.CapetaNueva[0].nuevo_id)+1;
+          this.CapetaNueva[0].nuevo_id =
+            parseInt(this.CapetaNueva[0].nuevo_id) + 1;
           console.log(this.CapetaNueva[0].nuevo_id);
-
         })
         .catch(function (error) {
           console.log(error);
@@ -173,33 +166,33 @@ export default {
       this.cantidadDeFiles = 0;
       this.urlFile = [];
     },
-  
-    async subirArchivo(){
+
+    async subirArchivo() {
       this.cantidadDeFiles = 5;
       for (var i = 0; i < this.cantidadDeFiles; i++) {
-      try {
-        const { files } = this.$refs.ArchivosDocentes;
-        this.Load = true;
-        const file = files[i];
-        this.Archivos[i] = files[i];
-        if (file) {
+        try {
+          const { files } = this.$refs.ArchivosDocentes;
+          this.Load = true;
+          const file = files[i];
+          this.Archivos[i] = files[i];
+          if (file) {
             const response = await firebase
               .storage()
-              .ref(`/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${file.name}`)
+              .ref(
+                `/ArchivosDocentes/${this.CapetaNueva[0].nuevo_id}/${file.name}`
+              )
               .put(file);
-              const url = await response.ref.getDownloadURL();
+            const url = await response.ref.getDownloadURL();
             this.urlFile = url;
             this.Archi(i);
-            console.log('archivo disponible en ', this.urlFile);
-        } else {
-          console.log('falta el archivo');
+            console.log("archivo disponible en ", this.urlFile);
+          } else {
+            console.log("falta el archivo");
+          }
+        } catch (error) {
+          console.error(error);
         }
-
-        
-      } catch (error) {
-        console.error(error);
-      }
-      }//termina el for
+      } //termina el for
       this.closeDialog();
       this.Load = false;
     },
@@ -221,44 +214,40 @@ export default {
         this.fechaCierre +
         "&estado=ACTIVO&id_docente=6&id_grupo=" +
         this.grupoActividad;
-        axios
-          .post("https://xicoclass.online/Actividades.php", parametros, config)
-          .then((r) => {
-            console.log(r);
-            this.subirArchivo();
-          })
-          .catch((error) => {
-            console.log(error);
-      });
+      axios
+        .post("https://xicoclass.online/Actividades.php", parametros, config)
+        .then((r) => {
+          console.log(r);
+          this.subirArchivo();
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
-  Archi(i){
-//Esta mamada es para decodificar: const decodedData = window.atob(encodedData);
-//esta es para codificar:
-var encodedData = btoa(''+this.urlFile);
-          let config1 = {
-                  headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                  },
-          };
-              const parametros1 =
-                "nombre=" + 
-                this.Archivos[i].name +
-                "&tipo=PDF&id_actividades=" +
-                this.CapetaNueva[0].nuevo_id +
-                "&ruta="+
-                encodedData;
-              axios
-                .post(
-                  "https://xicoclass.online/Archivos.php",
-                  parametros1,
-                  config1
-                )
-                .then((r) => {
-                  console.log(r);
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
+    Archi(i) {
+      //Esta mamada es para decodificar: const decodedData = window.atob(encodedData);
+      //esta es para codificar:
+      var encodedData = btoa("" + this.urlFile);
+      let config1 = {
+        headers: {
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+      };
+      const parametros1 =
+        "nombre=" +
+        this.Archivos[i].name +
+        "&tipo=PDF&id_actividades=" +
+        this.CapetaNueva[0].nuevo_id +
+        "&ruta=" +
+        encodedData;
+      axios
+        .post("https://xicoclass.online/Archivos.php", parametros1, config1)
+        .then((r) => {
+          console.log(r);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     executeSave() {
       this.Actividad();
@@ -273,14 +262,14 @@ var encodedData = btoa(''+this.urlFile);
       if (!val) return;
       this.executeSave();
     },
-    nombreActividad(val){
+    nombreActividad(val) {
       if (!val) return;
-      this.ObtenerIDActividad();       
+      this.ObtenerIDActividad();
     },
-    Bandera(val){
+    Bandera(val) {
       if (!val) return;
-      this.Actividad();      
-    },  
+      this.Actividad();
+    },
   },
 };
 </script>

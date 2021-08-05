@@ -52,15 +52,15 @@
             INICIAR SESIÓN
           </v-btn>
           <v-btn
-          dark
+            dark
             color="red"
             width="200"
             class="btn-design"
             @click="$store.state.registroDocenteDialog = true"
-        >
-          Registrarme
-        </v-btn>
-          </v-card-actions>
+          >
+            Registrarme
+          </v-btn>
+        </v-card-actions>
         <v-alert
           v-show="show"
           color="orange"
@@ -135,7 +135,7 @@ export default {
           console.log(error);
         });
     },
-      ShowRegistroDocente() {
+    ShowRegistroDocente() {
       this.$store.state.registroDocenteDialog = true;
     },
   },

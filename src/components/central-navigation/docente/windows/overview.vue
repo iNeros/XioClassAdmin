@@ -91,11 +91,7 @@
     </v-col>
     <v-row class="my-4">
       <v-col cols="12" md="8">
-        <v-carousel
-          height="350"
-          hide-delimiter-background
-          show-arrows-on-hover
-        >
+        <v-carousel height="350" hide-delimiter-background show-arrows-on-hover>
           <template v-slot:prev="{ on, attrs }">
             <v-btn color="#B2FF59" v-bind="attrs" v-on="on">←</v-btn>
           </template>
@@ -131,19 +127,19 @@
               </template>
             </v-data-table>
             <v-row class="mt-2">
-              <v-col cols="10"> 
+              <v-col cols="10">
                 <v-file-input
-                class="mt-2 mb-n4"
-                label="Subir Imagen"
-                filled
-                accept="img"
-                v-model="UploadImg"
-                prepend-icon="mdi-camera"
-              ></v-file-input>
+                  class="mt-2 mb-n4"
+                  label="Subir Imagen"
+                  filled
+                  accept="img"
+                  v-model="UploadImg"
+                  prepend-icon="mdi-camera"
+                ></v-file-input>
               </v-col>
               <v-col cols="2">
                 <v-btn
-                class="mt-5"
+                  class="mt-5"
                   color="teal"
                   dark
                   @click="subirImagen()"
@@ -151,7 +147,7 @@
                 >
                   <v-icon> mdi-upload</v-icon>
                 </v-btn>
-              </v-col>   
+              </v-col>
             </v-row>
           </div>
         </template>
@@ -187,7 +183,7 @@
 import EliminarNoticia from "../dialogs/overview/EliminarNoticia.vue";
 import EliminarImagen from "../dialogs/overview/EliminarImagen.vue";
 import axios from "axios";
-import firebase from "firebase"
+import firebase from "firebase";
 
 export default {
   components: {
@@ -234,46 +230,48 @@ export default {
   },
 
   methods: {
-
-    async obtenerImagenes(){
+    async obtenerImagenes() {
       const imagenes = [];
-       await firebase.firestore().collection('carruselPrincipal').get()
-            .then(snapshot => {
-                snapshot.docs.forEach(imagen => {
-                    let currentID = imagen.id
-                    let appObj = { ...imagen.data(), ['id']: currentID }
-                    imagenes.push(appObj);
-            })
-            this.Imagenes1 = imagenes;
-            for(var i=0;i<this.Imagenes1.length;i++){
-              this.Imagenes1[i].fecha = this.fechaFormato(this.Imagenes1[i].fecha)
-            }
-            console.log(this.Imagenes1);
+      await firebase
+        .firestore()
+        .collection("carruselPrincipal")
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((imagen) => {
+            let currentID = imagen.id;
+            let appObj = { ...imagen.data(), ["id"]: currentID };
+            imagenes.push(appObj);
+          });
+          this.Imagenes1 = imagenes;
+          for (var i = 0; i < this.Imagenes1.length; i++) {
+            this.Imagenes1[i].fecha = this.fechaFormato(
+              this.Imagenes1[i].fecha
+            );
+          }
+          console.log(this.Imagenes1);
         });
-
     },
 
     fechaFormato(miliseconds) {
-        if (miliseconds) {
-            const fecha = new Date(miliseconds);
-            // fecha.setMilliseconds = miliseconds * 1000;
-            let mes = "";
-            if (fecha.getMonth() + 1 < 10) {
-                mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
-            } else {
-                mes = fecha.getMonth() + 1;
-            }
-
-            let dia = '';
-            if ( fecha.getDate() < 10){
-                dia = (fecha.getDate()).toString().padStart(2, "0");
-            } else {
-                dia = fecha.getDate();
-            }
-            return dia + "/" + mes + "/" + fecha.getFullYear();
+      if (miliseconds) {
+        const fecha = new Date(miliseconds);
+        // fecha.setMilliseconds = miliseconds * 1000;
+        let mes = "";
+        if (fecha.getMonth() + 1 < 10) {
+          mes = (fecha.getMonth() + 1).toString().padStart(2, "0");
+        } else {
+          mes = fecha.getMonth() + 1;
         }
-    },
 
+        let dia = "";
+        if (fecha.getDate() < 10) {
+          dia = fecha.getDate().toString().padStart(2, "0");
+        } else {
+          dia = fecha.getDate();
+        }
+        return dia + "/" + mes + "/" + fecha.getFullYear();
+      }
+    },
 
     async subirImagen() {
       if (this.UploadImg != null) {
@@ -302,7 +300,7 @@ export default {
       this.idNoticiaEliminar = id;
       this.$store.state.eliminarNoticiaDialog = true;
     },
-    
+
     AvisosGet() {
       axios
         .get("https://xicoclass.online/Noticias_globales.php")

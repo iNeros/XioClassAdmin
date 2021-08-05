@@ -1,7 +1,7 @@
 <template>
   <div class="text-center">
     <v-dialog v-model="$store.state.eliminarImagenDialog" width="500">
-      <v-card >
+      <v-card>
         <v-card-title class="text-center grey lighten-2">
           ¿Seguro que desea eliminar la Imagen?
         </v-card-title>
@@ -9,9 +9,7 @@
         <v-card-text>
           <br />
           <b>Usted borrará la imagen definitivamente </b>
-          <span style="color: #30dba0">
-            .</span
-          >
+          <span style="color: #30dba0"> .</span>
           <br />
 
           <br />Esto hará que se elimine por completo la imagen del sistema.
@@ -32,7 +30,7 @@
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 export default {
   data() {
     return {
@@ -47,12 +45,18 @@ export default {
     },
 
     executeEliminar(id) {
-    firebase.firestore().collection("carruselPrincipal").doc(id).delete().then(() => {
-    console.log("Document successfully deleted!");
-    this.closeDialog();
-}).catch((error) => {
-    console.error("Error removing document: ", error);
-});
+      firebase
+        .firestore()
+        .collection("carruselPrincipal")
+        .doc(id)
+        .delete()
+        .then(() => {
+          console.log("Document successfully deleted!");
+          this.closeDialog();
+        })
+        .catch((error) => {
+          console.error("Error removing document: ", error);
+        });
     },
 
     closeDialog() {
@@ -64,7 +68,7 @@ export default {
   mounted() {
     this.InitialTest();
   },
-/*
+  /*
   watch: {
     idImagen(val) {
       if (val > 0) {
