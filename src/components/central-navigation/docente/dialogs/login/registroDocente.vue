@@ -3,8 +3,7 @@
     <v-row justify="center">
       <v-dialog
         v-model="$store.state.registroDocenteDialog"
-        persistent
-        max-width="600px"
+        max-width="600"
       >
         <v-card>
           <v-card-title>
@@ -95,53 +94,18 @@
 </template>
 
 <script>
-import axios from "axios";
+//import axios from "axios";
 export default {
+  name: 'registroDocente',
   data() {
     return {
       dialog: false,
     };
   },
-  props: [],
 
   methods: {
     InitialTest() {
-      this.ActEliminar[0] = {
-        nombre: "",
-        idGrupo: "",
-      };
-    },
-
-    //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
-    obtenerInfo() {
-      axios
-        .get(
-          "https://xicoclass.online/Actividades.php?id_actividad=" +
-            this.idActividad
-        )
-        .then((r) => {
-          this.ActEliminar = r.data;
-          this.ActityName = this.ActEliminar[0].nombre;
-          this.ActivityGrupo = this.ActEliminar[0].id_grupo;
-          console.log(this.ActEliminar[0]);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    },
-
-    executeEliminar(id) {
-      //EL POST PARA ELIMINAR LA ACTIVIDAD VA AQUI....
-      axios
-        .delete("https://xicoclass.online/Actividades.php?id_actividad=" + id)
-        .then((r) => {
-          //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-          this.closeDialog();
-          console.log(r.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+      console.log("CARGUE");
     },
 
     closeDialog() {

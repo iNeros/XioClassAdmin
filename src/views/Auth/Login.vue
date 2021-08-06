@@ -56,7 +56,7 @@
             color="red"
             width="200"
             class="btn-design"
-            @click="$store.state.registroDocenteDialog = true"
+            @click="dialogoRegistro()"
           >
             Registrarme
           </v-btn>
@@ -72,10 +72,13 @@
         >
       </v-card>
       <div class="forgotten-password">
-        <forgottenPasswordDocentes></forgottenPasswordDocentes>
-        <registroDocente />
+        
       </div>
     </div>
+    <v-app>
+      <forgottenPasswordDocentes></forgottenPasswordDocentes>
+      <registroDocente> </registroDocente>
+    </v-app>
   </body>
 </template>
 
@@ -101,6 +104,10 @@ export default {
     };
   },
   methods: {
+    dialogoRegistro(){
+      console.log("entre al cambio");
+      this.$store.state.registroDocenteDialog = true;
+    },
     Session() {
       this.show = false;
       axios
