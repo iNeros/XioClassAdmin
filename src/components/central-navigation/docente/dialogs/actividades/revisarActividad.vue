@@ -1,22 +1,24 @@
 <template>
-  <div class="text-center">
+  <div class="text-center revisarActividadCard">
     <v-dialog
       v-model="$store.state.revisarActividadDialog"
-      width="700"
+      class="revisarActividadCard"
+      width="80%"
       scrollable
     >
-      <v-card>
+      <v-card class="revisarActividad" >
         <v-card-title>CALIFICA LA ACTIVIDAD</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 300px">
           <v-row class="mt-1" v-for="n in 20" :key="n">
             <!-- AQUI VA EL V-FOR DEL TAMAÑO DE LA RECUPERACION DE ARCHIVOS WHERE idActividad = idActividadRevisar -->
-            <v-col cols="12" md="8">
+            <v-col cols="12" md="5">
               <v-btn
                 class="nombre-alumno"
                 color="black"
-                text
-                height="40"
+                outlined
+                width="100%"
+                height="80"
                 @click="ObtenerArchivosAlumnoSelected(1)"
               >
                 <!-- AGREGAR AQUI EL idAlumno -->
@@ -24,13 +26,25 @@
                 EL NOMBRE MAS LARGO DE CUALQUIER ALUMNO [{{ n }}]
               </v-btn>
             </v-col>
-            <v-col cols="12" md="4">
+
+            <v-col cols="12" md="6">
+              <v-textarea
+                name="input-7-1"
+                label="Comentarios"
+                v-model="cometario[n]"
+                outlined
+                height="80"
+              ></v-textarea>
+            </v-col>
+            
+            <v-col cols="12" md="1">
               <v-select
                 v-model="calificacion[n]"
                 class="calificaciones-box"
                 :items="calificacionesPosibles"
                 label="Calificacion"
                 full-width
+                height="80"
                 solo
                 dense
               ></v-select>
@@ -54,10 +68,10 @@
 export default {
   data() {
     return {
-      calificacionesPosibles: [10, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0],
-
+      calificacionesPosibles: [5, 4, 3, 2, 1, 0],
       archivosAlumnos: [1, 2, 3],
-      calificacion: [null, 2, 9, 10, 7],
+      calificacion: [],
+      cometario: [],
     };
   },
   props: ["idActividadRevisar"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES
@@ -99,6 +113,10 @@ export default {
   font-family: "Montserrat", sans-serif;
   font-size: 8px;
   font-weight: 500;
+}
+
+.revisarActividadCard{
+  width: 700px!important;
 }
 
 @media screen and (min-width: 800px) {

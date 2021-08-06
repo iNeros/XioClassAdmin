@@ -6,7 +6,7 @@
     </v-col>
     <v-row justify="space-around">
       <v-col cols="12" md="5">
-        <v-card elevation="18" class="my-10 ml-8">
+        <v-card elevation="18" class="my-10 ml-4">
           <v-card-title></v-card-title>
           <v-form>
             <v-container class="pa-0">
