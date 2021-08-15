@@ -72,11 +72,10 @@
         >
       </v-card>
       <div class="forgotten-password">
-        
+        <forgottenPasswordDocentes></forgottenPasswordDocentes>
       </div>
     </div>
     <v-app>
-      <forgottenPasswordDocentes></forgottenPasswordDocentes>
       <registroDocente> </registroDocente>
     </v-app>
   </body>
