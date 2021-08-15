@@ -44,7 +44,7 @@
                     required
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" sm="6" md="4">
+                <v-col cols="12" sm="6" md="6">
                   <v-text-field
                     label="Código de seguridad*"
                     v-model="codigo"
@@ -151,7 +151,8 @@ export default {
             console.log(this.datas);
             this.showE = true;
           } else {
-            if(this.codigo == 'FROEBEL21'){
+            var Fecha = new Date();
+            if(this.codigo == 'FROEBEL'+Fecha.getDate()){
             //aqui mandar el axios para registrar y el showS como true
             let config = {
               headers: {
