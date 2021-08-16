@@ -161,6 +161,23 @@
               </v-list-item-title>
             </v-list-item>
 
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetEvaluacion()"
+            >
+              <v-list-item-icon>
+                <v-icon id="iconoBiblioteca" small
+                  >mdi-message-draw</v-icon
+                >
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoBiblioteca" class="title-text">Evaluacion</h2>
+              </v-list-item-title>
+            </v-list-item>
+
             <!-- <div class="spacer-height"></div> -->
             <v-list-item
               v-ripple
@@ -170,10 +187,10 @@
               v-on:click="cerrarSesion()"
             >
               <v-list-item-icon>
-                <v-icon id="iconoContent" small>mdi-account-arrow-left</v-icon>
+                <v-icon id="iconoContent" small style="color:red">mdi-account-arrow-left</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoContent" class="title-text">Cerrar Sesion</h2>
+                <h2 id="textoContent" class="title-text" style="color:red">Cerrar Sesion</h2>
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -233,6 +250,9 @@ export default {
     },
     dsetBiblioteca() {
       this.$store.commit("dsetBiblioteca");
+    },
+    dsetEvaluacion(){
+      this.$store.commit("dsetEvaluacion");
     },
     //#endregion
 

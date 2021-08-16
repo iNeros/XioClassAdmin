@@ -22,6 +22,11 @@ export default new Vuex.Store({
     eliminarGrupoDialog: false,
     //#endregion
 
+    //#region Variables Para Evaluacion
+    revisarCalificacionDialog: false,
+    evaluarNoviembreDialog: false,
+    //#endregion
+
     //#region  Variables Para Actividades
     crearActividadDialog: false,
     editarActividadDialog: false,
@@ -81,6 +86,10 @@ export default new Vuex.Store({
     dsetBiblioteca(state) {
       state.adminWindowsSelected = 14;
     },
+    dsetEvaluacion(state){
+      state.adminWindowsSelected = 15;
+    },
+
     //#endregion
 
     //#region Mutations FOR BIBLIOTECA

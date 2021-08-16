@@ -85,7 +85,9 @@ export default {
   watch: {
     idGrupoDialog(val) {
       if (val > 0) {
+        console.log("Entre DESDE EL WATCH")
         return this.obtenerInfo();
+        
       }
     },
   },
