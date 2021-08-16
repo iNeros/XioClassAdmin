@@ -116,10 +116,10 @@ export default {
       appMat: "",
       mail: "",
       pass: "",
-      codigo:"",
+      codigo: "",
       showS: false,
       showE: false,
-      showC:false,
+      showC: false,
       dialog: false,
     };
   },
@@ -152,48 +152,51 @@ export default {
             this.showE = true;
           } else {
             var Fecha = new Date();
-            if(this.codigo == 'FROEBEL'+Fecha.getDate()){
-            //aqui mandar el axios para registrar y el showS como true
-            let config = {
-              headers: {
-                "Content-Type": "application/x-www-form-urlencoded",
-              },
-            };
-            let parametros =
-              "nombre=" +
-              this.nombre +
-              "&appPat=" +
-              this.appPat +
-              "&appMat=" +
-              this.appMat +
-              "&tipoUsuario=0&usuario=" +
-              this.mail +
-              "&contraseña=" +
-              this.pass;
-            axios
-              .post(
-                "https://xicoclass.online/Docente.php",
-                parametros,
-                config
-              )
-              .then((r) => {
-                console.log(r);
-                //funcion para confirmar el correo
-                this.confirmarCorreo();
-              })
-              .catch((error) => {
-                console.log(error);
-              });
-         }else this.showC = true; }
+            if (this.codigo == "FROEBEL" + Fecha.getDate()) {
+              //aqui mandar el axios para registrar y el showS como true
+              let config = {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              };
+              let parametros =
+                "nombre=" +
+                this.nombre +
+                "&appPat=" +
+                this.appPat +
+                "&appMat=" +
+                this.appMat +
+                "&tipoUsuario=0&usuario=" +
+                this.mail +
+                "&contraseña=" +
+                this.pass;
+              axios
+                .post(
+                  "https://xicoclass.online/Docente.php",
+                  parametros,
+                  config
+                )
+                .then((r) => {
+                  console.log(r);
+                  //funcion para confirmar el correo
+                  this.confirmarCorreo();
+                })
+                .catch((error) => {
+                  console.log(error);
+                });
+            } else this.showC = true;
+          }
         })
         .catch(function (error) {
           console.log(error);
         });
     },
-confirmarCorreo(){
+    confirmarCorreo() {
       axios
         .get(
-          "https://xicoclass.online/Mail.php?confirmar="+this.nombre+"&mail1=" +
+          "https://xicoclass.online/Mail.php?confirmar=" +
+            this.nombre +
+            "&mail1=" +
             this.mail
         )
         .then((r) => {
@@ -203,8 +206,8 @@ confirmarCorreo(){
         .catch(function (error) {
           console.log(error);
         });
+    },
   },
-},
 
   mounted() {
     this.InitialTest();

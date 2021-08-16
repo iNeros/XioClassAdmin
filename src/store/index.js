@@ -25,6 +25,8 @@ export default new Vuex.Store({
     //#region Variables Para Evaluacion
     revisarCalificacionDialog: false,
     evaluarNoviembreDialog: false,
+    evaluarMarzoDialog: false,
+    evaluarJunioDialog: false,
     //#endregion
 
     //#region  Variables Para Actividades
@@ -86,7 +88,7 @@ export default new Vuex.Store({
     dsetBiblioteca(state) {
       state.adminWindowsSelected = 14;
     },
-    dsetEvaluacion(state){
+    dsetEvaluacion(state) {
       state.adminWindowsSelected = 15;
     },
 

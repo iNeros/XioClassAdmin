@@ -1,10 +1,6 @@
 <template>
   <div class="evaluarNoviembre">
-    <v-dialog
-      v-model="$store.state.evaluarNoviembreDialog"
-      width="500"
-      persistent
-    >
+    <v-dialog v-model="$store.state.evaluarMarzoDialog" width="500" persistent>
       <v-card>
         <v-card-title class="text-center grey lighten-2">
           Evaluar El Desempeño Del Alumno:
@@ -141,7 +137,7 @@ export default {
   methods: {
     closeDialog() {
       this.model = null;
-      this.$store.state.evaluarNoviembreDialog = false;
+      this.$store.state.evaluarMarzoDialog = false;
     },
 
     getData() {
@@ -158,7 +154,7 @@ export default {
       let calificaciones = [];
       firebase
         .firestore()
-        .collection("evaluacionesNov")
+        .collection("evaluacionesMarzo")
         .where("id_docente", "==", id_docente)
         .where("id_alumno", "==", this.alumnoId)
         .orderBy("id_local")
@@ -188,13 +184,13 @@ export default {
         if (this.dataValues[i].id) {
           await firebase
             .firestore()
-            .collection("evaluacionesNov")
+            .collection("evaluacionesMarzo")
             .doc(this.dataValues[i].id)
             .update({
               text: this.dataValues[i].text,
             });
         } else {
-          await firebase.firestore().collection("evaluacionesNov").doc().set({
+          await firebase.firestore().collection("evaluacionesMarzo").doc().set({
             campoFormativo: this.dataValues[i].campoFormativo,
             id_alumno: this.alumnoId,
             id_docente: id_docente,

@@ -140,26 +140,26 @@ export default {
     },
     executeRevisar() {
       //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
-     for(var i=0;i<=this.calificacion.length;i++){
-      axios
-        .put(
-          "https://xicoclass.online/ArchivosAlumnos.php?id_alumno=" +
-            this.Alumnos[i].id_alumno +
-            "&id_actividad=" +
-            this.idActividadRevisar+
-            "&comentario=" +
-            this.cometario[i] +
-            "&calificacion=" +
-            this.calificacion[i]
-        )
-        .then((r) => {
-          console.log(r.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }//cierra el for
-    this.closeDialog();
+      for (var i = 0; i <= this.calificacion.length; i++) {
+        axios
+          .put(
+            "https://xicoclass.online/ArchivosAlumnos.php?id_alumno=" +
+              this.Alumnos[i].id_alumno +
+              "&id_actividad=" +
+              this.idActividadRevisar +
+              "&comentario=" +
+              this.cometario[i] +
+              "&calificacion=" +
+              this.calificacion[i]
+          )
+          .then((r) => {
+            console.log(r.data);
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
+      } //cierra el for
+      this.closeDialog();
     },
 
     closeDialog() {

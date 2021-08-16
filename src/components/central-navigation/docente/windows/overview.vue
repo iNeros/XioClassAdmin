@@ -290,7 +290,6 @@ export default {
       }
       this.UploadImg = null;
       window.location.reload();
-
     },
 
     EliminarImagen(id) {

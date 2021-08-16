@@ -1,14 +1,10 @@
 <template>
   <div class="evaluarNoviembre">
-    <v-dialog
-      v-model="$store.state.evaluarNoviembreDialog"
-      width="500"
-      persistent
-    >
+    <v-dialog v-model="$store.state.evaluarJunioDialog" width="500" persistent>
       <v-card>
         <v-card-title class="text-center grey lighten-2">
           Evaluar El Desempeño Del Alumno:
-          <b style="color: #30dba0">{{ alumnoName }}</b>
+          <b style="color: #7209b8">{{ alumnoName }}</b>
         </v-card-title>
 
         <v-card-text class="pa-0">
@@ -113,7 +109,7 @@
 import firebase from "firebase";
 
 export default {
-  name: "evaluarNoviembre",
+  name: "evaluarJunio",
 
   data() {
     return {
@@ -141,7 +137,7 @@ export default {
   methods: {
     closeDialog() {
       this.model = null;
-      this.$store.state.evaluarNoviembreDialog = false;
+      this.$store.state.evaluarJunioDialog = false;
     },
 
     getData() {
@@ -158,7 +154,7 @@ export default {
       let calificaciones = [];
       firebase
         .firestore()
-        .collection("evaluacionesNov")
+        .collection("evaluacionesJunio")
         .where("id_docente", "==", id_docente)
         .where("id_alumno", "==", this.alumnoId)
         .orderBy("id_local")
@@ -188,13 +184,13 @@ export default {
         if (this.dataValues[i].id) {
           await firebase
             .firestore()
-            .collection("evaluacionesNov")
+            .collection("evaluacionesJunio")
             .doc(this.dataValues[i].id)
             .update({
               text: this.dataValues[i].text,
             });
         } else {
-          await firebase.firestore().collection("evaluacionesNov").doc().set({
+          await firebase.firestore().collection("evaluacionesJunio").doc().set({
             campoFormativo: this.dataValues[i].campoFormativo,
             id_alumno: this.alumnoId,
             id_docente: id_docente,

@@ -256,7 +256,7 @@ export default {
       console.log(this.inputs);
     },
 
-   async postGrupo() {
+    async postGrupo() {
       let config = {
         headers: {
           "Content-Type": "application/x-www-form-urlencoded",
@@ -271,7 +271,7 @@ export default {
         this.periodoGrupo +
         "&id_docente=" +
         window.sessionStorage.getItem("id_docente");
-        await axios
+      await axios
         .post("https://xicoclass.online/Grupo.php", parametros, config)
         .then((r) => {
           console.log(r);
@@ -282,7 +282,7 @@ export default {
         });
     },
     async MaxGrupo() {
-        await axios
+      await axios
         .get("https://xicoclass.online/Grupo.php?MaxGrupo")
         .then((r) => {
           this.MaxG = r.data;

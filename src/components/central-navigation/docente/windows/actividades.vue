@@ -104,7 +104,7 @@
               <v-btn
                 color="#30DBA0"
                 text
-                @click="ShowRevisarDialog(n.id_actividad , n.id_grupo)"
+                @click="ShowRevisarDialog(n.id_actividad, n.id_grupo)"
               >
                 Revisar
               </v-btn>
@@ -135,7 +135,7 @@
                 color="#30DBA0"
                 text
                 plain
-                @click="ShowRevisarDialog(n.id_actividad , n.id_grupo)"
+                @click="ShowRevisarDialog(n.id_actividad, n.id_grupo)"
               >
                 <v-icon size="20">mdi-check-all</v-icon>
               </v-btn>
@@ -236,7 +236,7 @@
               <v-btn
                 color="#30DBA0"
                 text
-                @click="ShowRevisarDialog(Act.id_actividad , Act.id_grupo)"
+                @click="ShowRevisarDialog(Act.id_actividad, Act.id_grupo)"
               >
                 Revisar
               </v-btn>
@@ -266,7 +266,7 @@
                 color="#30DBA0"
                 text
                 plain
-                @click="ShowRevisarDialog(Act.id_actividad , Act.id_grupo)"
+                @click="ShowRevisarDialog(Act.id_actividad, Act.id_grupo)"
               >
                 <v-icon size="20">mdi-check-all</v-icon>
               </v-btn>
@@ -278,7 +278,10 @@
       <agregarActividad />
       <eliminarActividad :idActividad="idActividad" />
       <editarActividad :idActividadEdit="idActividad" />
-      <revisarActividad :idActividadRevisar="idActividad" :idActividadRevisarGrupo="idGrupo"/>
+      <revisarActividad
+        :idActividadRevisar="idActividad"
+        :idActividadRevisarGrupo="idGrupo"
+      />
     </v-container>
   </div>
 </template>
@@ -307,7 +310,7 @@ export default {
       Filtro: [],
       items: [],
       idActividad: 0,
-      idGrupo:0,
+      idGrupo: 0,
       cantidadDeActividades: 3,
     };
   },
@@ -362,7 +365,7 @@ export default {
       this.$store.state.crearActividadDialog = "true";
     },
 
-    ShowRevisarDialog(id,idG) {
+    ShowRevisarDialog(id, idG) {
       this.idActividad = id;
       this.idGrupo = idG;
       this.$store.state.revisarActividadDialog = "true";

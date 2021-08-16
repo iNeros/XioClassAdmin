@@ -103,7 +103,7 @@ export default {
     };
   },
   methods: {
-    dialogoRegistro(){
+    dialogoRegistro() {
       console.log("entre al cambio");
       this.$store.state.registroDocenteDialog = true;
     },

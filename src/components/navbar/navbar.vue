@@ -169,9 +169,7 @@
               v-on:click="dsetEvaluacion()"
             >
               <v-list-item-icon>
-                <v-icon id="iconoBiblioteca" small
-                  >mdi-message-draw</v-icon
-                >
+                <v-icon id="iconoBiblioteca" small>mdi-message-draw</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
                 <h2 id="textoBiblioteca" class="title-text">Evaluacion</h2>
@@ -187,10 +185,14 @@
               v-on:click="cerrarSesion()"
             >
               <v-list-item-icon>
-                <v-icon id="iconoContent" small style="color:red">mdi-account-arrow-left</v-icon>
+                <v-icon id="iconoContent" small style="color: red"
+                  >mdi-account-arrow-left</v-icon
+                >
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoContent" class="title-text" style="color:red">Cerrar Sesion</h2>
+                <h2 id="textoContent" class="title-text" style="color: red">
+                  Cerrar Sesion
+                </h2>
               </v-list-item-title>
             </v-list-item>
           </v-list-item-group>
@@ -251,7 +253,7 @@ export default {
     dsetBiblioteca() {
       this.$store.commit("dsetBiblioteca");
     },
-    dsetEvaluacion(){
+    dsetEvaluacion() {
       this.$store.commit("dsetEvaluacion");
     },
     //#endregion

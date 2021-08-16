@@ -28,11 +28,7 @@
         </div>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn
-            color="btn-enviar green darken-1"
-            dark
-            @click="recPassword()"
-          >
+          <v-btn color="btn-enviar green darken-1" dark @click="recPassword()">
             Enviar contraseña
           </v-btn>
         </v-card-actions>
@@ -42,7 +38,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
   name: "forgottenPassword",
   data() {
@@ -52,21 +48,18 @@ export default {
     };
   },
   methods: {
-  recPassword() {
-    axios
-      .get(
-        "https://xicoclass.online/Mail.php?mail="+
-          this.mail
-      )
-      .then((r) => {
-        console.log(r);
-        this.$store.state.forgottenPasswordDialog = false;
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
+    recPassword() {
+      axios
+        .get("https://xicoclass.online/Mail.php?mail=" + this.mail)
+        .then((r) => {
+          console.log(r);
+          this.$store.state.forgottenPasswordDialog = false;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
   },
-},
 };
 </script>
 
