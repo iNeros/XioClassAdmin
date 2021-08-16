@@ -87,7 +87,7 @@ export default {
     return {};
   },
   mounted() {
-    this.checkUserType();
+  //  this.checkUserType();
     this.Session();
   },
   methods: {
@@ -100,7 +100,7 @@ export default {
       }
     },
     Session() {
-      if (window.sessionStorage.getItem("id_docente") == null) {
+      if (window.sessionStorage.getItem("id_docente") == null || window.sessionStorage.getItem("tipoUsuario") == '0') {
         window.location.href = "/";
       }
     },

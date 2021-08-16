@@ -6,11 +6,11 @@
       width="80%"
       scrollable
     >
-      <v-card class="revisarActividad" >
+      <v-card class="revisarActividad">
         <v-card-title>CALIFICA LA ACTIVIDAD</v-card-title>
         <v-divider></v-divider>
         <v-card-text style="height: 300px">
-          <v-row class="mt-1" v-for="n in 20" :key="n">
+          <v-row class="mt-1" v-for="alum in Alumnos" :key="alum.id_alumno">
             <!-- AQUI VA EL V-FOR DEL TAMAÑO DE LA RECUPERACION DE ARCHIVOS WHERE idActividad = idActividadRevisar -->
             <v-col cols="12" md="5">
               <v-btn
@@ -19,27 +19,27 @@
                 outlined
                 width="100%"
                 height="80"
-                @click="ObtenerArchivosAlumnoSelected(1)"
+                @click="ObtenerArchivosAlumnoSelected(alum.id_alumno)"
               >
                 <!-- AGREGAR AQUI EL idAlumno -->
                 <v-icon left>mdi-account-circle</v-icon>
-                EL NOMBRE MAS LARGO DE CUALQUIER ALUMNO [{{ n }}]
+                Tarea de: {{ alum.nombre }} {{ alum.appPat }} {{ alum.appMat }}
               </v-btn>
             </v-col>
 
-            <v-col cols="12" md="6">
+            <v-col cols="12" md="5">
               <v-textarea
                 name="input-7-1"
                 label="Comentarios"
-                v-model="cometario[n]"
+                v-model="cometario[alum.id_alumno]"
                 outlined
                 height="80"
               ></v-textarea>
             </v-col>
-            
-            <v-col cols="12" md="1">
+
+            <v-col cols="12" md="2">
               <v-select
-                v-model="calificacion[n]"
+                v-model="calificacion[alum.id_alumno]"
                 class="calificaciones-box"
                 :items="calificacionesPosibles"
                 label="Calificacion"
@@ -61,38 +61,105 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <template>
+      <v-row justify="center">
+        <v-dialog v-model="tar" max-width="290">
+          <v-card>
+            <v-card-title class="text-h5"> Sin archivos </v-card-title>
+            <v-card-text>
+              El alumno aún no ha cargado su evidencia<br />
+              Inténtelo más tarde..
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="green darken-1" text @click="tar = false">
+                Aceptar
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-row>
+    </template>
   </div>
 </template>
 
 <script>
+import axios from "axios";
 export default {
   data() {
     return {
       calificacionesPosibles: [5, 4, 3, 2, 1, 0],
-      archivosAlumnos: [1, 2, 3],
       calificacion: [],
       cometario: [],
+
+      archivosAlumnos: [],
+      Alumnos: [],
+      tar: false,
     };
   },
-  props: ["idActividadRevisar"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES
+  props: ["idActividadRevisar", "idActividadRevisarGrupo"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES
 
   methods: {
     obtenerInfo() {
-      //Aqui Se Optiene La Info Basica De La Actividad Apartir Del: idActividad
-      //Aqui guardaras tambien en el arreglo this.calificacion las calificaciones.
+      axios
+        .get(
+          "https://xicoclass.online/Alumno.php?AlumnosGrupo=" +
+            this.idActividadRevisarGrupo
+        )
+        .then((r) => {
+          console.log(r);
+          this.Alumnos = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-
     ObtenerArchivosAlumnoSelected(id) {
       //Agregar Aqui Axios Para Descargar Los Archivos Que Se Encuentren Para EL ID Del alumno seleccionado , CONSIDERANDO TAMBIEN El idActividadRevisar.
-
-      console.log(id);
+      axios
+        .get(
+          "https://xicoclass.online/ArchivosAlumnos.php?ArchivosAct=" +
+            this.idActividadRevisar +
+            "&id_alumno1=" +
+            id
+        )
+        .then((r) => {
+          console.log(r);
+          this.archivosAlumnos = r.data;
+          if (this.archivosAlumnos.length == 0) {
+            this.tar = true;
+          } else {
+            for (var i = 0; i < this.archivosAlumnos.length; i++) {
+              window.open("" + this.archivosAlumnos[i].ruta, "_blank");
+            }
+          }
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
     },
-
     executeRevisar() {
       //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
-      console.log(this.calificacion);
-      //DENTRO DEL .THEN() DE EXTIO VA ESTO:
-      this.closeDialog();
+     for(var i=0;i<=this.calificacion.length;i++){
+      axios
+        .put(
+          "https://xicoclass.online/ArchivosAlumnos.php?id_alumno=" +
+            this.Alumnos[i].id_alumno +
+            "&id_actividad=" +
+            this.idActividadRevisar+
+            "&comentario=" +
+            this.cometario[i] +
+            "&calificacion=" +
+            this.calificacion[i]
+        )
+        .then((r) => {
+          console.log(r.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }//cierra el for
+    this.closeDialog();
     },
 
     closeDialog() {
@@ -100,8 +167,12 @@ export default {
     },
   },
 
-  mounted() {
-    //Mandar a llama a obtenerInfo()
+  watch: {
+    idActividadRevisarGrupo(val) {
+      if (val > 0) {
+        return this.obtenerInfo();
+      }
+    },
   },
 };
 </script>
@@ -115,8 +186,8 @@ export default {
   font-weight: 500;
 }
 
-.revisarActividadCard{
-  width: 700px!important;
+.revisarActividadCard {
+  width: 700px !important;
 }
 
 @media screen and (min-width: 800px) {

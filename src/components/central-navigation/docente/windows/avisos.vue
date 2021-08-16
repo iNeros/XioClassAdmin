@@ -43,21 +43,18 @@
                   <v-col>
                     <v-text-field v-model="enlace1" label="Enlace" outlined>
                     </v-text-field>
-                    <v-list-group cols="12" md="4">
-                      <template v-slot:activator>
-                        <v-list-item-title>Selecciona grupo</v-list-item-title>
-                      </template>
-                      <div v-for="n in grupos" :key="n.id_grupo">
-                        <v-list-item
-                          class="menu-text"
-                          @click="grupo(n.id_grupo)"
-                          ><!--CHECAR SI VA A QUEDAR ASÍ, EL CÓMO SE MUESTRA LA LISTA, CON LOS 3 DATOS..-->
-                          Nombre:{{ n.nombre }} Grupo:{{ n.grupo }} Periodo:{{
-                            n.periodo
-                          }}
-                        </v-list-item>
-                      </div>
-                    </v-list-group>
+                    <v-select
+                      v-model="grupoSelect"
+                      :items="grupos"
+                      label="Selecciona grupo"
+                      item-text="nombre"
+                      item-key="grupos"
+                      item-value="id_grupo"
+                      full-width
+                      height="55"
+                      solo
+                      dense
+                    ></v-select>
                   </v-col>
                 </v-row>
               </v-container>
@@ -190,9 +187,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-    },
-    grupo(id) {
-      return (this.grupoSelect = id);
     },
     Enviar() {
       if (
