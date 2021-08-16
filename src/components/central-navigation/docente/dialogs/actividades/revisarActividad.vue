@@ -63,7 +63,7 @@
     </v-dialog>
     <template>
       <v-row justify="center">
-        <v-dialog v-model="tar" max-width="290">
+        <v-dialog v-model="tar" max-width="290" persistent>
           <v-card>
             <v-card-title class="text-h5"> Sin archivos </v-card-title>
             <v-card-text>
@@ -84,16 +84,18 @@
 </template>
 
 <script>
+import firebase from "firebase";
 import axios from "axios";
 export default {
   data() {
     return {
       calificacionesPosibles: [5, 4, 3, 2, 1, 0],
       calificacion: [],
-      cometario: [],
-
+      cometario: [], 
       archivosAlumnos: [],
       Alumnos: [],
+      
+      tempData: [],
       tar: false,
     };
   },
@@ -107,58 +109,75 @@ export default {
             this.idActividadRevisarGrupo
         )
         .then((r) => {
-          console.log(r);
           this.Alumnos = r.data;
+          console.log(this.Alumnos);
+
+          const calificaciones = [];
+          for(var i=0;i<this.Alumnos.length;i++){
+            firebase
+            .firestore()
+            .collection("calificacionesAlumnos")
+            .where("id_actividad", "==", this.idActividadRevisar)
+            .where("id_alumno", "==", this.Alumnos[i].id_alumno)
+            .get()
+            .then((snapshot) => {
+              snapshot.docs.forEach((calificacion) => {
+                let currentID = calificacion.id;
+                let appObj = { ...calificacion.data(), ["id"]: currentID };
+                calificaciones.push(appObj);
+              });
+            });
+            
+            
+          }
+          
+
+
+
+
+
         })
         .catch(function (error) {
           console.log(error);
         });
     },
-    ObtenerArchivosAlumnoSelected(id) {
-      //Agregar Aqui Axios Para Descargar Los Archivos Que Se Encuentren Para EL ID Del alumno seleccionado , CONSIDERANDO TAMBIEN El idActividadRevisar.
-      axios
-        .get(
-          "https://xicoclass.online/ArchivosAlumnos.php?ArchivosAct=" +
-            this.idActividadRevisar +
-            "&id_alumno1=" +
-            id
-        )
-        .then((r) => {
-          console.log(r);
-          this.archivosAlumnos = r.data;
-          if (this.archivosAlumnos.length == 0) {
-            this.tar = true;
-          } else {
-            for (var i = 0; i < this.archivosAlumnos.length; i++) {
-              window.open("" + this.archivosAlumnos[i].ruta, "_blank");
+    async ObtenerArchivosAlumnoSelected(id) {
+      const id_docente = window.sessionStorage.getItem("id_docente");
+      console.log(id_docente , id);
+      const calificaciones = [];
+      await firebase
+        .firestore()
+        .collection("relacionDeTareas")
+        .where("id_docente", "==", id_docente)
+        .where("id_grupo", "==", this.idActividadRevisarGrupo)
+        .where("id_alumno", "==", id)
+        .where("id_actividad", "==", this.idActividadRevisar)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((calificacion) => {
+            let currentID = calificacion.id;
+            let appObj = { ...calificacion.data(), ["id"]: currentID };
+            calificaciones.push(appObj);
+          });
+        });
+        if(calificaciones[0]){
+          for(var i = 0; i < calificaciones[0].url_documents.length; i++) {
+            var popUp = window.open(calificaciones[0].url_documents[i], "Actividades", 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
+            if (popUp == null || typeof(popUp)=='undefined') {  
+                alert('Por favor deshabilita el bloqueador de ventanas emergentes y vuelve a hacer clic en "Descargar archivo".');
             }
           }
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
+        }else{
+          this.tar = true;
+        }
+         
     },
     executeRevisar() {
       //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
-      for (var i = 0; i <= this.calificacion.length; i++) {
-        axios
-          .put(
-            "https://xicoclass.online/ArchivosAlumnos.php?id_alumno=" +
-              this.Alumnos[i].id_alumno +
-              "&id_actividad=" +
-              this.idActividadRevisar +
-              "&comentario=" +
-              this.cometario[i] +
-              "&calificacion=" +
-              this.calificacion[i]
-          )
-          .then((r) => {
-            console.log(r.data);
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      } //cierra el for
+      console.log(this.cometario)
+
+
+      //cierra el for
       this.closeDialog();
     },
 
