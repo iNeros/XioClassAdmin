@@ -91,10 +91,10 @@ export default {
     return {
       calificacionesPosibles: [5, 4, 3, 2, 1, 0],
       calificacion: [],
-      cometario: [], 
+      cometario: [],
       archivosAlumnos: [],
       Alumnos: [],
-      
+
       tempData: [],
       tar: false,
     };
@@ -113,29 +113,21 @@ export default {
           console.log(this.Alumnos);
 
           const calificaciones = [];
-          for(var i=0;i<this.Alumnos.length;i++){
+          for (var i = 0; i < this.Alumnos.length; i++) {
             firebase
-            .firestore()
-            .collection("calificacionesAlumnos")
-            .where("id_actividad", "==", this.idActividadRevisar)
-            .where("id_alumno", "==", this.Alumnos[i].id_alumno)
-            .get()
-            .then((snapshot) => {
-              snapshot.docs.forEach((calificacion) => {
-                let currentID = calificacion.id;
-                let appObj = { ...calificacion.data(), ["id"]: currentID };
-                calificaciones.push(appObj);
+              .firestore()
+              .collection("calificacionesAlumnos")
+              .where("id_actividad", "==", this.idActividadRevisar)
+              .where("id_alumno", "==", this.Alumnos[i].id_alumno)
+              .get()
+              .then((snapshot) => {
+                snapshot.docs.forEach((calificacion) => {
+                  let currentID = calificacion.id;
+                  let appObj = { ...calificacion.data(), ["id"]: currentID };
+                  calificaciones.push(appObj);
+                });
               });
-            });
-            
-            
           }
-          
-
-
-
-
-
         })
         .catch(function (error) {
           console.log(error);
@@ -143,7 +135,7 @@ export default {
     },
     async ObtenerArchivosAlumnoSelected(id) {
       const id_docente = window.sessionStorage.getItem("id_docente");
-      console.log(id_docente , id);
+      console.log(id_docente, id);
       const calificaciones = [];
       await firebase
         .firestore()
@@ -160,22 +152,26 @@ export default {
             calificaciones.push(appObj);
           });
         });
-        if(calificaciones[0]){
-          for(var i = 0; i < calificaciones[0].url_documents.length; i++) {
-            var popUp = window.open(calificaciones[0].url_documents[i], "Actividades", 'width=1000, height=700, left=24, top=24, scrollbars, resizable');
-            if (popUp == null || typeof(popUp)=='undefined') {  
-                alert('Por favor deshabilita el bloqueador de ventanas emergentes y vuelve a hacer clic en "Descargar archivo".');
-            }
+      if (calificaciones[0]) {
+        for (var i = 0; i < calificaciones[0].url_documents.length; i++) {
+          var popUp = window.open(
+            calificaciones[0].url_documents[i],
+            "Actividades",
+            "width=1000, height=700, left=24, top=24, scrollbars, resizable"
+          );
+          if (popUp == null || typeof popUp == "undefined") {
+            alert(
+              'Por favor deshabilita el bloqueador de ventanas emergentes y vuelve a hacer clic en "Descargar archivo".'
+            );
           }
-        }else{
-          this.tar = true;
         }
-         
+      } else {
+        this.tar = true;
+      }
     },
     executeRevisar() {
       //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
-      console.log(this.cometario)
-
+      console.log(this.cometario);
 
       //cierra el for
       this.closeDialog();
