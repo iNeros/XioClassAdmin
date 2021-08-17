@@ -32,13 +32,12 @@
                     </v-text-field>
                   </v-col>
                   <v-col cols="12" md="2" class="py-0">
-                    <v-text-field
+                    <v-select
                       v-model="periodoGrupo"
+                      :items="typePeriodo"
                       label="Periodo"
-                      placeholder="1 , 2 , 3 , etc"
-                      outlined
-                    >
-                    </v-text-field>
+                      required
+                    ></v-select>
                   </v-col>
                 </v-row>
                 <v-card-title class="text-h5"> AGREGAR ALUMNOS </v-card-title>
@@ -197,6 +196,7 @@ export default {
       periodoGrupo: "",
       MaxG: "",
       GruposDocente: [],
+      typePeriodo: ["1er grado", "2do grado", "3er grado"],
 
       inputs: [
         {

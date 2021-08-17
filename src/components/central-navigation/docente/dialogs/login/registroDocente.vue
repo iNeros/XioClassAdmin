@@ -68,7 +68,7 @@
             dismissible
             elevation="8"
             type="info"
-            >¡Confirma tu correo electrónico!</v-alert
+            >¡Te envíamos un correo para que puedas activar tu cuenta!</v-alert
           >
           <v-alert
             class="alertas"
@@ -78,7 +78,7 @@
             dismissible
             elevation="8"
             type="info"
-            >¡El correo electrónico ya fue registrado!</v-alert
+            >¡El correo electrónico ya está en uso!</v-alert
           >
           <v-alert
             class="alertas"
