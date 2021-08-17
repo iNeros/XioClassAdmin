@@ -97,7 +97,7 @@ export default {
       archivosAlumnos: [],
       Alumnos: [],
       tempData: [],
-      tempAlumnos:[],
+      tempAlumnos: [],
       tar: false,
     };
   },
@@ -139,16 +139,16 @@ export default {
           });
         });
       if (calificaciones[0]) {
-          for (var i = 0; i < calificaciones[0].url_documents.length; i++) {
-            window.open(calificaciones[0].url_documents[i]);
-          }
+        for (var i = 0; i < calificaciones[0].url_documents.length; i++) {
+          window.open(calificaciones[0].url_documents[i]);
+        }
       } else {
         this.tar = true;
       }
     },
 
-    async obtenerComentarios(data){
-      let result = data.map(id =>  id.id_alumno);
+    async obtenerComentarios(data) {
+      let result = data.map((id) => id.id_alumno);
       await firebase
         .firestore()
         .collection("calificacionesAlumnos")
@@ -160,21 +160,24 @@ export default {
             let appObj = { ...calificacion.data(), id: currentID };
             this.tempData.push(appObj);
           });
-          this.establecerComentarios()
+          this.establecerComentarios();
         });
     },
 
-    establecerComentarios(){
-      for(let n=0; n < this.tempData.length ; n++){
-        this.cometario[this.tempData[n].id_alumno] = this.tempData[n].descripcion;
-        this.calificacion[this.tempData[n].id_alumno] = parseInt(this.tempData[n].calificacion);
+    establecerComentarios() {
+      for (let n = 0; n < this.tempData.length; n++) {
+        this.cometario[this.tempData[n].id_alumno] =
+          this.tempData[n].descripcion;
+        this.calificacion[this.tempData[n].id_alumno] = parseInt(
+          this.tempData[n].calificacion
+        );
       }
       this.tempAlumnos = this.Alumnos;
       this.Alumnos = null;
       this.Alumnos = this.tempAlumnos;
-      
-      console.log("LOS COMENTARIOS: ",this.cometario);
-      console.log("LAS CALIFICACIONES: ",this.calificacion);
+
+      console.log("LOS COMENTARIOS: ", this.cometario);
+      console.log("LAS CALIFICACIONES: ", this.calificacion);
     },
 
     async executeRevisar() {
@@ -182,7 +185,7 @@ export default {
 
       console.log("TEMP DATA: ", this.tempData);
 
-      for(let i=0;i < this.Alumnos.length ; i++){
+      for (let i = 0; i < this.Alumnos.length; i++) {
         const object = {
           calificacion: this.calificacion[this.Alumnos[i].id_alumno],
           descripcion: this.cometario[this.Alumnos[i].id_alumno],
@@ -190,20 +193,21 @@ export default {
           id_alumno: this.Alumnos[i].id_alumno,
           nombreActividad: "nombre-de-la-actividad",
         };
-        if(this.tempData[i]){
-          await firebase.firestore()
-          .collection("calificacionesAlumnos")
-          .doc(this.tempData.id)
-          .set(object);
-        }else{
-          await firebase.firestore()
-          .collection("calificacionesAlumnos")
-          .doc()
-          .set(object);
+        if (this.tempData[i]) {
+          await firebase
+            .firestore()
+            .collection("calificacionesAlumnos")
+            .doc(this.tempData.id)
+            .set(object);
+        } else {
+          await firebase
+            .firestore()
+            .collection("calificacionesAlumnos")
+            .doc()
+            .set(object);
         }
       }
-      await this.closeDialog()
-      
+      await this.closeDialog();
     },
 
     closeDialog() {
@@ -211,12 +215,12 @@ export default {
       this.tempAlumnos = this.Alumnos;
       this.Alumnos = null;
       this.Alumnos = this.tempAlumnos;
-      
-      this.calificacion= [];
-      this.cometario= [];
-      this.archivosAlumnos= [];
-      this.Alumnos= [];
-      this.tempData= [];
+
+      this.calificacion = [];
+      this.cometario = [];
+      this.archivosAlumnos = [];
+      this.Alumnos = [];
+      this.tempData = [];
     },
   },
 
