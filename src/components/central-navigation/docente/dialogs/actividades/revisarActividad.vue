@@ -110,49 +110,6 @@ export default {
         )
         .then((r) => {
           this.Alumnos = r.data;
-<<<<<<< HEAD
-          for(var i=0;i<this.Alumnos.length;i++){
-          const calificaciones = [];
-          const temp_id = this.Alumnos[i].id_alumno;
-          firebase
-            .firestore()
-            .collection("calificacionesAlumnos")
-            .where("id_alumno", "==", temp_id)
-            .where("id_actividad", "==", this.idActividadRevisar)
-            .get()
-            .then((snapshot) => {
-              snapshot.docs.forEach((calificacion) => {
-                let currentID = calificacion.id;
-                let appObj = { ...calificacion.data(), ["id"]: currentID };
-                calificaciones.push(appObj);
-              });
-              this.tempData.push(calificaciones[0]);
-            }); 
-
-          }
-          for (let i = 0;i<=500;i++) {
-            if(this.cometario[i]){
-              for(let j = 0;j<this.tempData.length;j++) {
-                if(i == this.tempData[j].id_alumno){
-                  this.cometario[i] = this.tempData[j].descripcion
-                }
-              }
-            }
-          }
-          console.log(this.cometario);
-          
-          
-          
-          
-          
-
-          
-
-
-
-
-
-=======
           console.log(this.Alumnos);
 
           const calificaciones = [];
@@ -171,7 +128,6 @@ export default {
                 });
               });
           }
->>>>>>> 9ee5f207df4993c10c57077e1d92ca35aadad227
         })
         .catch(function (error) {
           console.log(error);
