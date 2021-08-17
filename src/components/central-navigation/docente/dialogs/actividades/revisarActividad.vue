@@ -5,6 +5,7 @@
       class="revisarActividadCard"
       width="80%"
       scrollable
+      persistent
     >
       <v-card class="revisarActividad">
         <v-card-title>CALIFICA LA ACTIVIDAD</v-card-title>
@@ -42,6 +43,7 @@
                 v-model="calificacion[alum.id_alumno]"
                 class="calificaciones-box"
                 :items="calificacionesPosibles"
+                :value="calificacion[alum.id_alumno]"
                 label="Calificacion"
                 full-width
                 height="80"
@@ -94,15 +96,15 @@ export default {
       cometario: [],
       archivosAlumnos: [],
       Alumnos: [],
-
       tempData: [],
+      tempAlumnos:[],
       tar: false,
     };
   },
   props: ["idActividadRevisar", "idActividadRevisarGrupo"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES
 
   methods: {
-    obtenerInfo() {
+    async obtenerInfo() {
       axios
         .get(
           "https://xicoclass.online/Alumno.php?AlumnosGrupo=" +
@@ -111,23 +113,7 @@ export default {
         .then((r) => {
           this.Alumnos = r.data;
           console.log(this.Alumnos);
-
-          const calificaciones = [];
-          for (var i = 0; i < this.Alumnos.length; i++) {
-            firebase
-              .firestore()
-              .collection("calificacionesAlumnos")
-              .where("id_actividad", "==", this.idActividadRevisar)
-              .where("id_alumno", "==", this.Alumnos[i].id_alumno)
-              .get()
-              .then((snapshot) => {
-                snapshot.docs.forEach((calificacion) => {
-                  let currentID = calificacion.id;
-                  let appObj = { ...calificacion.data(), ["id"]: currentID };
-                  calificaciones.push(appObj);
-                });
-              });
-          }
+          this.obtenerComentarios(r.data);
         })
         .catch(function (error) {
           console.log(error);
@@ -140,10 +126,10 @@ export default {
       await firebase
         .firestore()
         .collection("relacionDeTareas")
+        .where("id_actividad", "==", this.idActividadRevisar)
         .where("id_docente", "==", id_docente)
         .where("id_grupo", "==", this.idActividadRevisarGrupo)
         .where("id_alumno", "==", id)
-        .where("id_actividad", "==", this.idActividadRevisar)
         .get()
         .then((snapshot) => {
           snapshot.docs.forEach((calificacion) => {
@@ -153,32 +139,84 @@ export default {
           });
         });
       if (calificaciones[0]) {
-        for (var i = 0; i < calificaciones[0].url_documents.length; i++) {
-          var popUp = window.open(
-            calificaciones[0].url_documents[i],
-            "Actividades",
-            "width=1000, height=700, left=24, top=24, scrollbars, resizable"
-          );
-          if (popUp == null || typeof popUp == "undefined") {
-            alert(
-              'Por favor deshabilita el bloqueador de ventanas emergentes y vuelve a hacer clic en "Descargar archivo".'
-            );
+          for (var i = 0; i < calificaciones[0].url_documents.length; i++) {
+            window.open(calificaciones[0].url_documents[i]);
           }
-        }
       } else {
         this.tar = true;
       }
     },
-    executeRevisar() {
-      //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
-      console.log(this.cometario);
 
-      //cierra el for
-      this.closeDialog();
+    async obtenerComentarios(data){
+      let result = data.map(id =>  id.id_alumno);
+      await firebase
+        .firestore()
+        .collection("calificacionesAlumnos")
+        .where("id_alumno", "in", result)
+        .get()
+        .then((snapshot) => {
+          snapshot.docs.forEach((calificacion) => {
+            let currentID = calificacion.id;
+            let appObj = { ...calificacion.data(), id: currentID };
+            this.tempData.push(appObj);
+          });
+          this.establecerComentarios()
+        });
+    },
+
+    establecerComentarios(){
+      for(let n=0; n < this.tempData.length ; n++){
+        this.cometario[this.tempData[n].id_alumno] = this.tempData[n].descripcion;
+        this.calificacion[this.tempData[n].id_alumno] = parseInt(this.tempData[n].calificacion);
+      }
+      this.tempAlumnos = this.Alumnos;
+      this.Alumnos = null;
+      this.Alumnos = this.tempAlumnos;
+      
+      console.log("LOS COMENTARIOS: ",this.cometario);
+      console.log("LAS CALIFICACIONES: ",this.calificacion);
+    },
+
+    async executeRevisar() {
+      //EL POST PARA ACTUALIZAR LAS CALIFIACIONES VA AQUI.... (EN ORDEN LAS CALIFICACIONES QUE SELECCIONEN ESTARAN GUARDADAS EN this.calificacion)
+
+      console.log("TEMP DATA: ", this.tempData);
+
+      for(let i=0;i < this.Alumnos.length ; i++){
+        const object = {
+          calificacion: this.calificacion[this.Alumnos[i].id_alumno],
+          descripcion: this.cometario[this.Alumnos[i].id_alumno],
+          id_actividad: this.idActividadRevisar,
+          id_alumno: this.Alumnos[i].id_alumno,
+          nombreActividad: "nombre-de-la-actividad",
+        };
+        if(this.tempData[i]){
+          await firebase.firestore()
+          .collection("calificacionesAlumnos")
+          .doc(this.tempData.id)
+          .set(object);
+        }else{
+          await firebase.firestore()
+          .collection("calificacionesAlumnos")
+          .doc()
+          .set(object);
+        }
+      }
+      await this.closeDialog()
+      
     },
 
     closeDialog() {
       this.$store.state.revisarActividadDialog = false;
+      this.tempAlumnos = this.Alumnos;
+      this.Alumnos = null;
+      this.Alumnos = this.tempAlumnos;
+      
+      this.calificacion= [];
+      this.cometario= [];
+      this.archivosAlumnos= [];
+      this.Alumnos= [];
+      this.tempData= [];
     },
   },
 
