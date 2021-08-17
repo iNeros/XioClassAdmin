@@ -102,7 +102,7 @@ export default {
   props: ["idActividadRevisar", "idActividadRevisarGrupo"], // ESTE ID DE ACTIVIDAD ES EL QUE SE PASA DE ACTIVIDADES
 
   methods: {
-    obtenerInfo() {
+    async obtenerInfo() {
       axios
         .get(
           "https://xicoclass.online/Alumno.php?AlumnosGrupo=" +
@@ -110,15 +110,14 @@ export default {
         )
         .then((r) => {
           this.Alumnos = r.data;
-          console.log(this.Alumnos);
-
-          const calificaciones = [];
           for(var i=0;i<this.Alumnos.length;i++){
-            firebase
+          const calificaciones = [];
+          const temp_id = this.Alumnos[i].id_alumno;
+          firebase
             .firestore()
             .collection("calificacionesAlumnos")
+            .where("id_alumno", "==", temp_id)
             .where("id_actividad", "==", this.idActividadRevisar)
-            .where("id_alumno", "==", this.Alumnos[i].id_alumno)
             .get()
             .then((snapshot) => {
               snapshot.docs.forEach((calificacion) => {
@@ -126,10 +125,26 @@ export default {
                 let appObj = { ...calificacion.data(), ["id"]: currentID };
                 calificaciones.push(appObj);
               });
-            });
-            
-            
+              this.tempData.push(calificaciones[0]);
+            }); 
+
           }
+          for (let i = 0;i<=500;i++) {
+            if(this.cometario[i]){
+              for(let j = 0;j<this.tempData.length;j++) {
+                if(i == this.tempData[j].id_alumno){
+                  this.cometario[i] = this.tempData[j].descripcion
+                }
+              }
+            }
+          }
+          console.log(this.cometario);
+          
+          
+          
+          
+          
+
           
 
 
