@@ -68,6 +68,7 @@ export default {
           //DENTRO DEL .THEN() DE EXTIO VA ESTO:
           this.closeDialog();
           console.log(r.data);
+          window.location.reload();
         })
         .catch(function (error) {
           console.log(error);

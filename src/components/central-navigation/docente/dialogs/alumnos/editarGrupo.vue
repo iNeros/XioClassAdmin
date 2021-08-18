@@ -10,7 +10,7 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Editar Grupo {{ idGrupoDialog }}</v-toolbar-title>
+        <v-toolbar-title>Editar Grupo </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
@@ -58,7 +58,7 @@
               <v-text-field
                 v-model="identificadorGrupo"
                 filled
-                label="Identificador del grupo*"
+                label="Identificador del GRUPO*"
                 :value="identificadorGrupo"
               ></v-text-field>
             </v-col>
@@ -67,7 +67,7 @@
               <v-text-field
                 v-model="periodoGrupo"
                 filled
-                label="periodoGrupo*"
+                label="GRADO*"
                 required
                 :value="periodoGrupo"
               ></v-text-field>

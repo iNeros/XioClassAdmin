@@ -145,6 +145,7 @@ export default {
           this.CapetaNueva[0].nuevo_id =
             parseInt(this.CapetaNueva[0].nuevo_id) + 1;
           console.log(this.CapetaNueva[0].nuevo_id);
+          this.Actividad();
         })
         .catch(function (error) {
           console.log(error);
@@ -212,7 +213,9 @@ export default {
         this.fechaPublicacion +
         "&fecha_fin=" +
         this.fechaCierre +
-        "&estado=ACTIVO&id_docente=6&id_grupo=" +
+        "&estado=ACTIVO&id_docente=" +
+        window.sessionStorage.getItem("id_docente") +
+        "&id_grupo=" +
         this.grupoActividad;
       axios
         .post("https://xicoclass.online/Actividades.php", parametros, config)
@@ -250,7 +253,7 @@ export default {
         });
     },
     executeSave() {
-      this.Actividad();
+      this.ObtenerIDActividad();
     },
   },
   watch: {
@@ -261,11 +264,11 @@ export default {
     guardar(val) {
       if (!val) return;
       this.executeSave();
-    },
+    },/*
     nombreActividad(val) {
       if (!val) return;
       this.ObtenerIDActividad();
-    },
+    },*/
     Bandera(val) {
       if (!val) return;
       this.Actividad();

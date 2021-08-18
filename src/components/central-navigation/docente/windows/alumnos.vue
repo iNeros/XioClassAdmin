@@ -13,7 +13,7 @@
             <v-form>
               <v-container>
                 <v-row class="mx-5">
-                  <v-col cols="12" md="8" class="py-0">
+                  <v-col cols="12" md="7" class="py-0">
                     <v-text-field
                       v-model="nombreGrupo"
                       label="Nombre del grupo"
@@ -23,19 +23,18 @@
                     </v-text-field>
                   </v-col>
                   <v-col cols="12" md="2" class="py-0">
-                    <v-text-field
-                      v-model="identificadorGrupo"
-                      label="Identificador del grupo"
-                      placeholder="Ejemplo: A,B,C, etc."
-                      outlined
-                    >
-                    </v-text-field>
-                  </v-col>
-                  <v-col cols="12" md="2" class="py-0">
                     <v-select
                       v-model="periodoGrupo"
                       :items="typePeriodo"
-                      label="Periodo"
+                      label="Grado"
+                      required
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12" md="3" class="py-0">
+                    <v-select
+                      v-model="identificadorGrupo"
+                      :items="typeGrupo"
+                      label="Grupo"
                       required
                     ></v-select>
                   </v-col>
@@ -197,6 +196,7 @@ export default {
       MaxG: "",
       GruposDocente: [],
       typePeriodo: ["1er grado", "2do grado", "3er grado"],
+      typeGrupo: ["Grupo 'A'", "Grupo 'B'", "Grupo 'C'","Grupo 'D'","Grupo 'E'","Grupo 'F'"],
 
       inputs: [
         {
@@ -266,9 +266,9 @@ export default {
         "nombre=" +
         this.nombreGrupo +
         "&grupo=" +
-        this.identificadorGrupo +
+        this.identificadorGrupo[7] +
         "&periodo=" +
-        this.periodoGrupo +
+        this.periodoGrupo[0] +
         "&id_docente=" +
         window.sessionStorage.getItem("id_docente");
       await axios
