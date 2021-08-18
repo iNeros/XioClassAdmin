@@ -10,7 +10,7 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Editar Grupo </v-toolbar-title>
+        <v-toolbar-title>Número de grupo: {{ idGrupoDialog }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
