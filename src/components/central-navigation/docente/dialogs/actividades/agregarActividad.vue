@@ -38,12 +38,18 @@
               ></v-text-field>
             </v-col>
             <v-col cols="12" sm="6" md="6">
-              <v-text-field
-                id="grupoActividad"
-                v-model="grupoActividad"
-                filled
-                label="Grupo al que se le sera asignada"
-              ></v-text-field>
+              <v-select
+                      v-model="grupoActividad"
+                      :items="grupos"
+                      label="Selecciona grupo"
+                      item-text="nombre"
+                      item-key="grupos"
+                      item-value="id_grupo"
+                      full-width
+                      height="55"
+                      solo
+                      dense
+                    ></v-select>
             </v-col>
 
             <v-col cols="12" sm="6" md="6">
@@ -120,6 +126,7 @@ export default {
       //variables para el post del axios
       nombreActividad: "",
       grupoActividad: "",
+      grupos:"",
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
@@ -255,6 +262,22 @@ export default {
     executeSave() {
       this.ObtenerIDActividad();
     },
+    gruposGet() {
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_docente=" +
+            window.sessionStorage.getItem("id_docente")
+        )
+        .then((r) => {
+          this.grupos = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    this.gruposGet();
   },
   watch: {
     dialog(val) {

@@ -38,7 +38,7 @@
               <v-sheet v-if="model != null" height="200" tile>
                 <v-row class="fill-height" align="center" justify="center">
                   <v-col cols="12">
-                    <h3 class="text-center">Escribe La Evaluacion Del Mes</h3>
+                    <h3 class="text-center">Primera evaluación</h3>
                   </v-col>
                   <v-col cols="11" class="mb-2">
                     <v-textarea

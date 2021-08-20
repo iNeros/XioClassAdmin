@@ -1,5 +1,5 @@
-<template>
-  <div class="actividades">
+<template >
+  <div class="actividades" >
     <v-container fluid>
       <v-row>
         <!-- AGREGAR AQUI EL {{idActividad}}  -->
@@ -55,7 +55,7 @@
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{ n.id_grupo }}"</span>
+              <span class="titulo-de-tarjeta2">"{{ gruposGet(n.id_grupo) }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
                 <v-icon size="24" right v-if="false">mdi-check-all</v-icon>
@@ -180,14 +180,13 @@
           cols="12"
           sm="12"
           lg="3"
-          v-for="Act in todos"
-          :key="Act.id_actividad"
+          v-for="Act in todos" :key="Act.id_actividad"
         >
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
-          <v-card color="#23395B" dark class="card-settings" elevation="12">
+          <v-card color="#23395B" dark class="card-settings" elevation="12" >
             <v-card-title class="card-title-text">
               <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2"> "{{ Act.id_grupo }}"</span>
+              <span class="titulo-de-tarjeta2">"{{ gruposGet(Act.id_grupo) }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
                 <v-icon size="24" right v-if="Act.estado == 'Activo'"
@@ -311,6 +310,7 @@ export default {
       items: [],
       idActividad: 0,
       idGrupo: 0,
+      grupos:"",
       cantidadDeActividades: 3,
     };
   },
@@ -344,6 +344,19 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
+    },
+    gruposGet(id) {
+      axios
+        .get(
+          "https://xicoclass.online/Grupo.php?id_grupo="+id
+        )
+        .then((r) => {
+          this.grupos = r.data;
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+       return this.grupos[0].nombre;
     },
 
     FiltrarResultados() {
