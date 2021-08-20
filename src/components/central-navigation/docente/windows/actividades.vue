@@ -54,12 +54,19 @@
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
-              <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{ gruposGet(n.id_grupo) }}"</span>
+
+              <div v-for="grup in grupos" :key="grup.id_grupo">
+                <div v-if="grup.id_grupo == n.id_grupo">
+                  <span class="titulo-de-tarjeta">GRUPO: </span>
+              <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
-                <v-icon size="24" right v-if="false">mdi-check-all</v-icon>
+                <v-icon size="24" right v-if="n.estado == 'Activo'"
+                  >mdi-check-all</v-icon
+                >
                 <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+              </div>
+                </div>
               </div>
             </v-card-title>
 
@@ -185,14 +192,19 @@
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
           <v-card color="#23395B" dark class="card-settings" elevation="12" >
             <v-card-title class="card-title-text">
-              <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{ gruposGet(Act.id_grupo) }}"</span>
+
+              <div v-for="grup in grupos" :key="grup.id_grupo">
+                <div v-if="grup.id_grupo == Act.id_grupo">
+                  <span class="titulo-de-tarjeta">GRUPO: </span>
+              <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
               <v-spacer></v-spacer>
               <div class="hidden-md-and-down">
                 <v-icon size="24" right v-if="Act.estado == 'Activo'"
                   >mdi-check-all</v-icon
                 >
                 <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+              </div>
+                </div>
               </div>
             </v-card-title>
 
@@ -345,10 +357,11 @@ export default {
           console.log(error);
         });
     },
-    gruposGet(id) {
+    gruposGet() {
       axios
         .get(
-          "https://xicoclass.online/Grupo.php?id_grupo="+id
+          "https://xicoclass.online/Grupo.php?id_docente="+
+            window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
           this.grupos = r.data;
@@ -356,7 +369,6 @@ export default {
         .catch(function (error) {
           console.log(error);
         });
-       return this.grupos[0].nombre;
     },
 
     FiltrarResultados() {
@@ -388,6 +400,7 @@ export default {
   mounted() {
     this.CargaInicial();
     this.CargaInicial2();
+    this.gruposGet();
   },
 };
 </script>
