@@ -10,7 +10,7 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Número de grupo: {{ idGrupoDialog }}</v-toolbar-title>
+        <v-toolbar-title>Actual: {{periodoGrupo[0]}}° "{{identificadorGrupo}}" - {{nombreGrupo}}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
@@ -54,23 +54,21 @@
                 :value="nombreGrupo"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="4">
-              <v-text-field
-                v-model="identificadorGrupo"
-                filled
-                label="Identificador del GRUPO*"
-                :value="identificadorGrupo"
-              ></v-text-field>
+            <v-col cols="12" sm="6" md="4" >
+              <v-select
+                      v-model="identificadorGrupo"
+                      :items="typeGrupo"
+                      label="Grupo"
+                      required
+                    ></v-select>
             </v-col>
-
             <v-col cols="12" sm="6" md="4">
-              <v-text-field
-                v-model="periodoGrupo"
-                filled
-                label="GRADO*"
-                required
-                :value="periodoGrupo"
-              ></v-text-field>
+              <v-select
+                      v-model="periodoGrupo"
+                      :items="typePeriodo"
+                      label="Grado"
+                      required
+                    ></v-select>
             </v-col>
           </v-row>
           <v-card-title class="text-h5">ALUMNOS</v-card-title>
@@ -274,6 +272,8 @@ export default {
       nombreGrupo: "",
       identificadorGrupo: "",
       periodoGrupo: "",
+      typePeriodo: ["1er grado", "2do grado", "3er grado"],
+      typeGrupo: ["Grupo 'A'", "Grupo 'B'", "Grupo 'C'","Grupo 'D'","Grupo 'E'","Grupo 'F'"],
       DatosGrupo: [],
       DatosAlumnos: [],
 
@@ -395,9 +395,9 @@ export default {
           "https://xicoclass.online/Grupo.php?nombre=" +
             this.nombreGrupo +
             "&grupo=" +
-            this.identificadorGrupo +
+            this.identificadorGrupo[7] +
             "&periodo=" +
-            this.periodoGrupo +
+            this.periodoGrupo[0] +
             "&id_grupo=" +
             this.idGrupoDialog
         )

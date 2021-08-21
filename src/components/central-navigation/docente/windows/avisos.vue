@@ -135,6 +135,7 @@ export default {
       grupos: "",
       grupoSelect: "",
       dialog: false,
+      nameG:"",
 
       idAvisoAEliminar: 0,
       encabezadosTabla: [
@@ -144,7 +145,7 @@ export default {
           value: "fecha",
         },
         { text: "Titulo Aviso", value: "nombre", sortable: false },
-        { text: "Grupo", value: "id_grupo", sortable: false },
+        { text: "Grupo", value: "nombreG", sortable: false },
         { text: "Acciones", value: "actions", sortable: false },
       ],
       Avisos1: [],
