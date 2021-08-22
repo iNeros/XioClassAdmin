@@ -1,5 +1,5 @@
 <template >
-  <div class="actividades" >
+  <div class="actividades">
     <v-container fluid>
       <v-row>
         <!-- AGREGAR AQUI EL {{idActividad}}  -->
@@ -54,29 +54,28 @@
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR LOS 3 PRIMEROS RESULTADOS (MAS RECIENTES)--->
           <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
-
               <div v-for="grup in grupos" :key="grup.id_grupo">
                 <div v-if="grup.id_grupo == n.id_grupo">
                   <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
-              <v-spacer></v-spacer>
-              <div class="hidden-md-and-down">
-                <v-icon size="24" right v-if="n.estado == 'Activo'"
-                  >mdi-check-all</v-icon
-                >
-                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
-              </div>
+                  <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
+                  <v-spacer></v-spacer>
+                  <div class="hidden-md-and-down">
+                    <v-icon size="24" right v-if="n.estado == 'Activo'"
+                      >mdi-check-all</v-icon
+                    >
+                    <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+                  </div>
                 </div>
               </div>
             </v-card-title>
 
             <v-card-subtitle class="texto-tarjeta-settings">
               <span class="texto-de-tarjeta"
-                >ACTIVIDAD: {{ n.id_actividad }}
+                >ACTIVIDAD: {{ n.nombre }}
               </span>
               <br />
               <span class="texto-de-tarjeta2">
-                "{{ n.nombre }}"
+                "{{ n.descripcion }}"
                 <!-- AGREGAR AQUI EL {{NombreActividad}}  -->
               </span>
               <br />
@@ -163,6 +162,9 @@
                 <v-combobox
                   v-model="Filtro"
                   :items="items"
+                  item-text="nombre"
+                  item-key="items"
+                  item-value="id_grupo"
                   label="SELECCIONA LOS GRUPOS"
                   multiple
                   outlined
@@ -182,28 +184,33 @@
             </v-row>
           </v-container>
         </template>
-
         <v-col
           cols="12"
           sm="12"
           lg="3"
-          v-for="Act in todos" :key="Act.id_actividad"
+          v-for="Act in todos"
+          :key="Act.id_actividad"
         >
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
-          <v-card color="#23395B" dark class="card-settings" elevation="12" >
+          <v-card
+            color="#23395B"
+            dark
+            class="card-settings"
+            elevation="12"
+          >
             <v-card-title class="card-title-text">
-
               <div v-for="grup in grupos" :key="grup.id_grupo">
                 <div v-if="grup.id_grupo == Act.id_grupo">
                   <span class="titulo-de-tarjeta">GRUPO: </span>
-              <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
-              <v-spacer></v-spacer>
-              <div class="hidden-md-and-down">
-                <v-icon size="24" right v-if="Act.estado == 'Activo'"
-                  >mdi-check-all</v-icon
-                >
-                <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
-              </div>
+                  <span class="titulo-de-tarjeta2">"{{ grup.nombre }}"</span>
+                  <v-spacer></v-spacer>
+                  <div class="hidden-md-and-down" v-if="Act.estado == 'ACTIVO'">
+                    <span class="REVISADO"> ACTIVIDAD REVISADA</span>
+                    <v-icon size="18" right 
+                      >mdi-check-all</v-icon
+                    >
+                    <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
+                  </div>
                 </div>
               </div>
             </v-card-title>
@@ -319,10 +326,10 @@ export default {
       todos: [],
       preview: [],
       Filtro: [],
-      items: [],
+      items: [{ nombre: "", id_grupo: "", }],
       idActividad: 0,
       idGrupo: 0,
-      grupos:"",
+      grupos: "",
       cantidadDeActividades: 3,
     };
   },
@@ -360,11 +367,18 @@ export default {
     gruposGet() {
       axios
         .get(
-          "https://xicoclass.online/Grupo.php?id_docente="+
+          "https://xicoclass.online/Grupo.php?id_docente=" +
             window.sessionStorage.getItem("id_docente")
         )
         .then((r) => {
           this.grupos = r.data;
+          for (var i = 0; i <= this.grupos.length; i++) {
+            this.items.push({
+              id: this.grupos[i].id_grupo,
+              nombre: this.grupos[i].nombre,
+            });
+          }
+          console.log("aqui");
         })
         .catch(function (error) {
           console.log(error);
@@ -428,6 +442,11 @@ export default {
 
 .texto-de-tarjeta {
   color: #adb9e3;
+  font-weight: 800;
+  font-size: 10px;
+}
+.REVISADO{
+  color: #30DBA0;
   font-weight: 800;
   font-size: 10px;
 }

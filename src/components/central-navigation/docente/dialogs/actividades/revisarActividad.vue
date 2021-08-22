@@ -207,6 +207,18 @@ export default {
             .set(object);
         }
       }
+      axios
+        .put(
+          "https://xicoclass.online/Actividades.php?upestado=ACTIVO&id_actividad="+
+            this.idActividadRevisar
+        )
+        .then((r) => {
+          //EN EL .THEN DE POST AL COMPLETAR EXITOSAMENTE AGREGAR EL:
+          console.log(r.data);
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
       await this.closeDialog();
     },
 

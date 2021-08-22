@@ -220,7 +220,7 @@ export default {
         this.fechaPublicacion +
         "&fecha_fin=" +
         this.fechaCierre +
-        "&estado=ACTIVO&id_docente=" +
+        "&estado=OFF&id_docente=" +
         window.sessionStorage.getItem("id_docente") +
         "&id_grupo=" +
         this.grupoActividad;
