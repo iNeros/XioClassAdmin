@@ -176,6 +176,21 @@
               </v-list-item-title>
             </v-list-item>
 
+            <v-list-item
+              v-ripple
+              class="my-6"
+              link
+              dark
+              v-on:click="dsetPreInscripciones()"
+            >
+              <v-list-item-icon>
+                <v-icon id="iconoBiblioteca" small>mdi-badge-account</v-icon>
+              </v-list-item-icon>
+              <v-list-item-title>
+                <h2 id="textoBiblioteca" class="title-text">Pre-Inscripciones</h2>
+              </v-list-item-title>
+            </v-list-item>
+
             <!-- <div class="spacer-height"></div> -->
             <v-list-item
               v-ripple
@@ -255,6 +270,9 @@ export default {
     },
     dsetEvaluacion() {
       this.$store.commit("dsetEvaluacion");
+    },
+    dsetPreInscripciones() {
+      this.$store.commit("dsetPreInscripciones");
     },
     //#endregion
 

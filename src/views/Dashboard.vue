@@ -51,6 +51,10 @@
           <v-window-item :value="15">
             <evaluacion />
           </v-window-item>
+
+          <v-window-item :value="16">
+            <preInscipciones />
+          </v-window-item>
           <!--#endregion-->
         </v-window>
       </div>
@@ -72,6 +76,7 @@ import avisos from "../components/central-navigation/docente/windows/avisos.vue"
 import actividades from "../components/central-navigation/docente/windows/actividades.vue";
 import biblioteca from "../components/central-navigation/docente/windows/biblioteca.vue";
 import evaluacion from "../components/central-navigation/docente/windows/evaluacion.vue";
+import preInscipciones from "../components/central-navigation/docente/windows/inscripciones.vue";
 
 export default {
   name: "Dashboard",
@@ -88,6 +93,7 @@ export default {
     actividades,
     biblioteca,
     evaluacion,
+    preInscipciones,
   },
   data() {
     return {};
