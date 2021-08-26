@@ -25,7 +25,7 @@
                       text
                       @click="AbrirCurp(item.curpFile)"
                     >
-                      {{item.curpTexto}}
+                      {{ item.curpTexto }}
                     </v-btn>
                   </template>
                   <template v-slot:[`item.domicilioButton`]="{ item }">
@@ -38,16 +38,11 @@
                     </v-btn>
                   </template>
                   <template v-slot:[`item.ineButton`]="{ item }">
-                    <v-btn
-                      color="#a19405"
-                      text
-                      @click="AbrirIne(item)"
-                    >
+                    <v-btn color="#a19405" text @click="AbrirIne(item)">
                       INE
                     </v-btn>
                   </template>
                 </v-data-table>
-                
               </div>
             </template>
           </v-col>
@@ -66,14 +61,13 @@
             -->
           </v-card-actions>
         </v-card>
-
       </v-row>
     </v-container>
   </div>
 </template>
 
 <script>
-import firebase from "firebase"
+import firebase from "firebase";
 export default {
   name: "inscripciones",
   data() {
@@ -89,45 +83,46 @@ export default {
         { text: "Email", value: "email", sortable: false },
         { text: "Curp", value: "curpButton", sortable: false },
         { text: "Nombre Tutor", value: "nombreTutor", sortable: false },
-        { text: "Comprobante Domicilio", value: "domicilioButton", sortable: false },
+        {
+          text: "Comprobante Domicilio",
+          value: "domicilioButton",
+          sortable: false,
+        },
         { text: "INE", value: "ineButton", sortable: false },
-      ]
-    }
+      ],
+    };
   },
-  mounted(){
+  mounted() {
     this.obtenerInfo();
   },
   methods: {
     async obtenerInfo() {
       let resultados = [];
-      await
-      firebase
-      .firestore()
-      .collection("pre-inscripcion")
-      .get()
-      .then((snapshot) => {
+      await firebase
+        .firestore()
+        .collection("pre-inscripcion")
+        .get()
+        .then((snapshot) => {
           snapshot.docs.forEach((resultado) => {
             let currentID = resultado.id;
             let appObj = { ...resultado.data(), ["id"]: currentID };
             resultados.push(appObj);
           });
         });
-        this.DatosAspirantes = resultados;
-        console.log("DATOS DE LOS ASPIRANTES: ",this.DatosAspirantes);
+      this.DatosAspirantes = resultados;
+      console.log("DATOS DE LOS ASPIRANTES: ", this.DatosAspirantes);
     },
-    AbrirCurp(data){
+    AbrirCurp(data) {
       window.open(data);
     },
-    AbrirDomicilio(data){
+    AbrirDomicilio(data) {
       window.open(data);
     },
-    AbrirIne(data){
-      
-      window.open(data.ineFrente,"INE FRENTE");
-      window.open(data.ineReverso,"INE REVERSO");
-    }
-  }
-
+    AbrirIne(data) {
+      window.open(data.ineFrente, "INE FRENTE");
+      window.open(data.ineReverso, "INE REVERSO");
+    },
+  },
 };
 </script>
 
@@ -180,7 +175,7 @@ export default {
   border-radius: 20px;
 }
 
-.tabla-avisos{
+.tabla-avisos {
   height: 70vh;
 }
 </style>

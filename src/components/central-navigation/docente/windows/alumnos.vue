@@ -196,7 +196,14 @@ export default {
       MaxG: "",
       GruposDocente: [],
       typePeriodo: ["1er grado", "2do grado", "3er grado"],
-      typeGrupo: ["Grupo 'A'", "Grupo 'B'", "Grupo 'C'","Grupo 'D'","Grupo 'E'","Grupo 'F'"],
+      typeGrupo: [
+        "Grupo 'A'",
+        "Grupo 'B'",
+        "Grupo 'C'",
+        "Grupo 'D'",
+        "Grupo 'E'",
+        "Grupo 'F'",
+      ],
 
       inputs: [
         {

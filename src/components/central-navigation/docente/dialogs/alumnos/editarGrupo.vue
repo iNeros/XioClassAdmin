@@ -10,7 +10,10 @@
         <v-btn icon dark @click="closeDialog()">
           <v-icon>mdi-close</v-icon>
         </v-btn>
-        <v-toolbar-title>Actual: {{periodoGrupo[0]}}° "{{identificadorGrupo}}" - {{nombreGrupo}}</v-toolbar-title>
+        <v-toolbar-title
+          >Actual: {{ periodoGrupo[0] }}° "{{ identificadorGrupo }}" -
+          {{ nombreGrupo }}</v-toolbar-title
+        >
         <v-spacer></v-spacer>
         <v-toolbar-items>
           <v-btn
@@ -54,21 +57,21 @@
                 :value="nombreGrupo"
               ></v-text-field>
             </v-col>
-            <v-col cols="12" sm="6" md="4" >
+            <v-col cols="12" sm="6" md="4">
               <v-select
-                      v-model="identificadorGrupo"
-                      :items="typeGrupo"
-                      label="Grupo"
-                      required
-                    ></v-select>
+                v-model="identificadorGrupo"
+                :items="typeGrupo"
+                label="Grupo"
+                required
+              ></v-select>
             </v-col>
             <v-col cols="12" sm="6" md="4">
               <v-select
-                      v-model="periodoGrupo"
-                      :items="typePeriodo"
-                      label="Grado"
-                      required
-                    ></v-select>
+                v-model="periodoGrupo"
+                :items="typePeriodo"
+                label="Grado"
+                required
+              ></v-select>
             </v-col>
           </v-row>
           <v-card-title class="text-h5">ALUMNOS</v-card-title>
@@ -273,7 +276,14 @@ export default {
       identificadorGrupo: "",
       periodoGrupo: "",
       typePeriodo: ["1er grado", "2do grado", "3er grado"],
-      typeGrupo: ["Grupo 'A'", "Grupo 'B'", "Grupo 'C'","Grupo 'D'","Grupo 'E'","Grupo 'F'"],
+      typeGrupo: [
+        "Grupo 'A'",
+        "Grupo 'B'",
+        "Grupo 'C'",
+        "Grupo 'D'",
+        "Grupo 'E'",
+        "Grupo 'F'",
+      ],
       DatosGrupo: [],
       DatosAlumnos: [],
 

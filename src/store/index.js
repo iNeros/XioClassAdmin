@@ -91,7 +91,7 @@ export default new Vuex.Store({
     dsetEvaluacion(state) {
       state.adminWindowsSelected = 15;
     },
-    dsetPreInscripciones(state){
+    dsetPreInscripciones(state) {
       state.adminWindowsSelected = 16;
     },
 

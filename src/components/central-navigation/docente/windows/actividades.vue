@@ -1,4 +1,4 @@
-<template >
+<template>
   <div class="actividades">
     <v-container fluid>
       <v-row>
@@ -70,9 +70,7 @@
             </v-card-title>
 
             <v-card-subtitle class="texto-tarjeta-settings">
-              <span class="texto-de-tarjeta"
-                >ACTIVIDAD: {{ n.nombre }}
-              </span>
+              <span class="texto-de-tarjeta">ACTIVIDAD: {{ n.nombre }} </span>
               <br />
               <span class="texto-de-tarjeta2">
                 "{{ n.descripcion }}"
@@ -192,12 +190,7 @@
           :key="Act.id_actividad"
         >
           <!-- AQUI VA UN V-FOR PARA DESPLEGAR TODAS LAS ACTIVIDADES  --->
-          <v-card
-            color="#23395B"
-            dark
-            class="card-settings"
-            elevation="12"
-          >
+          <v-card color="#23395B" dark class="card-settings" elevation="12">
             <v-card-title class="card-title-text">
               <div v-for="grup in grupos" :key="grup.id_grupo">
                 <div v-if="grup.id_grupo == Act.id_grupo">
@@ -206,9 +199,7 @@
                   <v-spacer></v-spacer>
                   <div class="hidden-md-and-down" v-if="Act.estado == 'ACTIVO'">
                     <span class="REVISADO"> ACTIVIDAD REVISADA</span>
-                    <v-icon size="18" right 
-                      >mdi-check-all</v-icon
-                    >
+                    <v-icon size="18" right>mdi-check-all</v-icon>
                     <!-- AQUI VA UN V-IF DE SI YA ESTA REVISADA LA ACTIVIDAD -->
                   </div>
                 </div>
@@ -326,7 +317,7 @@ export default {
       todos: [],
       preview: [],
       Filtro: [],
-      items: [{ nombre: "", id_grupo: "", }],
+      items: [{ nombre: "", id_grupo: "" }],
       idActividad: 0,
       idGrupo: 0,
       grupos: "",
@@ -445,8 +436,8 @@ export default {
   font-weight: 800;
   font-size: 10px;
 }
-.REVISADO{
-  color: #30DBA0;
+.REVISADO {
+  color: #30dba0;
   font-weight: 800;
   font-size: 10px;
 }

@@ -209,7 +209,7 @@ export default {
       }
       axios
         .put(
-          "https://xicoclass.online/Actividades.php?upestado=ACTIVO&id_actividad="+
+          "https://xicoclass.online/Actividades.php?upestado=ACTIVO&id_actividad=" +
             this.idActividadRevisar
         )
         .then((r) => {

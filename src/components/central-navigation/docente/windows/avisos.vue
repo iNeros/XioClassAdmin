@@ -135,7 +135,7 @@ export default {
       grupos: "",
       grupoSelect: "",
       dialog: false,
-      nameG:"",
+      nameG: "",
 
       idAvisoAEliminar: 0,
       encabezadosTabla: [

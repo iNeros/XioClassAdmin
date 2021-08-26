@@ -39,17 +39,17 @@
             </v-col>
             <v-col cols="12" sm="6" md="6">
               <v-select
-                      v-model="grupoActividad"
-                      :items="grupos"
-                      label="Selecciona grupo"
-                      item-text="nombre"
-                      item-key="grupos"
-                      item-value="id_grupo"
-                      full-width
-                      height="55"
-                      solo
-                      dense
-                    ></v-select>
+                v-model="grupoActividad"
+                :items="grupos"
+                label="Selecciona grupo"
+                item-text="nombre"
+                item-key="grupos"
+                item-value="id_grupo"
+                full-width
+                height="55"
+                solo
+                dense
+              ></v-select>
             </v-col>
 
             <v-col cols="12" sm="6" md="6">
@@ -126,7 +126,7 @@ export default {
       //variables para el post del axios
       nombreActividad: "",
       grupoActividad: "",
-      grupos:"",
+      grupos: "",
       fechaPublicacion: "",
       fechaCierre: "",
       descripcionActividad: "",
@@ -287,11 +287,11 @@ export default {
     guardar(val) {
       if (!val) return;
       this.executeSave();
-    },/*
+    } /*
     nombreActividad(val) {
       if (!val) return;
       this.ObtenerIDActividad();
-    },*/
+    },*/,
     Bandera(val) {
       if (!val) return;
       this.Actividad();

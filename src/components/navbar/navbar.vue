@@ -187,7 +187,9 @@
                 <v-icon id="iconoBiblioteca" small>mdi-badge-account</v-icon>
               </v-list-item-icon>
               <v-list-item-title>
-                <h2 id="textoBiblioteca" class="title-text">Pre-Inscripciones</h2>
+                <h2 id="textoBiblioteca" class="title-text">
+                  Pre-Inscripciones
+                </h2>
               </v-list-item-title>
             </v-list-item>
 
