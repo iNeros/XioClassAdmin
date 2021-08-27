@@ -4,7 +4,7 @@
     <div class="right">
       <v-icon dark> mdi-arrow-left-bold </v-icon>
       <a
-        href="https://xicoclass.firebaseapp.com/"
+        href="https://federiquitos.com/"
         style="color: yellow; text-decoration: underline"
       >
         REGRESAR
